@@ -1,0 +1,3 @@
+[submodule "urbanECG"]
+	path = urbanECG
+	url = git@github.com:FAR-Lab/urbanECG.git
