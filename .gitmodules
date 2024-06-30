@@ -1,3 +1,6 @@
 [submodule "urbanECG"]
 	path = urbanECG
 	url = git@github.com:FAR-Lab/urbanECG.git
+[submodule "cambrian"]
+	path = cambrian
+	url = git@github.com:cambrian-mllm/cambrian.git
