@@ -7,7 +7,7 @@ The objective of this project is to take over 900 thousand dashcam images from a
 
 
 ## Experiment 
-We craft an initial benchmark set of 1000 flooded images and 5000 non-flooded images using a combination of CLIP, GPT4-V (preview), and human labeling of high-confidence images. We release this dataset as a useful benchmark for flood classification in urban environments. We additionally offer supplemental datasets of images from two other days of severe flooding in late 2023 and early 2024. 
+We craft an initial benchmark set of 1000 flooded images and 5000 non-flooded images using a combination of CLIP, GPT4-V (preview), and human labeling of high-confidence images. We aim to release this dataset as a useful benchmark for flood classification in urban environments. We additionally offer supplemental datasets of images from two other days of severe flooding in late 2023 and early 2024. 
 
 We choose not to rely on CLIP solely, as its performance was lower than that of CLIP paired with GPT4-V as a second pass filter. Moreover, we choose not to use GPT4-V in our analysis, as the weights are not open-sourced and so reproducibility is not guaranteed. 
 
