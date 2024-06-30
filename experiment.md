@@ -17,4 +17,7 @@ Once we achieve high-enough classification accuracy from a good prompt, we run i
 
 We take the inference results from the entire set and use detected positives as an *analysis set*. Downstream analyses to perform start with looking at extended coverage from the medium of dashcam, relative to FloodNet sensors, 311 reports, and predicted stormwater flooding maps created by the New York City Department of Environmental Protection. Then, we move to looking at biases in 311 flooding reports, using detected positives as a first-in-literature visual ground truth. 
 
+## Model Training 
+We train an image classification model on the *analysis set*, crafting a 60-20-20 training-val-test split. We baseline this model against the aforementioned *benchmark set* of around 6000 images, which has the advantage of being entirely human-verified. 
 
+This model is useful for downstream applications, including a real-time deployment on vehicle dashcams for flood detection. 
