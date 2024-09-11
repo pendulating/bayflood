@@ -14,7 +14,7 @@ def read_real_data(single_compartment_for_debugging=False):
     n_images_by_area = df['total_images'].values
     n_classified_positive_by_area = df['positive_images'].values 
 
-    # Generate adjacency matrix and neighborhood structure
+    # Generate adjacency matrix and neighborhood structure. This is just empty by default. 
     node1 = []
     node2 = []
 
@@ -115,12 +115,16 @@ def generate_simulated_data(N, images_per_location,
                                 'total_annotated_classified_negative_true_positive':total_annotated_classified_negative_true_positive,
                                 'total_annotated_classified_positive_true_positive':total_annotated_classified_positive_true_positive}
     else:
+        # distribute the annotations across the areas: positive classifications first. 
         n_classified_positive_annotated_by_area = np.random.multinomial(total_annotated_classified_positive, np.array(n_classified_positive_by_area)/sum(n_classified_positive_by_area))
         assert n_classified_positive_annotated_by_area.sum() == total_annotated_classified_positive
+        # then negatives. 
         ps = np.array(n_images_by_area) - np.array(n_classified_positive_by_area)
         ps = ps / sum(ps)
         n_classified_negative_annotated_by_area = np.random.multinomial(total_annotated_classified_negative, ps)
         assert n_classified_negative_annotated_by_area.sum() == total_annotated_classified_negative
+
+        # the first 5 categories below are disjoint (they should not contain the same images). 
         n_classified_positive_annotated_positive_by_area = []
         n_classified_positive_annotated_negative_by_area = []
         n_classified_negative_annotated_positive_by_area = []
@@ -148,6 +152,7 @@ def generate_simulated_data(N, images_per_location,
                 n_classified_negative_annotated_negative_by_area.append(0)
             n_non_annotated_by_area.append(n_images_by_area[i] - n_classified_negative_annotated_by_area[i] - n_classified_positive_annotated_by_area[i])
             n_non_annotated_by_area_classified_positive.append(n_classified_positive_by_area[i] - n_classified_positive_annotated_by_area[i])
+            assert n_non_annotated_by_area[i] + n_classified_positive_annotated_positive_by_area[i] + n_classified_positive_annotated_negative_by_area[i] + n_classified_negative_annotated_positive_by_area[i] + n_classified_negative_annotated_negative_by_area[i] == n_images_by_area[i]
 
         observed_data = {'N':N, 'N_edges':len(node1), 'node1':node1, 'node2':node2, 
                              'n_images_by_area':n_images_by_area, 'n_classified_positive_by_area':n_classified_positive_by_area, 

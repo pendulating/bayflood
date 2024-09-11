@@ -26,6 +26,7 @@ transformed parameters {
     real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
     real p_y_1_given_y_hat_1 = inv_logit(logit_p_y_1_given_y_hat[2]);
     vector[N] p_y = inv_logit(phi);
+    vector[N] at_least_one_positive_image_by_area = (1 - pow(1 - p_y, n_images_by_area));
     real empirical_p_yhat = sum(n_classified_positive_by_area) * 1.0 / sum(n_images_by_area);
     real p_y_hat_1_given_y_1 = empirical_p_yhat * p_y_1_given_y_hat_1 / (empirical_p_yhat * p_y_1_given_y_hat_1 + (1 - empirical_p_yhat) * p_y_1_given_y_hat_0);
     real p_y_hat_1_given_y_0 = empirical_p_yhat * (1 - p_y_1_given_y_hat_1) / (empirical_p_yhat * (1 - p_y_1_given_y_hat_1) + (1 - empirical_p_yhat) * (1 - p_y_1_given_y_hat_0));
