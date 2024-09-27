@@ -44,8 +44,8 @@ data {
   int<lower=0> N_edges;
   matrix<lower=0, upper=1>[N, N] W; // adjacency matrix
   int W_n; // number of adjacent region pairs
-  array[N] int<lower=0> n_images_by_area; 
-  array[N] int<lower=0> n_classified_positive_by_area; 
+  array[N] n_images_by_area; 
+  array[N] n_classified_positive_by_area; 
 
   //annotation sample. 
   int total_annotated_classified_negative;
