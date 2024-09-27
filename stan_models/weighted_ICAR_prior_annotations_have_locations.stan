@@ -7,8 +7,8 @@ data {
   int<lower=0> N_edges; // number of edges in the graph (i.e. number of pairs of adjacent Census tracts). 
   array[N_edges] int<lower=1, upper=N> node1; // node1[i] adjacent to node2[i]
   array[N_edges] int<lower=1, upper=N> node2; // and node1[i] < node2[i]
-  vector[N] int<lower=0> n_images_by_area; // vector with one entry per Census tract of the number of images in that tract. 
-  vector[N] int<lower=0> n_classified_positive_by_area; // vector with one entry per Census tract of number of images classified positive. 
+  vector[N] n_images_by_area; // vector with one entry per Census tract of the number of images in that tract. 
+  vector[N] n_classified_positive_by_area; // vector with one entry per Census tract of number of images classified positive. 
   vector[N] n_classified_positive_annotated_positive_by_area;
   vector[N] n_classified_positive_annotated_negative_by_area;
   vector[N] n_classified_negative_annotated_positive_by_area;
