@@ -1,10 +1,6 @@
 import pandas as pd
-import stan
 import numpy as np
-from scipy.stats import pearsonr
 from scipy.special import expit
-import matplotlib.pyplot as plt
-import arviz as az
 import random
 
 TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE = 500
