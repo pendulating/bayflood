@@ -12,14 +12,14 @@ TOTAL_ANNOTATED_CLASSIFIED_POSITIVE = 500
 TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
 TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
 
-def read_real_data(fpath="flooding_ct_dataset.csv", single_compartment_for_debugging=False, annotations_have_locations=False):
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False):
+    
+    single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
     df[['total_images','positive_images']] = df[['n_total','n_classified_positive']].astype(int).fillna(0)
     N = len(df)
     n_images_by_area = df['total_images'].values
     n_classified_positive_by_area = df['positive_images'].values 
-
-
 
     # Generate adjacency matrix and neighborhood structure
     node1 = []
