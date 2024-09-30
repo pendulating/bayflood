@@ -7,21 +7,23 @@ import matplotlib.pyplot as plt
 import arviz as az
 import random
 
-def read_real_data(single_compartment_for_debugging=False):
-    df = pd.read_csv("flooding_ct_dataset.csv")
-    df[['total_images','positive_images']] = df[['total_images','positive_images']].astype(int).fillna(0)
+TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE = 500
+TOTAL_ANNOTATED_CLASSIFIED_POSITIVE = 500
+TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
+TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
+
+def read_real_data(fpath="flooding_ct_dataset.csv", single_compartment_for_debugging=False, annotations_have_locations=False):
+    df = pd.read_csv(fpath)
+    df[['total_images','positive_images']] = df[['n_total','n_classified_positive']].astype(int).fillna(0)
     N = len(df)
     n_images_by_area = df['total_images'].values
     n_classified_positive_by_area = df['positive_images'].values 
 
+
+
     # Generate adjacency matrix and neighborhood structure
     node1 = []
     node2 = []
-
-    TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE = 500
-    TOTAL_ANNOTATED_CLASSIFIED_POSITIVE = 500
-    TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
-    TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
 
 
     if single_compartment_for_debugging:
@@ -29,16 +31,97 @@ def read_real_data(single_compartment_for_debugging=False):
         n_images_by_area = [sum(n_images_by_area)]
         n_classified_positive_by_area = [sum(n_classified_positive_by_area)]
 
-    return {'observed_data': {
-                'N': N, 'N_edges': len(node1), 'node1': node1, 'node2': node2, 
-                'n_images_by_area': n_images_by_area,
-                'n_classified_positive_by_area': n_classified_positive_by_area, 
-                'total_annotated_classified_negative': TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE,
-                'total_annotated_classified_positive': TOTAL_ANNOTATED_CLASSIFIED_POSITIVE,
-                'total_annotated_classified_negative_true_positive': TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE,
-                'total_annotated_classified_positive_true_positive': TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE
-            }
-            }
+
+    if annotations_have_locations: 
+        df[['n_true_positive_classified_positive', 'n_true_positive_classified_negative', 'n_true_negative_classified_positive', 'n_true_negative_classified_negative','n_not_annotated_by_area','n_not_annotated_by_area_classified_positive']] = df[['n_tp', 'n_fn', 'n_fp', 'n_tn','total_not_annotated','positives_not_annotated']].astype(int).fillna(0)
+
+        # (9/20) CHECK UNDERLYING DATASET HERE 
+
+        n_true_positive_classified_positive_by_area = df['n_true_positive_classified_positive'].values
+        n_true_positive_classified_negative_by_area = df['n_true_positive_classified_negative'].values
+        n_true_negative_classified_positive_by_area = df['n_true_negative_classified_positive'].values
+        n_true_negative_classified_negative_by_area = df['n_true_negative_classified_negative'].values
+
+        n_non_annotated_by_area = df['n_not_annotated_by_area'].values
+        n_non_annotated_by_area_classified_positive = df['n_not_annotated_by_area_classified_positive'].values
+
+        return {'observed_data': {
+                    'N': N, 'N_edges': len(node1), 'node1': node1, 'node2': node2, 
+                    'n_images_by_area': n_images_by_area,
+                    'n_classified_positive_by_area': n_classified_positive_by_area, 
+                    'n_classified_positive_annotated_positive_by_area': n_true_positive_classified_positive_by_area,
+                    'n_classified_positive_annotated_negative_by_area': n_true_negative_classified_positive_by_area,
+                    'n_classified_negative_annotated_negative_by_area': n_true_negative_classified_negative_by_area,
+                    'n_classified_negative_annotated_positive_by_area': n_true_positive_classified_negative_by_area,
+                    'n_non_annotated_by_area': n_non_annotated_by_area,
+                    'n_non_annotated_by_area_classified_positive': n_non_annotated_by_area_classified_positive,
+                }
+                }
+    else:
+        return {'observed_data': {
+                    'N': N, 'N_edges': len(node1), 'node1': node1, 'node2': node2, 
+                    'n_images_by_area': n_images_by_area,
+                    'n_classified_positive_by_area': n_classified_positive_by_area, 
+                    'total_annotated_classified_negative': TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE,
+                    'total_annotated_classified_positive': TOTAL_ANNOTATED_CLASSIFIED_POSITIVE,
+                    'total_annotated_classified_negative_true_positive': TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE,
+                    'total_annotated_classified_positive_true_positive': TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE,
+                }
+                }
+
+
+def validate_observed_data(observed_data, annotations_have_locations=False): 
+    # first, logic split on annotations_have_locations 
+    if annotations_have_locations: 
+        REQ_COLS = ['N', 'N_edges', 'node1', 'node2', 'n_images_by_area', 'n_classified_positive_by_area',
+                    'n_classified_positive_annotated_positive_by_area', 'n_classified_positive_annotated_negative_by_area',
+                    'n_classified_negative_annotated_positive_by_area', 'n_classified_negative_annotated_negative_by_area',
+                    'n_non_annotated_by_area', 'n_non_annotated_by_area_classified_positive']
+
+        DF_COLS = ['n_images_by_area', 'n_classified_positive_by_area', 'n_classified_positive_annotated_positive_by_area', 'n_classified_positive_annotated_negative_by_area',
+                    'n_classified_negative_annotated_positive_by_area', 'n_classified_negative_annotated_negative_by_area',
+                    'n_non_annotated_by_area', 'n_non_annotated_by_area_classified_positive']
+
+        # make df out of DF_COLS 
+        df = pd.DataFrame({col: observed_data[col] for col in DF_COLS})
+        # write to csv 
+        df.to_csv("observed_data.csv", index=False)
+
+        for col in REQ_COLS:
+            if col not in observed_data: 
+                raise ValueError(f"Missing required column {col} in observed_data")
+
+        # n_images_by_area - n_not_annotaed_by_area should equal the sum of n_classified_positive_annotated_positive_by_area, n_classified_positive_annotated_negative_by_area, n_classified_negative_annotated_positive_by_area, n_classified_negative_annotated_negative_by_area
+        if not np.allclose(np.array(observed_data['n_images_by_area']) - np.array(observed_data['n_non_annotated_by_area']), 
+                           np.array(observed_data['n_classified_positive_annotated_positive_by_area']) + np.array(observed_data['n_classified_positive_annotated_negative_by_area']) + np.array(observed_data['n_classified_negative_annotated_positive_by_area']) + np.array(observed_data['n_classified_negative_annotated_negative_by_area'])):
+            raise ValueError("n_images_by_area - n_not_annotaed_by_area should equal the sum of n_classified_positive_annotated_positive_by_area, n_classified_positive_annotated_negative_by_area, n_classified_negative_annotated_positive_by_area, n_classified_negative_annotated_negative_by_area")
+
+    
+        # sum of n_classified_positive_annotated_positive_by_area and n_classified_positive_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_POSITIVE
+        if sum(observed_data['n_classified_positive_annotated_positive_by_area']) + sum(observed_data['n_classified_positive_annotated_negative_by_area']) != TOTAL_ANNOTATED_CLASSIFIED_POSITIVE:
+            raise ValueError("sum of n_classified_positive_annotated_positive_by_area and n_classified_positive_annotated_negative_by_area should equal total_annotated_classified_positive")
+        
+        # sum of n_classified_negative_annotated_positive_by_area and n_classified_negative_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE
+        if sum(observed_data['n_classified_negative_annotated_positive_by_area']) + sum(observed_data['n_classified_negative_annotated_negative_by_area']) != TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE:
+            raise ValueError("sum of n_classified_negative_annotated_positive_by_area and n_classified_negative_annotated_negative_by_area should equal total_annotated_classified_negative")
+
+        
+
+    else: 
+        REQ_COLS = ['N', 'N_edges', 'node1', 'node2', 'n_images_by_area', 'n_classified_positive_by_area',
+                    'total_annotated_classified_negative', 'total_annotated_classified_positive',
+                    'total_annotated_classified_negative_true_positive', 'total_annotated_classified_positive_true_positive']
+
+        for col in REQ_COLS:
+            if col not in observed_data: 
+                raise ValueError(f"Missing required column {col} in observed_data")
+    
+
+
+   
+
+    
+
 
 def generate_simulated_data(N, images_per_location, 
                             total_annotated_classified_negative, 
