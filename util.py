@@ -16,10 +16,12 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
-    df[['total_images','positive_images']] = df[['n_total','n_classified_positive']].astype(int).fillna(0)
+
+
+    df[['n_total','n_classified_positive']] = df[['n_total','n_classified_positive']].astype(int).fillna(0)
     N = len(df)
-    n_images_by_area = df['total_images'].values
-    n_classified_positive_by_area = df['positive_images'].values 
+    n_images_by_area = df['n_total'].values
+    n_classified_positive_by_area = df['n_classified_positive'].values 
 
     # Generate adjacency matrix and neighborhood structure
     node1 = []
