@@ -9,7 +9,7 @@ TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
 TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False):
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=None):
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
 
@@ -23,6 +23,10 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     # Generate adjacency matrix and neighborhood structure
     node1 = []
     node2 = []
+
+    if adj: 
+        # read adj matrix (.npy) from adj 
+        adjm = np.load(adj)
 
     if single_compartment_for_debugging:
         N = 1
@@ -77,6 +81,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         return {
             "observed_data": {
                 "N": N,
+                "W": adjm,
+                "W_n": int(adjm.shape[0]) + 1, # added + 1 because stan is 1-indexed?
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
@@ -94,6 +100,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         return {
             "observed_data": {
                 "N": N,
+                "W": adjm,
+                "W_n": int(adjm.shape[0]) + 1, # added + 1 because stan is 1-indexed? 
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
