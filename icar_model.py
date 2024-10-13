@@ -1,41 +1,97 @@
+# Dashcam-Bayesian Flooding Model Project 
+# Developers: Matthew Franchi (mattwfranchi) and Emma Pierson (epierson9)
+# Cornell Tech 
+
+# In this script, we house a class that fits various Stan models to a processed dataset of urban street flooding conditions in New York City. 
+
+
+## Module Imports 
 import util
-import nest_asyncio
 
-nest_asyncio.apply()
+import json
+import datetime
+import os
+import logger
 import multiprocessing
-
-# set start method if not set
 if multiprocessing.get_start_method(allow_none=True) is None:
     multiprocessing.set_start_method("fork")
+
 import pandas as pd
 import stan
 import numpy as np
 from scipy.stats import pearsonr
-
+import arviz as az
 from scipy.special import expit
 import matplotlib.pyplot as plt
-# ENABLE LATEX PLOTTING 
-#plt.rc('text', usetex=True)
-#plt.rc('font', family='serif')
+import nest_asyncio
 
-import json
-import arviz as az
+LATEX_PLOTTING=False
+if LATEX_PLOTTING:
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='serif')
 
-import datetime
-import os
-
-import logger
+nest_asyncio.apply()
 
 
+## Class Definition
 class ICAR_MODEL:
     def __init__(
         self,
         ICAR_PRIOR_SETTING="none",
         ANNOTATIONS_HAVE_LOCATIONS=True,
         SIMULATED_DATA=False,
+        ESTIMATE_PARAMS=[],
+        EMPIRICAL_DATA_PATH="",
         adj=[],
-        adj_matrix_storage=False
+        adj_matrix_storage=None
     ):
+
+        # Sanity checks on user inputs 
+        # EMPIRICAL_DATA_PATH should not be set if we are using simulated data
+        if SIMULATED_DATA:
+            assert EMPIRICAL_DATA_PATH == ""
+        elif EMPIRICAL_DATA_PATH:
+            assert not SIMULATED_DATA
+
+        # adj_matrix_storage should be set if adj is set
+        if adj:
+            assert adj_matrix_storage is not None
+
+        # if adj_matrix_storage is set, adj should be set
+        # if adj_matrix_storage is False, adj should be a list of two string file paths
+        # if adj_matrix_storage is True, adj should be a list of one string file path
+        if adj_matrix_storage:
+            assert adj
+            assert isinstance(adj, list)
+            if adj_matrix_storage is True:
+                assert len(adj) == 1
+                assert isinstance(adj[0], str)
+            else:
+                assert len(adj) == 2
+                assert isinstance(adj[0], str)
+                assert isinstance(adj[1], str)
+            
+
+        
+        # This block of variables is fixed across modeling fitting runs, 
+        # and represent metadata about real dataset, or simulated data
+        
+        # Real dataset metadata 
+        self.N_ANNOTATED_CLASSIFIED_NEGATIVE = 500
+        self.N_ANNOTATED_CLASSIFIED_POSITIVE = 500
+        self.N_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
+        self.N_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
+        self.TOTAL_PRED_POSITIVE = 1465
+        self.TOTAL_PRED_NEGATIVE = 924747
+
+        # Simulated data metadata
+        self.N_SIMULATED_TRACTS = 1000
+
+        # These flags control the behavior of the model fitting routine
+        self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
+        self.use_simulated_data = SIMULATED_DATA
+        self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
+
         self.icar_prior_setting = ICAR_PRIOR_SETTING
         assert self.icar_prior_setting in [
             "none",
@@ -43,20 +99,14 @@ class ICAR_MODEL:
             "proper",
             "just_model_p_y",
         ]
-        self.N_ANNOTATED_CLASSIFIED_NEGATIVE = 500
-        self.N_ANNOTATED_CLASSIFIED_POSITIVE = 500
-        self.N_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
-        self.N_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
-        self.TOTAL_PRED_POSITIVE = 1465
-        self.TOTAL_PRED_NEGATIVE = 924747
-        self.N_SIMULATED_TRACTS = 1000
-        self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
-        self.use_simulated_data = SIMULATED_DATA
+
         self.VALID_ESTIMATE_PARAMETERS = ["p_y", "at_least_one_positive_image_by_area"]
-        self.ESTIMATE_PARAMETERS = [ "p_y"]
+        self.ESTIMATE_PARAMETERS = ESTIMATE_PARAMS
         for p in self.ESTIMATE_PARAMETERS:
             assert p in self.VALID_ESTIMATE_PARAMETERS
 
+
+        # This dictionary stores the available stan models
         self.models = {
             "weighted_ICAR_prior": open("stan_models/weighted_ICAR_prior.stan").read(),
             "proper_car_prior": open("stan_models/proper_car_prior.stan").read(),
@@ -68,17 +118,23 @@ class ICAR_MODEL:
             ).read(),
         }
 
-        self.logger = logger.setup_logger("ICAR_MODEL")
+        self.logger = logger.setup_logger(f"ICAR_MODEL: {ICAR_PRIOR_SETTING}, awl {ANNOTATIONS_HAVE_LOCATIONS}, simulated {SIMULATED_DATA}")
         self.logger.setLevel("INFO")
         self.logger.info("ICAR_MODEL instance initialized.")
 
-        #self.adj_path = "data/processed/ct_nyc_adj_mtx.npy"
         self.adj_path = adj
         self.adj_matrix_storage = adj_matrix_storage
 
         self.RUNID = "NOT_SET"
 
-    def inspect_data_to_use(self):
+
+        # other misc sanity checks 
+
+        # cannot use the at_least_one_positive_image_by_area parameter if additional annotation location data is not utilized 
+        if not self.annotations_have_locations: 
+            assert 'at_least_one_positive_image_by_area' not in self.ESTIMATE_PARAMETERS
+
+    def parse_data_for_validation(self):
         # write jsonified observed data to file for debugging
         # need to convert numpy arrays to lists
         observed_data_copy = self.data_to_use["observed_data"].copy()
@@ -103,6 +159,7 @@ class ICAR_MODEL:
 
     def load_data(self):
         if self.use_simulated_data:
+            self.logger.info("Generating simulated data.")
             N = self.N_SIMULATED_TRACTS
             self.data_to_use = util.generate_simulated_data(
                 N=N,
@@ -115,13 +172,14 @@ class ICAR_MODEL:
 
             self.logger.success("Successfully generated simulated data.")
         else:
-            self.data_to_use = util.read_real_data(
+            self.logger.info("Reading empirical data.")
+            self.data_to_use = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
                 annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage
             )
             self.logger.success("Successfully read empirical data.")
 
             # validate observed data
-            observed_data_copy = self.inspect_data_to_use()
+            observed_data_copy = self.parse_data_for_validation()
             util.validate_observed_data(
                 observed_data_copy, self.annotations_have_locations
             )
@@ -292,7 +350,8 @@ class ICAR_MODEL:
             for p in self.ESTIMATE_PARAMETERS:
 
                 if p == "p_y":
-
+                    # new figure 
+                    plt.figure(figsize=[6,6])
                     estimate = [
                         df[f"p_y.{i}"].mean() for i in range(1, self.N_SIMULATED_TRACTS + 1)
                     ]
@@ -307,7 +366,6 @@ class ICAR_MODEL:
                     plt.plot([0, max_val], [0, max_val], "r--")
                     plt.xlim([0, max_val])
                     plt.ylim([0, max_val])
-                    plt.figure(figsize=[12, 3])
 
                     plt.savefig(f"runs/{self.RUNID}/true_vs_inferred_p.png")
                     plt.close()
@@ -338,14 +396,17 @@ class ICAR_MODEL:
                             "p_y_1_given_y_hat_1",
                             "p_y_1_given_y_hat_0",
                         ]
+
+                    # new figure 
+                    plt.figure(figsize=[12, 3])
                     for k in param_names:
                         plt.subplot(1, len(param_names), param_names.index(k) + 1)
                         # histogram of posterior samples
                         plt.hist(df[k], bins=50, density=True)
                         plt.title(k)
                         plt.axvline(self.data_to_use["parameters"][k], color="red")
-                        plt.savefig(f"runs/{self.RUNID}/simulated_params_histogram.png")
-                        plt.close()
+                    plt.savefig(f"runs/{self.RUNID}/simulated_params_histogram_{p}.png")
+                    plt.close()
 
         else:
 
@@ -515,13 +576,15 @@ class ICAR_MODEL:
 if __name__ == "__main__":
     model = ICAR_MODEL(
         ICAR_PRIOR_SETTING="none",
+        ESTIMATE_PARAMS=["p_y"],
         ANNOTATIONS_HAVE_LOCATIONS=False,
-        SIMULATED_DATA=False,
-        adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
-        adj_matrix_storage=False
+        SIMULATED_DATA=True,
+        #EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",
+        #adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
+        #adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1500)
+    fit, df = model.fit(CYCLES=1, WARMUP=1500, SAMPLES=2500)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)
