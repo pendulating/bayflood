@@ -25,6 +25,8 @@ from scipy.special import expit
 import matplotlib.pyplot as plt
 import nest_asyncio
 
+import sys
+
 import warnings
 
 from generate_maps import generate_maps
@@ -595,11 +597,22 @@ class ICAR_MODEL:
 
 
 if __name__ == "__main__":
+
+    if sys.argv[1]:
+        icar_prior_setting = str(sys.argv[1])
+    
+    if sys.argv[2]:
+        annotations_have_locations = bool(sys.argv[2])
+    
+    if sys.argv[3]:
+        simulated_data = bool(sys.argv[3])
+
+
     model = ICAR_MODEL(
-        ICAR_PRIOR_SETTING="cheating",
+        ICAR_PRIOR_SETTING=icar_prior_setting,
         ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
-        ANNOTATIONS_HAVE_LOCATIONS=True,
-        SIMULATED_DATA=False,
+        ANNOTATIONS_HAVE_LOCATIONS=annotations_have_locations,
+        SIMULATED_DATA=simulated_data,
         EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",
         adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
         adj_matrix_storage=False
