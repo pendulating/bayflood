@@ -25,6 +25,11 @@ from scipy.special import expit
 import matplotlib.pyplot as plt
 import nest_asyncio
 
+import warnings
+
+from generate_maps import generate_maps
+from refresh_cache import refresh_cache
+
 LATEX_PLOTTING=False
 if LATEX_PLOTTING:
     plt.rc('text', usetex=True)
@@ -45,6 +50,8 @@ class ICAR_MODEL:
         adj=[],
         adj_matrix_storage=None
     ):
+
+        refresh_cache('mwf62')
 
         # Sanity checks on user inputs 
         # EMPIRICAL_DATA_PATH should not be set if we are using simulated data
@@ -118,7 +125,7 @@ class ICAR_MODEL:
             ).read(),
         }
 
-        self.logger = logger.setup_logger(f"ICAR_MODEL: {ICAR_PRIOR_SETTING}, awl {ANNOTATIONS_HAVE_LOCATIONS}, simulated {SIMULATED_DATA}")
+        self.logger = logger.setup_logger(f"ICAR_MODEL: {ICAR_PRIOR_SETTING}, ahl {ANNOTATIONS_HAVE_LOCATIONS}, simulated {SIMULATED_DATA}")
         self.logger.setLevel("INFO")
         self.logger.info("ICAR_MODEL instance initialized.")
 
@@ -133,6 +140,9 @@ class ICAR_MODEL:
         # cannot use the at_least_one_positive_image_by_area parameter if additional annotation location data is not utilized 
         if not self.annotations_have_locations: 
             assert 'at_least_one_positive_image_by_area' not in self.ESTIMATE_PARAMETERS
+
+        # refresh cache 
+        
 
     def parse_data_for_validation(self):
         # write jsonified observed data to file for debugging
@@ -190,41 +200,47 @@ class ICAR_MODEL:
 
     def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500):
         self.RUNID = datetime.datetime.now().strftime("%Y%m%d-%H%M")
+
+        # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
+        self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/{self.RUNID}"
+
         os.makedirs(f"runs/{self.RUNID}", exist_ok=True)
 
         for i in range(CYCLES):
             self.load_data()
 
             if self.icar_prior_setting == "cheating":
+                self.logger.info("Building model with cheating ICAR prior.")
                 self.data_to_use["observed_data"]["use_ICAR_prior"] = 1
                 self.data_to_use["observed_data"]["ICAR_prior_weight"] = 0.5
                 if self.annotations_have_locations:
                     self.logger.info(
-                        "Building model with weighted ICAR prior and annotations have locations."
+                        "Building model with annotations have locations."
                     )
                     model = stan.build(
                         self.models["weighted_ICAR_prior_annotations_have_locations"],
                         data=self.data_to_use["observed_data"],
                     )
                 else:
-                    self.logger.info("Building model with weighted ICAR prior.")
+                    self.logger.info("Building model without annotation location data.")
                     model = stan.build(
                         self.models["weighted_ICAR_prior"],
                         data=self.data_to_use["observed_data"],
                     )
             elif self.icar_prior_setting == "none":
+                self.logger.info("Building model with no ICAR prior.")
                 self.data_to_use["observed_data"]["use_ICAR_prior"] = 0
                 self.data_to_use["observed_data"]["ICAR_prior_weight"] = 0
                 if self.annotations_have_locations:
                     self.logger.info(
-                        "Building model with no ICAR prior and annotations have locations."
+                        "Building model with annotations have locations."
                     )
                     model = stan.build(
                         self.models["weighted_ICAR_prior_annotations_have_locations"],
                         data=self.data_to_use["observed_data"],
                     )
                 else:
-                    self.logger.info("Building model with no ICAR prior.")
+                    self.logger.info("Building model without annotation location data.")
                     model = stan.build(
                         self.models["weighted_ICAR_prior"],
                         data=self.data_to_use["observed_data"],
@@ -245,7 +261,11 @@ class ICAR_MODEL:
             else:
                 raise ValueError("Invalid icar_prior_options", self.icar_prior_setting)
 
-            fit = model.sample(num_chains=4, num_warmup=WARMUP, num_samples=SAMPLES)
+
+            self.logger.info(f"Successfully built the model, with use_icar_prior: {self.data_to_use['observed_data']['use_ICAR_prior']} and icar_prior_weight: {self.data_to_use['observed_data']['ICAR_prior_weight']}.")
+
+            with warnings.catch_warnings(action="ignore"):
+                fit = model.sample(num_chains=4, num_warmup=WARMUP, num_samples=SAMPLES)
             df = fit.to_frame()
 
             self.logger.success("Successfully sampled the model.")
@@ -473,11 +493,10 @@ class ICAR_MODEL:
                     plt.axhline(expit(prior_on_p_y), color="black", linestyle="--")
                     is_nan = np.isnan(empirical_estimate)
                     plt.title(
-                        rf"Corr. between empirical $p(\\hat y = 1)$ and \n p\_y$, r = %.2f"
-                        % pearsonr(empirical_estimate[~is_nan], estimate[~is_nan])[0]
-                    )
-                    plt.xlabel("empirical $p(\\hat y = 1)$")
-                    plt.ylabel("inferred $p(y = 1)$")
+                        rf"Corr. between empirical $p_{{\hat{{y}}}}$ and $p_y$, r={pearsonr(empirical_estimate[~is_nan], estimate[~is_nan])[0]:.2f}")
+                    
+                    plt.xlabel(r"empirical $p(y = 1)$")
+                    plt.ylabel(r"inferred $p(y = 1)$")
                     # logarithmic axes
                     plt.xscale("log")
                     plt.yscale("log")
@@ -501,7 +520,7 @@ class ICAR_MODEL:
                     for i in range(1, len(empirical_estimate) + 1)
                 ]
             )
-            ax.hist(estimate, bins=200, density=True)
+            ax.hist(estimate, bins=200)
             ax.set_title(f"Probability distribution - {p}")
             ax.set_xlabel(f"{p}")
             ax.set_ylabel("Density")
@@ -556,10 +575,12 @@ class ICAR_MODEL:
             ]
 
             n_images_by_area = self.data_to_use["observed_data"]["n_images_by_area"]
+            tract_id = self.data_to_use["observed_data"]["tract_id"]
 
             # make df to write
             results = pd.DataFrame(
                 {
+                    "tract_id": tract_id,
                     "empirical_estimate": empirical_estimate,
                     p: estimate,
                     f"{p}_CI_lower": np.array(estimate_CIs)[:, 0],
@@ -575,18 +596,21 @@ class ICAR_MODEL:
 
 if __name__ == "__main__":
     model = ICAR_MODEL(
-        ICAR_PRIOR_SETTING="none",
-        ESTIMATE_PARAMS=["p_y"],
-        ANNOTATIONS_HAVE_LOCATIONS=False,
-        SIMULATED_DATA=True,
-        #EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",
-        #adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
-        #adj_matrix_storage=False
+        ICAR_PRIOR_SETTING="cheating",
+        ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
+        ANNOTATIONS_HAVE_LOCATIONS=True,
+        SIMULATED_DATA=False,
+        EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",
+        adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
+        adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=1500, SAMPLES=2500)
+    fit, df = model.fit(CYCLES=1, WARMUP=2000, SAMPLES=3000)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)
     model.write_estimate(fit, df)
+    model.logger.info(f"Generating maps for {model.RUNID}")
+    generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area')
+    generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
     model.logger.success("All items in main program routine completed.")
