@@ -80,13 +80,13 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
 
 
-    estimate = pd.read_csv(estimate_path, engine='pyarrow')
-    estimate['tract_id'] = estimate['tract_id'].astype(int)
+    estimate_df = pd.read_csv(estimate_path, engine='pyarrow')
+    estimate_df['tract_id'] = estimate_df['tract_id'].astype(int)
 
     logger.info("Loaded estimates from ICAR model.")
 
 
-    analysis_set = analysis_set.merge(estimate, left_on='GEOID', right_on='tract_id', how='left').drop_duplicates(subset='GEOID')
+    analysis_set = analysis_set.merge(estimate_df, left_on='GEOID', right_on='tract_id', how='left').drop_duplicates(subset='GEOID')
     analysis_set = gpd.GeoDataFrame(analysis_set, geometry=analysis_set.geometry.apply(lambda x: wkt.loads(x)), crs='EPSG:2263')
 
     logger.success("Merged model estimates with analysis set.")
@@ -187,7 +187,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
     # count frames per ct 
     if SELECT_TOP_N:
     # if inferred_p_y is in the top N, then mark classified_positive as 1. else 0 
-        ct_enriched['classified_positive'] = ct_enriched['inferred_p_y'].rank(ascending=False, method='first') <= TOP_N_TO_SELECT
+        ct_enriched['classified_positive'] = ct_enriched[estimate].rank(ascending=False, method='first') <= TOP_N_TO_SELECT
     else:
         ct_enriched['classified_positive'] = ct_enriched[estimate]
 
@@ -203,18 +203,11 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     PAIRED = True
 
-    # Custom colormap with 12 levels
-    colors = plt.cm.RdYlGn(np.linspace(0, 1, 40))
-    # reverse colors 
-    colors = colors[::-1]
-    VP_CMAP = LinearSegmentedColormap.from_list("custom_rdylgn", colors, N=256)
-    VP_NORM = mcolors.BoundaryNorm(boundaries=np.linspace(0, max(ct_enriched[estimate]), 40), ncolors=256)
-
     # Basemap color
     ocean = '#99b3cc'
 
     # Boroughs to iterate through
-    BOROUGHS = ['', 'Manhattan']
+    BOROUGHS = ['']
 
     for BORO in BOROUGHS:
         if BORO == '':
@@ -223,29 +216,60 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
             ct_enriched_for_plot = ct_enriched[ct_enriched['BoroName'] == BORO]
 
         for i in range(1, 5):  # Iterating through layers to plot
-            fig, ax = plt.subplots(figsize=(20, 20))
+            fig, ax = plt.subplots(figsize=(25, 25))
+            
+            norm = None
+            if estimate == 'p_y': 
+                logger.info("Using lognorm for p_y")
+                # use lognorm for p_y 
+                from matplotlib.colors import LogNorm
+                norm = LogNorm()
+                # plot layer with census tracts, colored by classified_positive 
+                ct_enriched_for_plot.plot(
+                    ax=ax, 
+                    column='classified_positive', 
+                    cmap='coolwarm', 
+                    norm=norm,
+                    alpha=0.5, 
+                    edgecolor='white', 
+                    linewidth=0.5, 
+                    zorder=2, 
+                    legend=True, 
+                    legend_kwds={
+                        'label': f'P({estimate})', 
+                        'orientation': 'horizontal', 
+                        'pad': 0.01, 
+                        'aspect': 50, 
+                        'shrink': 0.5, 
+                        'extend': 'neither', 
+                        'format': '%.3f'
+                    }
+                )
+            else: 
+                # plot layer with census tracts, colored by classified_positive 
+                ct_enriched_for_plot.plot(
+                    ax=ax, 
+                    column='classified_positive', 
+                    cmap='coolwarm', 
+                    alpha=0.5, 
+                    edgecolor='white', 
+                    linewidth=0.5, 
+                    zorder=2, 
+                    legend=True, 
+                    legend_kwds={
+                        'label': f'P({estimate})', 
+                        'orientation': 'horizontal', 
+                        'pad': 0.01, 
+                        'aspect': 50, 
+                        'shrink': 0.5, 
+                        'extend': 'neither', 
+                        'format': '%.3f'
+                    }
+                )
             
 
-            # plot layer with census tracts, colored by classified_positive 
-            ct_enriched_for_plot.plot(
-                ax=ax, 
-                column='classified_positive', 
-                cmap='coolwarm', 
-                alpha=0.5, 
-                edgecolor='white', 
-                linewidth=0.5, 
-                zorder=2, 
-                legend=True, 
-                legend_kwds={
-                    'label': f'P({estimate})', 
-                    'orientation': 'horizontal', 
-                    'pad': 0.01, 
-                    'aspect': 50, 
-                    'shrink': 0.5, 
-                    'extend': 'neither', 
-                    'format': '%.3f'
-                }
-            )
+
+            
 
             sep29_positives.plot(ax=ax, color='orange', marker='o', alpha=0.25, markersize=25, zorder=6, label='Classified Positive Image')
             sep29_gt.plot(ax=ax, color='red', marker='o', alpha=0.25, markersize=25, zorder=6, label='Ground Truth Positive Image')
@@ -285,7 +309,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
             # Saving figures
             os.makedirs(f'runs/{run_id}/maps', exist_ok=True)
-            path = f'runs/{run_id}/maps/nyc_flooding_map_paired_{PAIRED}_{BORO}_{i}_noagg_zoomin.png' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_paired_{PAIRED}_{i}_noagg.png'
+            path = f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{BORO}_{i}_noagg_zoomin.png' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{i}_noagg.png'
             plt.savefig(path, dpi=300, bbox_inches='tight', pad_inches=0.0)
             plt.close()
 
