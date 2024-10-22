@@ -9,7 +9,12 @@ TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE = 3
 TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE = 329
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=None):
+from logger import setup_logger 
+logger = setup_logger("util-subroutine")
+logger.setLevel("INFO")
+
+
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False):
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
 
@@ -19,14 +24,41 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     N = len(df)
     n_images_by_area = df["total_images"].values
     n_classified_positive_by_area = df["positive_images"].values
+    # store tract_id (the GEOID col of df) as an array of stan real numerics
+    tract_id = df["GEOID"].astype(float).values
 
-    # Generate adjacency matrix and neighborhood structure
-    node1 = []
-    node2 = []
 
-    if adj: 
-        # read adj matrix (.npy) from adj 
-        adjm = np.load(adj)
+    if len(adj) > 0:
+        if adj_matrix_storage: 
+            # read adjm from .npy 
+            adjm = np.load(adj[0])
+            logger.info(f"Read adjm of shape: {adjm.shape}")
+        else:
+            # make sure there are two elements in the adj arg 
+            assert len(adj) == 2
+            # read node1 from .txt in adj[0]
+            with open(adj[0], "r") as f:
+                node1 = [int(line) for line in f]
+            # read node2 from .txt in adj[1]
+            with open(adj[1], "r") as f:
+                node2 = [int(line) for line in f]
+
+            logger.info(f"Read node1 of length: {len(node1)}")
+            logger.info(f"Read node2 of length: {len(node2)}")
+            
+
+    else: 
+
+        if adj_matrix_storage: 
+            logger.info("No adjm provided, initializing adjm to zeros")
+            adjm = np.zeros((N, N))
+        else: 
+            logger.info("No adj provided, initializing node1 and node2 to empty lists")
+            node1 = []
+            node2 = []
+
+
+
 
     if single_compartment_for_debugging:
         N = 1
@@ -81,11 +113,13 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         return {
             "observed_data": {
                 "N": N,
-                "W": adjm,
-                "W_n": int(adjm.shape[0]) + 1, # added + 1 because stan is 1-indexed?
+                #"W": adjm,
+                # W_n is the total number of neighbor pairs, so sum of adjm 
+                #"W_n": int(np.sum(adjm)),
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
+                "tract_id": tract_id,
                 "n_images_by_area": n_images_by_area,
                 "n_classified_positive_by_area": n_classified_positive_by_area,
                 "n_classified_positive_annotated_positive_by_area": n_true_positive_classified_positive_by_area,
@@ -100,11 +134,12 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         return {
             "observed_data": {
                 "N": N,
-                "W": adjm,
-                "W_n": int(adjm.shape[0]) + 1, # added + 1 because stan is 1-indexed? 
+                #"W": adjm,
+                #"W_n": int(np.sum(adjm)),
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
+                "tract_id": tract_id,
                 "n_images_by_area": n_images_by_area,
                 "n_classified_positive_by_area": n_classified_positive_by_area,
                 "total_annotated_classified_negative": TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE,
@@ -423,7 +458,7 @@ def generate_simulated_data(
             "p_y_1_given_y_hat_0": p_y_1_given_y_hat_0,
             "p_y_hat_1_given_y_1": p_y_hat_1_given_y_1,
             "p_y_hat_1_given_y_0": p_y_hat_1_given_y_0,
-            "p_Y": p_Y,
+            "p_y": p_Y,
             "tau": tau,
             "alpha": alpha,
             "sigma": sigma,
