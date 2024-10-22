@@ -32,10 +32,12 @@ transformed parameters {
     real p_y_hat_1_given_y_1 = empirical_p_yhat * p_y_1_given_y_hat_1 / (empirical_p_yhat * p_y_1_given_y_hat_1 + (1 - empirical_p_yhat) * p_y_1_given_y_hat_0);
     real p_y_hat_1_given_y_0 = empirical_p_yhat * (1 - p_y_1_given_y_hat_1) / (empirical_p_yhat * (1 - p_y_1_given_y_hat_1) + (1 - empirical_p_yhat) * (1 - p_y_1_given_y_hat_0));
     vector[N] at_least_one_positive_image_by_area = (1 - pow(1 - p_y, n_images_by_area));
+    vector[N] at_least_one_positive_image_by_area_if_you_have_100_images = (1 - pow(1 - p_y, 100));
     // set at_least_one_positive_image to 1 if there is at least one annotated positive image in the Census tract.
     for(i in 1:N) {
       if ((n_classified_positive_annotated_positive_by_area[i] > 0) || (n_classified_negative_annotated_positive_by_area[i] > 0)) {
         at_least_one_positive_image_by_area[i] = 1;
+        at_least_one_positive_image_by_area_if_you_have_100_images[i] = 1;
       }
     }
 }
