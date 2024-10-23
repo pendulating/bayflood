@@ -29,4 +29,21 @@ acs22_s1901_template='https://api.census.gov/data/2022/acs/acs5/subject?get=grou
 # wget the group
 wget -O data/acs22_s1901.json "${acs22_s1901_template}&key=${API_KEY}"
 
+# Educational Attainment 
+acs22_s1501_md='https://api.census.gov/data/2022/acs/acs5/subject/groups/S1501.json'
+wget -O data/acs22_s1501_md.json "${acs22_s1501_md}?key=${API_KEY}"
+
+acs22_s1501_template='https://api.census.gov/data/2022/acs/acs5/subject?get=group(S1501)&for=tract:*&in=state:36&in=county:005,047,061,081,085'
+# wget the group
+wget -O data/acs22_s1501.json "${acs22_s1501_template}&key"
+
+# Limited English Speaking Households 
+acs22_s1602_md='https://api.census.gov/data/2022/acs/acs5/subject/groups/S1602.json'
+
+wget -O data/acs22_s1602_md.json "${acs22_s1602_md}?key=${API_KEY}"
+
+acs22_s1602_template='https://api.census.gov/data/2022/acs/acs5/subject?get=group(S1602)&for=tract:*&in=state:36&in=county:005,047,061,081,085'
+# wget the group
+
+wget -O data/acs22_s1602.json "${acs22_s1602_template}&key"
 
