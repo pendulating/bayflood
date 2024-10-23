@@ -14,7 +14,7 @@ logger = setup_logger("util-subroutine")
 logger.setLevel("INFO")
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False):
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False, external_dataset_path='aggregation/analysis_df_10232024.csv'):
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
 
@@ -109,9 +109,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         n_non_annotated_by_area_classified_positive = df[
             "n_not_annotated_by_area_classified_positive"
         ].values
-
-        return {
-            "observed_data": {
+        observed_data = {
                 "N": N,
                 #"W": adjm,
                 # W_n is the total number of neighbor pairs, so sum of adjm 
@@ -129,7 +127,25 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 "n_non_annotated_by_area": n_non_annotated_by_area,
                 "n_non_annotated_by_area_classified_positive": n_non_annotated_by_area_classified_positive,
             }
-        }
+
+        if use_external_covariates:
+            external_d = pd.read_csv('aggregation/analysis_df_10232024.csv')
+            external_d = pd.merge(df, external_d, on='GEOID', how='left')
+            assert (external_d['GEOID'] == df['GEOID']).all()
+            external_d['any_311_report'] = False
+            cols_to_use = []
+            for k in external_d.columns:
+                if '311' in k:
+                    external_d['binary_%s' % k] = (external_d[k] > 0).astype(int)
+                    print("Adding data from column %s" % k)
+                    external_d['any_311_report'] = external_d['any_311_report'] | (external_d[k] > 0) 
+                    cols_to_use.append('binary_%s' % k)
+            
+
+            observed_data['binary_external_covariates'] = external_d[cols_to_use].values.astype(int)
+            observed_data['n_external_covariates'] = observed_data['binary_external_covariates'].shape[1]
+
+        return {"observed_data": observed_data}
     else:
         return {
             "observed_data": {

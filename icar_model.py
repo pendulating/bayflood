@@ -100,6 +100,7 @@ class ICAR_MODEL:
         # These flags control the behavior of the model fitting routine
         self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
         self.use_simulated_data = SIMULATED_DATA
+        self.use_external_covariates = False
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
         self.icar_prior_setting = ICAR_PRIOR_SETTING
@@ -111,6 +112,7 @@ class ICAR_MODEL:
         ]
 
         self.VALID_ESTIMATE_PARAMETERS = ["p_y", "at_least_one_positive_image_by_area"]
+        self.ADDITIONAL_PARAMS_TO_SAVE = []
         self.ESTIMATE_PARAMETERS = ESTIMATE_PARAMS
         for p in self.ESTIMATE_PARAMETERS:
             assert p in self.VALID_ESTIMATE_PARAMETERS
@@ -125,6 +127,9 @@ class ICAR_MODEL:
             ).read(),
             "weighted_ICAR_prior_annotations_have_locations": open(
                 "stan_models/weighted_ICAR_prior_annotations_have_locations.stan"
+            ).read(),
+            "weighted_ICAR_prior_annotations_have_locations_external_covariates": open(
+                "stan_models/weighted_ICAR_prior_annotations_have_locations_external_covariates.stan"
             ).read(),
         }
 
@@ -187,7 +192,8 @@ class ICAR_MODEL:
         else:
             self.logger.info("Reading empirical data.")
             self.data_to_use = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
-                annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage
+                annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage, 
+                                use_external_covariates = self.use_external_covariates
             )
             self.logger.success("Successfully read empirical data.")
 
@@ -220,10 +226,16 @@ class ICAR_MODEL:
                     self.logger.info(
                         "Building model with annotations have locations."
                     )
-                    model = stan.build(
-                        self.models["weighted_ICAR_prior_annotations_have_locations"],
-                        data=self.data_to_use["observed_data"],
-                    )
+                    if not self.use_external_covariates:
+                        model = stan.build(
+                            self.models["weighted_ICAR_prior_annotations_have_locations"],
+                            data=self.data_to_use["observed_data"],
+                        )
+                    else:
+                        model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
+                            data=self.data_to_use['observed_data'])
+                        self.ADDITIONAL_PARAMS_TO_SAVE += ['external_covariate_slopes', 'external_covariate_intercepts']
+
                 else:
                     self.logger.info("Building model without annotation location data.")
                     model = stan.build(
@@ -238,10 +250,17 @@ class ICAR_MODEL:
                     self.logger.info(
                         "Building model with annotations have locations."
                     )
-                    model = stan.build(
-                        self.models["weighted_ICAR_prior_annotations_have_locations"],
-                        data=self.data_to_use["observed_data"],
-                    )
+                    if not self.use_external_covariates:
+                        model = stan.build(
+                            self.models["weighted_ICAR_prior_annotations_have_locations"],
+                            data=self.data_to_use["observed_data"],
+                        )
+                    else:
+                        model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
+                            data=self.data_to_use['observed_data'])
+                        self.ADDITIONAL_PARAMS_TO_SAVE += ['external_covariate_slopes', 'external_covariate_intercepts']
+
+                    
                 else:
                     self.logger.info("Building model without annotation location data.")
                     model = stan.build(
@@ -269,6 +288,7 @@ class ICAR_MODEL:
 
             with warnings.catch_warnings(action="ignore"):
                 fit = model.sample(num_chains=4, num_warmup=WARMUP, num_samples=SAMPLES)
+            print(az.summary(fit))
             df = fit.to_frame()
 
             self.logger.success("Successfully sampled the model.")
@@ -317,7 +337,7 @@ class ICAR_MODEL:
                         "p_y_hat_1_given_y_1",
                         "p_y_hat_1_given_y_0",
                         "empirical_p_yhat",
-                    ] + self.ESTIMATE_PARAMETERS,
+                    ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                 )
             )
 
@@ -333,7 +353,7 @@ class ICAR_MODEL:
                             "p_y_1_given_y_hat_1",
                             "p_y_1_given_y_hat_0",
                             "empirical_p_yhat",
-                        ] + self.ESTIMATE_PARAMETERS,
+                        ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                     ).to_string()
                 )
 
@@ -348,7 +368,7 @@ class ICAR_MODEL:
                         "p_y_1_given_y_hat_1",
                         "p_y_1_given_y_hat_0",
                         "empirical_p_yhat",
-                    ] + self.ESTIMATE_PARAMETERS,
+                    ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                 )
             )
 
@@ -364,7 +384,7 @@ class ICAR_MODEL:
                             "p_y_1_given_y_hat_1",
                             "p_y_1_given_y_hat_0",
                             "empirical_p_yhat",
-                        ] + self.ESTIMATE_PARAMETERS,
+                        ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                     ).to_string()
                 )
 
@@ -621,7 +641,7 @@ if __name__ == "__main__":
         adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=2000, SAMPLES=3000)
+    fit, df = model.fit(CYCLES=1, WARMUP=5000, SAMPLES=1000)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)
