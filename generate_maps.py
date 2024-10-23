@@ -29,6 +29,9 @@ SELECT_TOP_N = False
 TOP_N_TO_SELECT = 393
 LIVE_LOAD_NEXAR_DATA=False
 
+WGS='EPSG:4326'
+PROJ='EPSG:2263'
+
 
 if LATEX: 
     # enable latex plotting 
@@ -42,48 +45,54 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     if LIVE_LOAD_NEXAR_DATA:
 
-        entire_sep29 = pd.read_csv("notebooks/cambrian/entire_sep29_all.csv", engine='pyarrow')
+        logger.info("Loading raw Nexar data for September 29 dashcam flooding data.")
+
+        entire_sep29 = pd.read_csv("data/processed/entire_sep29_all.csv", engine='pyarrow')
         entire_sep29['frame_id'] = entire_sep29['image_path'].apply(lambda x: x.split('/')[-1].split('.')[0])
         entire_sep29
 
-        sep29_md = pd.read_csv("/share/ju/urban-fingerprinting/output/default/df/2023-09-29/md.csv", engine='pyarrow')
+        sep29_md = pd.read_csv("data/processed/2023-09-29_md.csv", engine='pyarrow')
         sep29_md['frame_id'] = sep29_md['frame_id'].apply(lambda x: "nlbx_"+x)
 
         entire_sep29 = entire_sep29.merge(sep29_md, on='frame_id', how='left')
-        entire_sep29 = gpd.GeoDataFrame(entire_sep29, geometry=wkt.loads(entire_sep29['geometry']), crs='EPSG:2263')
+        entire_sep29 = gpd.GeoDataFrame(entire_sep29, geometry=wkt.loads(entire_sep29['geometry']), crs=PROJ)
 
         sep29_positives = entire_sep29[entire_sep29['sentiment_1'] == 1]
+
+        inspection_set_annotated = pd.read_csv("data/processed/inspection_set.csv")
+        inspection_set_annotated['frame_id'] = inspection_set_annotated['image'].apply(lambda x: 'nlbx_'+x.split('/')[-1].split('.')[0].split('_')[-1])
+        inspection_set_annotated['choice'] = inspection_set_annotated['choice'].apply(lambda x: 1 if x == 'Flooded road' else 0)
+        # drop everything except frame_id and choice 
+        inspection_set_annotated['pred'] = inspection_set_annotated['sentiment_1']
+        inspection_set_annotated['tp'] = ((inspection_set_annotated['choice'] == 1) & (inspection_set_annotated['pred'] == 1)).astype(int)
+        inspection_set_annotated['fp'] = ((inspection_set_annotated['choice'] == 0) & (inspection_set_annotated['pred'] == 1)).astype(int)
+        inspection_set_annotated['tn'] = ((inspection_set_annotated['choice'] == 0) & (inspection_set_annotated['pred'] == 0)).astype(int)
+        inspection_set_annotated['fn'] = ((inspection_set_annotated['choice'] == 1) & (inspection_set_annotated['pred'] == 0)).astype(int)
+        inspection_set_annotated = inspection_set_annotated[['frame_id', 'choice', 'pred', 'tp', 'fp', 'tn', 'fn']]
+
+        logger.info(f"Loaded and processed inspection set annotations with {len(inspection_set_annotated)} annotations.")
+
+        len_before = len(entire_sep29)
+        entire_sep29 = entire_sep29.merge(inspection_set_annotated, on='frame_id', how='left')
+        assert len(entire_sep29) == len_before
+
+        sep29_gt = entire_sep29[entire_sep29['choice'] == 1]
+
     
     else: 
+        logger.info("Loading local preprocessed data for September 29 dashcam flooding data.")
 
         sep29_positives = pd.read_csv("data/processed/sep29_positives.csv", engine='pyarrow')
-        sep29_positives = gpd.GeoDataFrame(sep29_positives, geometry=sep29_positives.geometry.apply(lambda x: wkt.loads(x)), crs='EPSG:2263')
+        sep29_positives = gpd.GeoDataFrame(sep29_positives, geometry=sep29_positives.geometry.apply(lambda x: wkt.loads(x)), crs=PROJ)
+
+        sep29_gt = pd.read_csv("data/processed/sep29_gt.csv", engine='pyarrow')
+        sep29_gt = gpd.GeoDataFrame(sep29_gt, geometry=sep29_gt.geometry.apply(lambda x: wkt.loads(x)), crs=PROJ)
 
 
     logger.info("Loaded and processed september 29 dashcam flooding data.")
 
 
     analysis_set = pd.read_csv("data/processed/flooding_ct_dataset.csv")
-
-
-    inspection_set_annotated = pd.read_csv("data/processed/inspection_set.csv")
-    inspection_set_annotated['frame_id'] = inspection_set_annotated['image'].apply(lambda x: 'nlbx_'+x.split('/')[-1].split('.')[0].split('_')[-1])
-    inspection_set_annotated['choice'] = inspection_set_annotated['choice'].apply(lambda x: 1 if x == 'Flooded road' else 0)
-    # drop everything except frame_id and choice 
-    inspection_set_annotated['pred'] = inspection_set_annotated['sentiment_1']
-    inspection_set_annotated['tp'] = ((inspection_set_annotated['choice'] == 1) & (inspection_set_annotated['pred'] == 1)).astype(int)
-    inspection_set_annotated['fp'] = ((inspection_set_annotated['choice'] == 0) & (inspection_set_annotated['pred'] == 1)).astype(int)
-    inspection_set_annotated['tn'] = ((inspection_set_annotated['choice'] == 0) & (inspection_set_annotated['pred'] == 0)).astype(int)
-    inspection_set_annotated['fn'] = ((inspection_set_annotated['choice'] == 1) & (inspection_set_annotated['pred'] == 0)).astype(int)
-    inspection_set_annotated = inspection_set_annotated[['frame_id', 'choice', 'pred', 'tp', 'fp', 'tn', 'fn']]
-
-    logger.info(f"Loaded and processed inspection set annotations with {len(inspection_set_annotated)} annotations.")
-
-    len_before = len(entire_sep29)
-    entire_sep29 = entire_sep29.merge(inspection_set_annotated, on='frame_id', how='left')
-    assert len(entire_sep29) == len_before
-
-    sep29_gt = entire_sep29[entire_sep29['choice'] == 1]
 
     logger.success("Completed merge of inspection set annotations with september 29 dashcam flooding data.")
 
@@ -96,28 +105,27 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
 
     analysis_set = analysis_set.merge(estimate_df, left_on='GEOID', right_on='tract_id', how='left').drop_duplicates(subset='GEOID')
-    analysis_set = gpd.GeoDataFrame(analysis_set, geometry=analysis_set.geometry.apply(lambda x: wkt.loads(x)), crs='EPSG:2263')
+    analysis_set = gpd.GeoDataFrame(analysis_set, geometry=analysis_set.geometry.apply(lambda x: wkt.loads(x)), crs=PROJ)
 
     logger.success("Merged model estimates with analysis set.")
 
 
 
     nyc_ct = gpd.read_file('aggregation/geo/data/ct-nyc-2020.geojson')
-    nyc_ct = nyc_ct.to_crs(2263)
+    nyc_ct = nyc_ct.to_crs(PROJ)
 
     logger.info("Loaded NYC census tract data.")
 
     nyc_311 = pd.read_csv('aggregation/flooding/data/nyc311_flooding_sep29.csv').dropna(subset=['latitude', 'longitude'])
-    nyc_311 = gpd.GeoDataFrame(nyc_311, geometry=gpd.points_from_xy(nyc_311.longitude, nyc_311.latitude), crs='EPSG:4326').to_crs(2263)
+    nyc_311 = gpd.GeoDataFrame(nyc_311, geometry=gpd.points_from_xy(nyc_311.longitude, nyc_311.latitude), crs=WGS).to_crs(PROJ)
     
     logger.info("Loaded and filtered 311 complaints for September 29, 2023.")
 
 
     # FLOODNET 
-    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensors_geo, geometry=gpd.points_from_xy(all_floodnet_sensors_geo.lon, all_floodnet_sensors_geo.lat), crs='EPSG:4326').to_crs(2263)
 
     all_floodnet_sensor_geo = pd.read_csv('aggregation/flooding/static/floodnet_sensor_coordinates.csv')
-    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensors_geo, geometry=gpd.points_from_xy(all_floodnet_sensors_geo.lon, all_floodnet_sensors_geo.lat), crs='EPSG:4326').to_crs(2263)
+    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensor_geo, geometry=gpd.points_from_xy(all_floodnet_sensor_geo.lon, all_floodnet_sensor_geo.lat), crs=WGS).to_crs(PROJ)
 
 
     logger.info("Loaded and processed Floodnet sensor data.")
