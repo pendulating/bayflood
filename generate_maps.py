@@ -27,6 +27,7 @@ LATEX=True
 
 SELECT_TOP_N = False
 TOP_N_TO_SELECT = 393
+LIVE_LOAD_NEXAR_DATA=False
 
 
 if LATEX: 
@@ -39,17 +40,25 @@ if LATEX:
 
 def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_by_area'):
 
-    entire_sep29 = pd.read_csv("notebooks/cambrian/entire_sep29_all.csv", engine='pyarrow')
-    entire_sep29['frame_id'] = entire_sep29['image_path'].apply(lambda x: x.split('/')[-1].split('.')[0])
-    entire_sep29
+    if LIVE_LOAD_NEXAR_DATA:
 
-    sep29_md = pd.read_csv("/share/ju/urban-fingerprinting/output/default/df/2023-09-29/md.csv", engine='pyarrow')
-    sep29_md['frame_id'] = sep29_md['frame_id'].apply(lambda x: "nlbx_"+x)
+        entire_sep29 = pd.read_csv("notebooks/cambrian/entire_sep29_all.csv", engine='pyarrow')
+        entire_sep29['frame_id'] = entire_sep29['image_path'].apply(lambda x: x.split('/')[-1].split('.')[0])
+        entire_sep29
 
-    entire_sep29 = entire_sep29.merge(sep29_md, on='frame_id', how='left')
-    entire_sep29 = gpd.GeoDataFrame(entire_sep29, geometry=wkt.loads(entire_sep29['geometry']), crs='EPSG:2263')
+        sep29_md = pd.read_csv("/share/ju/urban-fingerprinting/output/default/df/2023-09-29/md.csv", engine='pyarrow')
+        sep29_md['frame_id'] = sep29_md['frame_id'].apply(lambda x: "nlbx_"+x)
 
-    sep29_positives = entire_sep29[entire_sep29['sentiment_1'] == 1]
+        entire_sep29 = entire_sep29.merge(sep29_md, on='frame_id', how='left')
+        entire_sep29 = gpd.GeoDataFrame(entire_sep29, geometry=wkt.loads(entire_sep29['geometry']), crs='EPSG:2263')
+
+        sep29_positives = entire_sep29[entire_sep29['sentiment_1'] == 1]
+    
+    else: 
+
+        sep29_positives = pd.read_csv("data/processed/sep29_positives.csv", engine='pyarrow')
+        sep29_positives = gpd.GeoDataFrame(sep29_positives, geometry=sep29_positives.geometry.apply(lambda x: wkt.loads(x)), crs='EPSG:2263')
+
 
     logger.info("Loaded and processed september 29 dashcam flooding data.")
 
