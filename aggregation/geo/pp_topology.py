@@ -69,6 +69,12 @@ def sample_topology(topology_path, sampling_geom,save=True):
     # each dict has the same keys
     # convert summary_stats to df 
     summary_stats_df = pd.DataFrame(summary_stats)
+    # join with sampling_geom 
+    sampling_geom = sampling_geom[['GEOID']]
+    summary_stats_df = sampling_geom.join(summary_stats_df)
+
+    # drop 'count' 
+    summary_stats_df = summary_stats_df.drop(columns='count')
 
     logger.success("Topology sampling complete")
 
