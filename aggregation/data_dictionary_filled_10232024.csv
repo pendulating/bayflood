@@ -1,0 +1,49 @@
+column_name,dtype,description
+BoroName,object, name of NYC borough the census tract is located in.
+BoroCT2020,object, unique identifier for NYC census tract. 
+NTAName,object, name of the neighborhood tabulation area (NTA) that the census tract is located in. 
+CDTANAME,object, name of the community district tabulation area (CDTA) that the census tract is located in. 
+PUMA,object, name of the public use microdata area (PUMA) that the census tract is located in.
+NTA2020,object, code of the NTA that the census tract is located in.
+CDTA2020,object, code of the CDTA that the census tract is located in.
+n_total,float64, number of total nexar images in the census tract. 
+n_classified_positive,float64, number of images classified positive by Cambrian-1M in the census tract. 
+n_tp,float64, number of images classified positive AND human-annotated positive in the census tract. 
+n_fp,float64, number of images classified positive and human-annotated negative in the census tract. 
+n_tn,float64, number of images classified negative and human-annotated negative in the census tract. 
+n_fn,float64, number of images classified negative and human-annotated positive in the census tract.
+total_not_annotated,float64, number of images not human-annotated in the census tract. 
+positives_not_annotated,float64, number of classified positive images not human-annotated in the census tract.
+negatives_not_annotated,float64, number of classified negative images not human-annotated in the census tract.
+p_y,float64, probability of a flooded image appearing in the census tract.
+p_y_CI_lower,float64, lower confidence interval bound of p_y. 
+p_y_CI_upper,float64, upper confidence interval bound of p_y. 
+at_least_one_positive_image_by_area,float64, probability of at least one flooded image appearing in the census tract. 
+at_least_one_positive_image_by_area_CI_lower,float64, lower confidence interval bound of p(at_least_one_+_image). 
+at_least_one_positive_image_by_area_CI_upper,float64, upper confidence interval bound of p(at_least_one_+_image). 
+empirical_estimate,float64, number of positive images divided by number of total images. 
+at_least_one_positive_image_by_area_if_you_have_100_images,float64, probability of at least one flooded image in a 100-image distribution from the census tract. 
+at_least_one_positive_image_by_area_if_you_have_100_images_CI_lower,float64, lower confidence interval bound of p(at_least_one_+_image_100)
+at_least_one_positive_image_by_area_if_you_have_100_images_CI_upper,float64, upper confidence interval bound of p(at_least_one_+_image_100)
+n_images_by_area,int64, number of nexar images by census tract as processed by Stan; should align with n_total.
+total_population,int64, total human population in the census tract. 
+nhl_white_alone,int64, total white-alone-identifying population in the census tract.
+nhl_black_alone,int64, total black-alone-identifying population in the census tract. 
+hispanic_alone,int64, total hispanic-alone-identifying population in the census tract.
+nhl_asian_alone,int64, total asian-alone-identifying population in the census tract. 
+num_households_with_internet,int64, total number of households with internet access in the census tract.
+num_households_with_smartphone,int64, total number of households with at least one smartphone in the census tract.
+median_household_income,int64, median household income of all households in the census tract. 
+num_high_school_graduates,int64, number of high school graduates in the census tract. 
+num_bachelors_degree,int64, number of bachelor's degree holders in the census tract. 
+num_graduate_degree,int64, number of graduate degree holders in the census tract. 
+num_limited_english_speaking_households,int64, number of limited-english speaking households in the census tract. 
+ft_elevation_min,float64, the minimum elevation [ft] present in the census tract. 
+ft_elevation_max,float64, the maximum elevation [ft] present in the census tract.
+ft_elevation_mean,float64, the average elevation [ft] present in the census tract.
+area,float64, the geographic area [sqft] of the census tract. 
+n_floodnet_sensors,float64, the number of floodnet sensors placed within the census tract.
+dep_moderate_1_area,float64, the amount of square feet of nuisance flooding (4in>x>1ft) under moderate flooding (2.13in/hr) conditions in the census tract.
+dep_moderate_2_area,float64, the amount of square feet of deep flooding (x>1ft) under moderate flooding (2.13in/hr) conditions in the census tract. 
+dep_moderate_1_frac,float64, the fraction of total area affected by nuisance flooding in the census tract. 
+dep_moderate_2_frac,float64, the fraction of total area affected by deep flooding in the census tract.
