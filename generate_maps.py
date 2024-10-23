@@ -66,7 +66,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
     analysis_set = pd.read_csv("data/processed/flooding_ct_dataset.csv")
 
 
-    inspection_set_annotated = pd.read_csv("notebooks/cambrian/inspection_set_annotated.csv")
+    inspection_set_annotated = pd.read_csv("data/processed/inspection_set.csv")
     inspection_set_annotated['frame_id'] = inspection_set_annotated['image'].apply(lambda x: 'nlbx_'+x.split('/')[-1].split('.')[0].split('_')[-1])
     inspection_set_annotated['choice'] = inspection_set_annotated['choice'].apply(lambda x: 1 if x == 'Flooded road' else 0)
     # drop everything except frame_id and choice 
@@ -102,51 +102,32 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
 
 
-    nyc_ct = gpd.read_file('data/ct_nyc/nyct2020_24c/nyct2020.shp')
+    nyc_ct = gpd.read_file('aggregation/geo/data/ct-nyc-2020.geojson')
     nyc_ct = nyc_ct.to_crs(2263)
 
     logger.info("Loaded NYC census tract data.")
 
-    nyc_311 = pd.read_csv('/share/ju/urban-fingerprinting/data/geo/311_Service_Requests_from_2010_to_Present.csv', engine='pyarrow')
-    nyc_311['Created Date'] = pd.to_datetime(nyc_311['Created Date'])
-
-
-    # filter for sep 29 2023 complaints 
-    nyc_311 = nyc_311[nyc_311['Created Date'].dt.date == pd.to_datetime('2023-09-29').date()]
-    nyc_311 = gpd.GeoDataFrame(nyc_311, geometry=gpd.points_from_xy(nyc_311.Longitude, nyc_311.Latitude), crs='EPSG:4326')
-    nyc_311 = nyc_311.to_crs(2263)
-
-
-    flooding_descs = ["Street Flooding (SJ)", "Manhole Overflow (Use Comments) (SA1)", "Catch Basin Clogged/Flooding (Use Comments) (SC)"] 
-    nyc_311 = nyc_311[nyc_311['Descriptor'].isin(flooding_descs)]
-
+    nyc_311 = pd.read_csv('aggregation/flooding/data/nyc311_flooding_sep29.csv').dropna(subset=['latitude', 'longitude'])
+    nyc_311 = gpd.GeoDataFrame(nyc_311, geometry=gpd.points_from_xy(nyc_311.longitude, nyc_311.latitude), crs='EPSG:4326').to_crs(2263)
+    
     logger.info("Loaded and filtered 311 complaints for September 29, 2023.")
 
 
-
     # FLOODNET 
-    floodnet_sensor = pd.read_csv('/share/ju/urban-fingerprinting/data/nyc_flooding/floodnet-flood-sensor-sep-2023.csv', engine='pyarrow')
-    floodnet_tide = pd.read_csv('/share/ju/urban-fingerprinting/data/nyc_flooding/floodnet-tide-sep-2023.csv', engine='pyarrow')
-    floodnet_weather = pd.read_csv('/share/ju/urban-fingerprinting/data/nyc_flooding/floodnet-weather-sep-2023.csv', engine='pyarrow')
-
-
-    all_floodnet_sensors_geo = pd.concat([floodnet_sensor.groupby('deployment_id').first()[['lat','lon']].reset_index(), floodnet_tide.groupby('sensor_id').first()[['lat','lon']].reset_index(), floodnet_weather.groupby('sensor_id').first()[['lat','lon']].reset_index()], axis=0)
-
     all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensors_geo, geometry=gpd.points_from_xy(all_floodnet_sensors_geo.lon, all_floodnet_sensors_geo.lat), crs='EPSG:4326').to_crs(2263)
+
+    all_floodnet_sensor_geo = pd.read_csv('aggregation/flooding/static/floodnet_sensor_coordinates.csv')
+    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensors_geo, geometry=gpd.points_from_xy(all_floodnet_sensors_geo.lon, all_floodnet_sensors_geo.lat), crs='EPSG:4326').to_crs(2263)
+
 
     logger.info("Loaded and processed Floodnet sensor data.")
 
 
     # DEP STORMWATER 
-    MODERATE_CURRENT_CONDITIONS = '/share/ju/urban-fingerprinting/data/nyc_flooding/dep_stormwater_moderate_current/data.gdb'
-    moderate_current_conditions_layer = 'NYC_Stormwater_Flood_Map_Moderate_Flood_with_Current_Sea_Levels'
-
-    moderate_current_conditions = gpd.read_file(MODERATE_CURRENT_CONDITIONS, layer=moderate_current_conditions_layer).to_crs(2263)
+    moderate_current_conditions = gpd.read_file('aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb').to_crs(PROJ)
     moderate_current_conditions.describe()
 
     logger.info("Loaded and processed DEP stormwater moderate current conditions data.")
-
-
 
 
     ct_enriched = nyc_ct.copy() 
