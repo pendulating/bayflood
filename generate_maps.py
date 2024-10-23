@@ -307,7 +307,12 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     logger.success("Completed map generation.")
 
+if __name__ == '__main__':
+    run_id = sys.argv[1]
+    estimate_path = sys.argv[2]
+    estimate = sys.argv[3]
 
+    generate_maps(run_id, estimate_path, estimate=estimate)
 
 
 
