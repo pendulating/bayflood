@@ -54,6 +54,7 @@ class ICAR_MODEL:
     ):
 
         refresh_cache('mwf62')
+        print(SIMULATED_DATA)
 
         # Sanity checks on user inputs 
         # EMPIRICAL_DATA_PATH should not be set if we are using simulated data
@@ -602,10 +603,12 @@ if __name__ == "__main__":
         icar_prior_setting = str(sys.argv[1])
     
     if sys.argv[2]:
-        annotations_have_locations = bool(sys.argv[2])
+        assert sys.argv[2] in ['True', 'False']
+        annotations_have_locations = sys.argv[2] == 'True'
     
     if sys.argv[3]:
-        simulated_data = bool(sys.argv[3])
+        assert sys.argv[3] in ['True', 'False']
+        simulated_data = sys.argv[3] == 'True'
 
 
     model = ICAR_MODEL(
