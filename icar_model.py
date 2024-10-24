@@ -28,6 +28,7 @@ import nest_asyncio
 import sys
 
 import warnings
+import argparse
 
 from generate_maps import generate_maps
 from refresh_cache import refresh_cache
@@ -619,16 +620,38 @@ class ICAR_MODEL:
 
 if __name__ == "__main__":
 
-    if sys.argv[1]:
-        icar_prior_setting = str(sys.argv[1])
-    
-    if sys.argv[2]:
-        assert sys.argv[2] in ['True', 'False']
-        annotations_have_locations = sys.argv[2] == 'True'
-    
-    if sys.argv[3]:
-        assert sys.argv[3] in ['True', 'False']
-        simulated_data = sys.argv[3] == 'True'
+
+    # Create an argument parser
+    parser = argparse.ArgumentParser(description="Process some settings.")
+
+    # Add arguments
+    parser.add_argument(
+        "icar_prior_setting", 
+        type=str, 
+        help="The setting for the ICAR prior."
+    )
+
+    parser.add_argument(
+        "annotations_have_locations", 
+        type=lambda x: x in ['True', 'False'],
+        choices=['True', 'False'],
+        help="Whether annotations have locations (True/False)."
+    )
+
+    parser.add_argument(
+        "simulated_data", 
+        type=lambda x: x in ['True', 'False'],
+        choices=['True', 'False'],
+        help="Whether the data is simulated (True/False)."
+    )
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Access the arguments
+    icar_prior_setting = args.icar_prior_setting
+    annotations_have_locations = args.annotations_have_locations == 'True'
+    simulated_data = args.simulated_data == 'True'
 
 
     model = ICAR_MODEL(
