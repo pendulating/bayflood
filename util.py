@@ -14,7 +14,7 @@ logger = setup_logger("util-subroutine")
 logger.setLevel("INFO")
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False, external_dataset_path='aggregation/analysis_df_10232024.csv'):
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False):
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
 
@@ -129,20 +129,17 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
             }
 
         if use_external_covariates:
-            external_d = pd.read_csv('aggregation/analysis_df_10232024.csv')
-            external_d = pd.merge(df, external_d, on='GEOID', how='left')
-            assert (external_d['GEOID'] == df['GEOID']).all()
-            external_d['any_311_report'] = False
+            df['any_311_report'] = False
             cols_to_use = []
-            for k in external_d.columns:
+            for k in df.columns:
                 if '311' in k:
-                    external_d['binary_%s' % k] = (external_d[k] > 0).astype(int)
+                    df['binary_%s' % k] = (df[k] > 0).astype(int)
                     print("Adding data from column %s" % k)
-                    external_d['any_311_report'] = external_d['any_311_report'] | (external_d[k] > 0) 
+                    df['any_311_report'] = df['any_311_report'] | (df[k] > 0) 
                     cols_to_use.append('binary_%s' % k)
             
 
-            observed_data['binary_external_covariates'] = external_d[cols_to_use].values.astype(int)
+            observed_data['binary_external_covariates'] = df[cols_to_use].values.astype(int)
             observed_data['n_external_covariates'] = observed_data['binary_external_covariates'].shape[1]
 
         return {"observed_data": observed_data}
@@ -150,8 +147,6 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         return {
             "observed_data": {
                 "N": N,
-                #"W": adjm,
-                #"W_n": int(np.sum(adjm)),
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
