@@ -23,7 +23,7 @@ logger.setLevel("INFO")
 
 
 
-LATEX=True
+LATEX=False
 
 SELECT_TOP_N = False
 TOP_N_TO_SELECT = 393
