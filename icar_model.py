@@ -112,7 +112,7 @@ class ICAR_MODEL:
             "just_model_p_y",
         ]
 
-        self.VALID_ESTIMATE_PARAMETERS = ["p_y", "at_least_one_positive_image_by_area"]
+        self.VALID_ESTIMATE_PARAMETERS = ["p_y", "at_least_one_positive_image_by_area", "at_least_one_positive_image_by_area_if_you_have_100_images"]
         self.ADDITIONAL_PARAMS_TO_SAVE = []
         self.ESTIMATE_PARAMETERS = ESTIMATE_PARAMS
         for p in self.ESTIMATE_PARAMETERS:
@@ -620,29 +620,28 @@ class ICAR_MODEL:
 
 if __name__ == "__main__":
 
-
     # Create an argument parser
     parser = argparse.ArgumentParser(description="Process some settings.")
 
-    # Add arguments
+    # Add required argument for ICAR prior setting
     parser.add_argument(
         "icar_prior_setting", 
         type=str, 
         help="The setting for the ICAR prior."
     )
 
+    # Add optional flag for annotations having locations (default to True)
     parser.add_argument(
-        "annotations_have_locations", 
-        type=lambda x: x in ['True', 'False'],
-        choices=['True', 'False'],
-        help="Whether annotations have locations (True/False)."
+        "--annotations_have_locations", 
+        action='store_true',
+        help="Set to True if annotations do not have locations. Default is False."
     )
 
+    # Add optional flag for simulated data (default to True)
     parser.add_argument(
-        "simulated_data", 
-        type=lambda x: x in ['True', 'False'],
-        choices=['True', 'False'],
-        help="Whether the data is simulated (True/False)."
+        "--simulated_data", 
+        action='store_true',
+        help="Set to True if data is not simulated. Default is False."
     )
 
     # Parse the arguments
@@ -650,8 +649,8 @@ if __name__ == "__main__":
 
     # Access the arguments
     icar_prior_setting = args.icar_prior_setting
-    annotations_have_locations = args.annotations_have_locations == 'True'
-    simulated_data = args.simulated_data == 'True'
+    annotations_have_locations = args.annotations_have_locations
+    simulated_data = args.simulated_data
 
 
     model = ICAR_MODEL(
@@ -664,7 +663,7 @@ if __name__ == "__main__":
         adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=5000, SAMPLES=1000)
+    fit, df = model.fit(CYCLES=1, WARMUP=12000, SAMPLES=12000)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)
