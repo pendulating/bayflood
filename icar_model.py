@@ -658,12 +658,12 @@ if __name__ == "__main__":
         ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
         ANNOTATIONS_HAVE_LOCATIONS=annotations_have_locations,
         SIMULATED_DATA=simulated_data,
-        EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",
+        EMPIRICAL_DATA_PATH="aggregation/analysis_df_10242024.csv",
         adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
         adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=12000, SAMPLES=12000)
+    fit, df = model.fit(CYCLES=1, WARMUP=4000, SAMPLES=4000)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)
