@@ -47,6 +47,7 @@ class ICAR_MODEL:
         self,
         ICAR_PRIOR_SETTING="none",
         ANNOTATIONS_HAVE_LOCATIONS=True,
+        EXTERNAL_COVARIATES=False,
         SIMULATED_DATA=False,
         ESTIMATE_PARAMS=[],
         EMPIRICAL_DATA_PATH="",
@@ -101,7 +102,7 @@ class ICAR_MODEL:
         # These flags control the behavior of the model fitting routine
         self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
         self.use_simulated_data = SIMULATED_DATA
-        self.use_external_covariates = True
+        self.use_external_covariates = EXTERNAL_COVARIATES
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
         self.icar_prior_setting = ICAR_PRIOR_SETTING
@@ -644,20 +645,21 @@ if __name__ == "__main__":
         help="Set to True if data is not simulated. Default is False."
     )
 
+    parser.arr_argument(
+        '--external_covariates',
+        action='store_true',
+        help="Set to True if external covariates are used. Default is False."
+    )
+
     # Parse the arguments
     args = parser.parse_args()
 
-    # Access the arguments
-    icar_prior_setting = args.icar_prior_setting
-    annotations_have_locations = args.annotations_have_locations
-    simulated_data = args.simulated_data
-
-
     model = ICAR_MODEL(
-        ICAR_PRIOR_SETTING=icar_prior_setting,
+        ICAR_PRIOR_SETTING=args.icar_prior_setting,
         ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
-        ANNOTATIONS_HAVE_LOCATIONS=annotations_have_locations,
-        SIMULATED_DATA=simulated_data,
+        ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
+        EXTERNAL_COVARIATES=args.external_covariates,
+        SIMULATED_DATA=args.simulated_data,
         EMPIRICAL_DATA_PATH="aggregation/analysis_df_10242024.csv",
         adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
         adj_matrix_storage=False
