@@ -24,15 +24,16 @@ data {
   matrix[N, n_external_covariates] external_covariates; // matrix with one row per Census tract and one column per external covariate.
 }
 parameters {
-  vector[N] phi;
   real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
   ordered[2] logit_p_y_1_given_y_hat; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
   // vector[n_external_covariates] external_covariate_slopes; // coefficients for the external covariates.
   // vector[n_external_covariates] external_covariate_intercepts; // intercepts for the external covariates.
-  real<lower=0> phi_sigma; 
+  real<lower=0> spatial_sigma; 
   vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
+  vector[N] phi_spatial_component;
 }
 transformed parameters {
+    vector[N] phi = phi_offset + external_covariates * external_covariate_beta + phi_spatial_component * spatial_sigma; 
     real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
     real p_y_1_given_y_hat_1 = inv_logit(logit_p_y_1_given_y_hat[2]);
     vector[N] p_y = inv_logit(phi);
@@ -54,14 +55,12 @@ model {
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
   // still, there's no computational reason you can't use another value. 
   if (use_ICAR_prior == 1) {
-    target += -ICAR_prior_weight * dot_self(phi[node1] - phi[node2]);
+    target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
   }
-  
   phi_offset ~ normal(0, 2);
-  phi_sigma ~ normal(0, 1);
+  sum(phi_spatial_component) ~ normal(0, 0.001 * N);
+  spatial_sigma ~ normal(0, 1);
   external_covariate_beta ~ normal(0, 1);
-  phi ~ normal(phi_offset + external_covariates * external_covariate_beta, phi_sigma);
-  // phi ~ normal(phi_offset, 1); 
   // model the classification results by Census tract for the UNANNOTATED images. 
   // note that this binomial statement should be equivalent a statement which increments the target directly, but that's more verbose. 
   n_non_annotated_by_area_classified_positive ~ binomial(n_non_annotated_by_area, p_y .* p_y_hat_1_given_y_1 + (1 - p_y) .* p_y_hat_1_given_y_0);

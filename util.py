@@ -137,9 +137,12 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     print("Adding data from column %s" % k)
                     df['any_311_report'] = df['any_311_report'] | (df[k] > 0) 
                     cols_to_use.append('binary_%s' % k)
-            
+            external_covariate_matrix = df[cols_to_use].values
+            for i in range(external_covariate_matrix.shape[1]): # z-score
+                print("z-scoring external covariate column %i with mean %f and std %f" % (i, np.mean(external_covariate_matrix[:, i]), np.std(external_covariate_matrix[:, i])))
+                external_covariate_matrix[:, i] = (external_covariate_matrix[:, i] - np.mean(external_covariate_matrix[:, i])) / np.std(external_covariate_matrix[:, i])
 
-            observed_data['external_covariates'] = df[cols_to_use].values.astype(int)
+            observed_data['external_covariates'] = external_covariate_matrix
             observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
 
         return {"observed_data": observed_data}
