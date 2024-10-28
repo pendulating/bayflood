@@ -139,8 +139,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     cols_to_use.append('binary_%s' % k)
             
 
-            observed_data['binary_external_covariates'] = df[cols_to_use].values.astype(int)
-            observed_data['n_external_covariates'] = observed_data['binary_external_covariates'].shape[1]
+            observed_data['external_covariates'] = df[cols_to_use].values.astype(int)
+            observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
 
         return {"observed_data": observed_data}
     else:

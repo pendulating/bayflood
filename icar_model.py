@@ -101,7 +101,7 @@ class ICAR_MODEL:
         # These flags control the behavior of the model fitting routine
         self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
         self.use_simulated_data = SIMULATED_DATA
-        self.use_external_covariates = False
+        self.use_external_covariates = True
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
         self.icar_prior_setting = ICAR_PRIOR_SETTING
@@ -235,7 +235,7 @@ class ICAR_MODEL:
                     else:
                         model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
                             data=self.data_to_use['observed_data'])
-                        self.ADDITIONAL_PARAMS_TO_SAVE += ['external_covariate_slopes', 'external_covariate_intercepts']
+                        self.ADDITIONAL_PARAMS_TO_SAVE += ['phi_sigma', 'external_covariate_beta']
 
                 else:
                     self.logger.info("Building model without annotation location data.")
@@ -259,7 +259,7 @@ class ICAR_MODEL:
                     else:
                         model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
                             data=self.data_to_use['observed_data'])
-                        self.ADDITIONAL_PARAMS_TO_SAVE += ['external_covariate_slopes', 'external_covariate_intercepts']
+                        self.ADDITIONAL_PARAMS_TO_SAVE += ['phi_sigma', 'external_covariate_beta']
 
                     
                 else:
@@ -663,7 +663,7 @@ if __name__ == "__main__":
         adj_matrix_storage=False
     )
     #
-    fit, df = model.fit(CYCLES=1, WARMUP=4000, SAMPLES=4000)
+    fit, df = model.fit(CYCLES=1, WARMUP=2000, SAMPLES=2000)
     model.plot_histogram(fit, df)
     model.plot_scatter(fit, df)
     model.plot_results(fit, df)

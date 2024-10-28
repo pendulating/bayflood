@@ -21,14 +21,16 @@ data {
 
   // external covariate matrix. This part is new. 
   int<lower=1> n_external_covariates; // number of external covariates.
-  array[N, n_external_covariates] int binary_external_covariates; // matrix with one row per Census tract and one column per external covariate.
+  matrix[N, n_external_covariates] external_covariates; // matrix with one row per Census tract and one column per external covariate.
 }
 parameters {
   vector[N] phi;
   real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
   ordered[2] logit_p_y_1_given_y_hat; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
-  vector[n_external_covariates] external_covariate_slopes; // coefficients for the external covariates.
-  vector[n_external_covariates] external_covariate_intercepts; // intercepts for the external covariates.
+  // vector[n_external_covariates] external_covariate_slopes; // coefficients for the external covariates.
+  // vector[n_external_covariates] external_covariate_intercepts; // intercepts for the external covariates.
+  real<lower=0> phi_sigma; 
+  vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
 }
 transformed parameters {
     real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
@@ -56,7 +58,10 @@ model {
   }
   
   phi_offset ~ normal(0, 2);
-  phi ~ normal(phi_offset, 1); 
+  phi_sigma ~ normal(0, 1);
+  external_covariate_beta ~ normal(0, 1);
+  phi ~ normal(phi_offset + external_covariates * external_covariate_beta, phi_sigma);
+  // phi ~ normal(phi_offset, 1); 
   // model the classification results by Census tract for the UNANNOTATED images. 
   // note that this binomial statement should be equivalent a statement which increments the target directly, but that's more verbose. 
   n_non_annotated_by_area_classified_positive ~ binomial(n_non_annotated_by_area, p_y .* p_y_hat_1_given_y_1 + (1 - p_y) .* p_y_hat_1_given_y_0);
@@ -67,10 +72,10 @@ model {
     + sum(n_classified_negative_annotated_positive_by_area .* log(p_y * (1 - p_y_hat_1_given_y_1)))
     + sum(n_classified_negative_annotated_negative_by_area .* log((1 - p_y) * (1 - p_y_hat_1_given_y_0))));
 
-  external_covariate_intercepts ~ normal(0, 1);
-  external_covariate_slopes ~ normal(0, 100);
-  for(i in 1:n_external_covariates){
-    binary_external_covariates[,i] ~ bernoulli_logit(external_covariate_intercepts[i] + external_covariate_slopes[i] * p_y);
-  }
+  // external_covariate_intercepts ~ normal(0, 1);
+   // external_covariate_slopes ~ normal(0, 100);
+  // for(i in 1:n_external_covariates){
+  //   binary_external_covariates[,i] ~ bernoulli_logit(external_covariate_intercepts[i] + external_covariate_slopes[i] * p_y);
+  // }
   
 }
