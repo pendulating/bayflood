@@ -9,7 +9,7 @@
 #SBATCH --get-user-env 
 #SBATCH --mem=64gb
 #SBATCH -t 400:00:00 
-#SBATCH --partition=ju
+#SBATCH --partition=pierson
 
 
 pwd
@@ -20,4 +20,4 @@ source activate /share/ju/conda_virtualenvs/stan
 cd /share/ju/matt/street-flooding
 
 # args: icar_prior_setting, annotations_have_locations, use_simulated_data
-python icar_model.py --icar_prior_setting cheating --annotations_have_locations True  --simulated_data False
+python icar_model.py cheating --annotations_have_locations
