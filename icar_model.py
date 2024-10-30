@@ -264,7 +264,7 @@ class ICAR_MODEL:
                         self.logger.info("Building model with external covariates.")
                         model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
                             data=self.data_to_use['observed_data'])
-                        self.ADDITIONAL_PARAMS_TO_SAVE += ['phi_sigma', 'external_covariate_beta']
+                        self.ADDITIONAL_PARAMS_TO_SAVE +=  ['spatial_sigma', 'external_covariate_beta']
 
                     
                 else:

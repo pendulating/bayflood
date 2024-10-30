@@ -28,7 +28,6 @@ parameters {
 }
 transformed parameters {
     vector[N] phi = phi_offset + phi_spatial_component * spatial_sigma;
-    
     real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
     real p_y_1_given_y_hat_1 = inv_logit(logit_p_y_1_given_y_hat[2]);
     vector[N] p_y = inv_logit(phi);
@@ -51,10 +50,12 @@ model {
   // still, there's no computational reason you can't use another value. 
   phi_offset ~ normal(0, 2);
   if (use_ICAR_prior == 1) {
+    // just have the spatial component with an L2 loss tying adjacent areas together. 
     target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
     sum(phi_spatial_component) ~ normal(0, 0.001 * N);
     spatial_sigma ~ normal(0, 1);
   }else{
+    // now the spatial effects are just random effects (adjacent areas are uncorrelated, no smoothing). 
     phi_spatial_component ~ normal(0, 1); 
     spatial_sigma ~ normal(0, 1);
   }

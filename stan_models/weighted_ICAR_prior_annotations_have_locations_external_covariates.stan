@@ -26,11 +26,9 @@ data {
 parameters {
   real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
   ordered[2] logit_p_y_1_given_y_hat; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
-  // vector[n_external_covariates] external_covariate_slopes; // coefficients for the external covariates.
-  // vector[n_external_covariates] external_covariate_intercepts; // intercepts for the external covariates.
   real<lower=0> spatial_sigma; 
-  vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
   vector[N] phi_spatial_component;
+  vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
 }
 transformed parameters {
     vector[N] phi = phi_offset + external_covariates * external_covariate_beta + phi_spatial_component * spatial_sigma; 
@@ -54,12 +52,18 @@ model {
   // You can't just scale ICAR priors by random numbers; the only principled value for ICAR_prior_weight is 0.5. 
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
   // still, there's no computational reason you can't use another value. 
-  if (use_ICAR_prior == 1) {
-    target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
-  }
   phi_offset ~ normal(0, 2);
-  sum(phi_spatial_component) ~ normal(0, 0.001 * N);
-  spatial_sigma ~ normal(0, 1);
+  if (use_ICAR_prior == 1) {
+    // just have the spatial component with an L2 loss tying adjacent areas together. 
+    target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
+    sum(phi_spatial_component) ~ normal(0, 0.001 * N);
+    spatial_sigma ~ normal(0, 1);
+  }else{
+    // now the spatial effects are just random effects (adjacent areas are uncorrelated, no smoothing). 
+    phi_spatial_component ~ normal(0, 1); 
+    spatial_sigma ~ normal(0, 1);
+  }
+  
   external_covariate_beta ~ normal(0, 1);
   // model the classification results by Census tract for the UNANNOTATED images. 
   // note that this binomial statement should be equivalent a statement which increments the target directly, but that's more verbose. 
@@ -69,12 +73,5 @@ model {
   target += (sum(n_classified_positive_annotated_positive_by_area .* log(p_y * p_y_hat_1_given_y_1))
       + sum(n_classified_positive_annotated_negative_by_area .* log((1 - p_y) * p_y_hat_1_given_y_0))
     + sum(n_classified_negative_annotated_positive_by_area .* log(p_y * (1 - p_y_hat_1_given_y_1)))
-    + sum(n_classified_negative_annotated_negative_by_area .* log((1 - p_y) * (1 - p_y_hat_1_given_y_0))));
-
-  // external_covariate_intercepts ~ normal(0, 1);
-   // external_covariate_slopes ~ normal(0, 100);
-  // for(i in 1:n_external_covariates){
-  //   binary_external_covariates[,i] ~ bernoulli_logit(external_covariate_intercepts[i] + external_covariate_slopes[i] * p_y);
-  // }
-  
+    + sum(n_classified_negative_annotated_negative_by_area .* log((1 - p_y) * (1 - p_y_hat_1_given_y_0))));  
 }
