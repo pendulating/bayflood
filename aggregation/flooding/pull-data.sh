@@ -48,8 +48,19 @@ do
     OFFSET=$((OFFSET+LIMIT))
 done
 
-# concatenate all the files together
-cat data/nyc311_flooding_sep29_*.csv > data/nyc311_flooding_sep29.csv
+# delete joined file if it exists 
+if [ -f data/nyc311_flooding_sep29.csv ]; then
+    rm data/nyc311_flooding_sep29.csv
+fi
+
+# concatenate all the files together, but not the header row if it's not the first file
+for file in data/nyc311_flooding_sep29_*.csv; do
+    if [ -f data/nyc311_flooding_sep29.csv ]; then
+        tail -n +2 $file >> data/nyc311_flooding_sep29.csv
+    else
+        cat $file > data/nyc311_flooding_sep29.csv
+    fi
+done
 # delete the intermediate files
 rm data/nyc311_flooding_sep29_*.csv
 
