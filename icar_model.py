@@ -213,7 +213,7 @@ class ICAR_MODEL:
         self.RUNID = datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
         # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
-        self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/{self.RUNID}"
+        self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/covariates_{self.use_external_covariates}/{self.RUNID}"
 
         os.makedirs(f"runs/{self.RUNID}", exist_ok=True)
 
@@ -307,6 +307,7 @@ class ICAR_MODEL:
                 "RUNID": self.RUNID,
                 "ANNOTATIONS_HAVE_LOCATIONS": self.annotations_have_locations,
                 "SIMULATED_DATA": self.use_simulated_data,
+                "EXTERNAL_COVARIATES": self.use_external_covariates,
                 "CYCLES": CYCLES,
                 "WARMUP": WARMUP,
                 "SAMPLES": SAMPLES,
