@@ -37,7 +37,22 @@ nyc311_flooding_sep29_query='?$query=SELECT%0A%20%20%60unique_key%60%2C%0A%20%20
 
 
 # need to page through this api endpoint using offset, LIMIT rows at a time
-wget -O data/nyc311_flooding_sep29.csv "${nyc311}${nyc311_flooding_sep29_query} LIMIT 10000 OFFSET 0"
+OFFSET=0
+LIMIT=1000
+while true; 
+do
+    wget -O data/nyc311_flooding_sep29_${OFFSET}.csv "${nyc311}${nyc311_flooding_sep29_query} LIMIT ${LIMIT} OFFSET ${OFFSET}"
+    if [ $(wc -l < data/nyc311_flooding_sep29_${OFFSET}.csv) -lt $LIMIT ]; then
+        break
+    fi
+    OFFSET=$((OFFSET+LIMIT))
+done
+
+# concatenate all the files together
+cat data/nyc311_flooding_sep29_*.csv > data/nyc311_flooding_sep29.csv
+# delete the intermediate files
+rm data/nyc311_flooding_sep29_*.csv
+
 
 
 ## NYC DEP Stormwater Flooding Maps 
