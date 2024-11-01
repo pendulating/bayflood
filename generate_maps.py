@@ -111,8 +111,8 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
 
 
-    nyc_ct = gpd.read_file('aggregation/geo/data/ct-nyc-2020.geojson')
-    nyc_ct = nyc_ct.to_crs(PROJ)
+    ct_nyc = gpd.read_file('aggregation/geo/data/ct-nyc-2020.geojson')
+    ct_nyc = ct_nyc.to_crs(PROJ)
 
     logger.info("Loaded NYC census tract data.")
 
@@ -138,7 +138,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
     logger.info("Loaded and processed DEP stormwater moderate current conditions data.")
 
 
-    ct_enriched = nyc_ct.copy() 
+    ct_enriched = ct_nyc.copy() 
 
     # get nearest 311 complaint to each tract 
     ct_enriched = gpd.sjoin_nearest(ct_enriched, nyc_311, distance_col='nearest_report_to_ct')
@@ -163,7 +163,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
     # drop index_left, index_right, dont fail if they dont exist
     ct_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
 
-    nyc_311 = gpd.sjoin_nearest(nyc_311, nyc_ct, distance_col='nearest_complaint_to_ct')
+    nyc_311 = gpd.sjoin_nearest(nyc_311, ct_nyc, distance_col='nearest_complaint_to_ct')
     # drop index_right 
     nyc_311.drop(columns=['index_right'], inplace=True)
 
@@ -307,7 +307,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
             # Saving figures
             os.makedirs(f'runs/{run_id}/maps', exist_ok=True)
-            path = f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{BORO}_{i}_noagg_zoomin.png' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{i}_noagg.png'
+            path = f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{BORO}_{i}_noagg_zoomin.pdf' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{i}_noagg.pdf'
             plt.savefig(path, dpi=300, bbox_inches='tight', pad_inches=0.0)
             plt.close()
 
