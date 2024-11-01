@@ -221,7 +221,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
                 logger.info("Using lognorm for p_y")
                 # use lognorm for p_y 
                 from matplotlib.colors import LogNorm
-                norm = LogNorm(vmin=ct_enriched_for_plot['classified_positive'].quantile(0.05), vmax=ct_enriched_for_plot['classified_positive'].quantile(0.95))
+                norm = LogNorm(vmin=ct_enriched_for_plot['classified_positive'].quantile(0.003), vmax=ct_enriched_for_plot['classified_positive'].quantile(0.997))
                 # plot layer with census tracts, colored by classified_positive 
                 ct_enriched_for_plot.plot(
                     ax=ax, 
