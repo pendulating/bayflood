@@ -665,7 +665,7 @@ if __name__ == "__main__":
         ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
         EXTERNAL_COVARIATES=args.external_covariates,
         SIMULATED_DATA=args.simulated_data,
-        EMPIRICAL_DATA_PATH="aggregation/analysis_df_10242024.csv",
+        EMPIRICAL_DATA_PATH="aggregation/context_df_11082024.csv",
         adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
         adj_matrix_storage=False
     )
