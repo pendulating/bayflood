@@ -108,7 +108,7 @@ class ICAR_MODEL:
         self.icar_prior_setting = ICAR_PRIOR_SETTING
         assert self.icar_prior_setting in [
             "none",
-            "cheating",
+            "icar",
             "proper",
             "just_model_p_y",
         ]
@@ -217,8 +217,8 @@ class ICAR_MODEL:
         for i in range(CYCLES):
             self.load_data()
 
-            if self.icar_prior_setting == "cheating":
-                self.logger.info("Building model with cheating ICAR prior.")
+            if self.icar_prior_setting == "icar":
+                self.logger.info("Building model with ICAR prior.")
                 self.data_to_use["observed_data"]["use_ICAR_prior"] = 1
                 if self.annotations_have_locations:
                     self.logger.info(
