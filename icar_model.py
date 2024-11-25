@@ -127,9 +127,6 @@ class ICAR_MODEL:
             "uniform_p_y": open(
                 "stan_models/uniform_p_y_prior_just_for_debugging.stan"
             ).read(),
-            "weighted_ICAR_prior_annotations_have_locations": open(
-                "stan_models/weighted_ICAR_prior_annotations_have_locations.stan"
-            ).read(),
             "weighted_ICAR_prior_annotations_have_locations_external_covariates": open(
                 "stan_models/weighted_ICAR_prior_annotations_have_locations_external_covariates.stan"
             ).read(),
@@ -228,17 +225,12 @@ class ICAR_MODEL:
                     self.logger.info(
                         "Building model with annotations have locations."
                     )
-                    if not self.use_external_covariates:
-                        self.logger.info("Building model without external covariates.")
-                        model = stan.build(
-                            self.models["weighted_ICAR_prior_annotations_have_locations"],
-                            data=self.data_to_use["observed_data"],
-                        )
-                    else:
-                        self.logger.info("Building model with external covariates.")
-                        model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
-                            data=self.data_to_use['observed_data'])
-                        self.ADDITIONAL_PARAMS_TO_SAVE += ['spatial_sigma', 'external_covariate_beta']
+                    self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
+                    model = stan.build(
+                        self.models["weighted_ICAR_prior_annotations_have_locations_external_covariates"],
+                        data=self.data_to_use["observed_data"],
+                    )
+                    self.ADDITIONAL_PARAMS_TO_SAVE += ['spatial_sigma', 'external_covariate_beta']
 
                 else:
                     self.logger.info("Building model without annotation location data.")
@@ -254,17 +246,12 @@ class ICAR_MODEL:
                     self.logger.info(
                         "Building model with annotations have locations."
                     )
-                    if not self.use_external_covariates:
-                        self.logger.info("Building model without external covariates.")
-                        model = stan.build(
-                            self.models["weighted_ICAR_prior_annotations_have_locations"],
-                            data=self.data_to_use["observed_data"],
-                        )
-                    else:
-                        self.logger.info("Building model with external covariates.")
-                        model = stan.build(self.models['weighted_ICAR_prior_annotations_have_locations_external_covariates'], 
-                            data=self.data_to_use['observed_data'])
-                        self.ADDITIONAL_PARAMS_TO_SAVE +=  ['spatial_sigma', 'external_covariate_beta']
+                    self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
+                    model = stan.build(
+                        self.models["weighted_ICAR_prior_annotations_have_locations_external_covariates"],
+                        data=self.data_to_use["observed_data"],
+                    )
+                    self.ADDITIONAL_PARAMS_TO_SAVE +=  ['spatial_sigma', 'external_covariate_beta']
 
                     
                 else:
@@ -371,7 +358,6 @@ class ICAR_MODEL:
                     var_names=[
                         "p_y_hat_1_given_y_1",
                         "p_y_hat_1_given_y_0",
-                        "phi_offset",
                         "p_y_1_given_y_hat_1",
                         "p_y_1_given_y_hat_0",
                         "empirical_p_yhat",
@@ -387,7 +373,6 @@ class ICAR_MODEL:
                         var_names=[
                             "p_y_hat_1_given_y_1",
                             "p_y_hat_1_given_y_0",
-                            "phi_offset",
                             "p_y_1_given_y_hat_1",
                             "p_y_1_given_y_hat_0",
                             "empirical_p_yhat",
@@ -519,8 +504,8 @@ class ICAR_MODEL:
                     plt.legend()
 
                     # plot prior on p_y as vertical line.
-                    prior_on_p_y = expit(df["phi_offset"]).mean()
-                    plt.axhline(expit(prior_on_p_y), color="black", linestyle="--")
+                    #prior_on_p_y = expit(df["phi_offset"]).mean()
+                    #plt.axhline(expit(prior_on_p_y), color="black", linestyle="--")
                     is_nan = np.isnan(empirical_estimate)
                     plt.title(
                         rf"Corr. between empirical $p_{{\hat{{y}}}}$ and $p_y$, r={pearsonr(empirical_estimate[~is_nan], estimate[~is_nan])[0]:.2f}")

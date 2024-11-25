@@ -15,6 +15,7 @@ data {
   vector[N] n_classified_negative_annotated_negative_by_area;
   array[N] int<lower=0> n_non_annotated_by_area;
   array[N] int<lower=0> n_non_annotated_by_area_classified_positive;
+  real <upper=0> center_of_phi_offset_prior; 
 
   int<lower=0,upper=1> use_ICAR_prior; // 1 if you want to use ICAR prior, 0 if you don't. ICAR prior basically smooths the data. 
   real <lower=0> ICAR_prior_weight; // weight of ICAR prior.
@@ -24,14 +25,14 @@ data {
   matrix[N, n_external_covariates] external_covariates; // matrix with one row per Census tract and one column per external covariate.
 }
 parameters {
-  real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
+  //real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
   ordered[2] logit_p_y_1_given_y_hat; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
   real<lower=0> spatial_sigma; 
   vector[N] phi_spatial_component;
   vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
 }
 transformed parameters {
-    vector[N] phi = phi_offset + external_covariates * external_covariate_beta + phi_spatial_component * spatial_sigma; 
+    vector[N] phi = center_of_phi_offset_prior + external_covariates * external_covariate_beta + phi_spatial_component * spatial_sigma; 
     real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
     real p_y_1_given_y_hat_1 = inv_logit(logit_p_y_1_given_y_hat[2]);
     vector[N] p_y = inv_logit(phi);
@@ -52,7 +53,6 @@ model {
   // You can't just scale ICAR priors by random numbers; the only principled value for ICAR_prior_weight is 0.5. 
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
   // still, there's no computational reason you can't use another value. 
-  phi_offset ~ normal(0, 2);
   if (use_ICAR_prior == 1) {
     // just have the spatial component with an L2 loss tying adjacent areas together. 
     target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
@@ -64,7 +64,7 @@ model {
     spatial_sigma ~ normal(0, 1);
   }
   
-  external_covariate_beta ~ normal(0, 1);
+  external_covariate_beta ~ normal(0, 2); // we no longer need an explicit phi offset because it's wrapped into the intercept term. 
   // model the classification results by Census tract for the UNANNOTATED images. 
   // note that this binomial statement should be equivalent a statement which increments the target directly, but that's more verbose. 
   n_non_annotated_by_area_classified_positive ~ binomial(n_non_annotated_by_area, p_y .* p_y_hat_1_given_y_1 + (1 - p_y) .* p_y_hat_1_given_y_0);

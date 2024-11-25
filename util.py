@@ -125,9 +125,12 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 "n_classified_negative_annotated_negative_by_area": n_true_negative_classified_negative_by_area,
                 "n_classified_negative_annotated_positive_by_area": n_true_positive_classified_negative_by_area,
                 "n_non_annotated_by_area": n_non_annotated_by_area,
-                "n_non_annotated_by_area_classified_positive": n_non_annotated_by_area_classified_positive,
+                "n_non_annotated_by_area_classified_positive": n_non_annotated_by_area_classified_positive, 
+                "center_of_phi_offset_prior":-5
             }
-
+        
+        # column of ones for external covariates
+        observed_data['external_covariates'] = np.ones((N, 1)) # just an intercept term by default. 
         if use_external_covariates:
             df['any_311_report'] = False
             cols_to_use = []
@@ -142,9 +145,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 print("z-scoring external covariate column %i with mean %f and std %f" % (i, np.mean(external_covariate_matrix[:, i]), np.std(external_covariate_matrix[:, i])))
                 external_covariate_matrix[:, i] = (external_covariate_matrix[:, i] - np.mean(external_covariate_matrix[:, i])) / np.std(external_covariate_matrix[:, i])
 
-            observed_data['external_covariates'] = external_covariate_matrix
-            observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
-
+            observed_data['external_covariates'] = np.hstack((observed_data['external_covariates'], external_covariate_matrix))
+        observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
         return {"observed_data": observed_data}
     else:
         return {
