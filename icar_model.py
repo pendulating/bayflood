@@ -127,8 +127,8 @@ class ICAR_MODEL:
             "uniform_p_y": open(
                 "stan_models/uniform_p_y_prior_just_for_debugging.stan"
             ).read(),
-            "weighted_ICAR_prior_annotations_have_locations_external_covariates": open(
-                "stan_models/weighted_ICAR_prior_annotations_have_locations_external_covariates.stan"
+            "ICAR_prior_annotations_have_locations": open(
+                "stan_models/ICAR_prior_annotations_have_locations.stan"
             ).read(),
         }
 
@@ -227,7 +227,7 @@ class ICAR_MODEL:
                     )
                     self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
                     model = stan.build(
-                        self.models["weighted_ICAR_prior_annotations_have_locations_external_covariates"],
+                        self.models["ICAR_prior_annotations_have_locations"],
                         data=self.data_to_use["observed_data"],
                     )
                     self.ADDITIONAL_PARAMS_TO_SAVE += ['spatial_sigma', 'external_covariate_beta']
@@ -248,7 +248,7 @@ class ICAR_MODEL:
                     )
                     self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
                     model = stan.build(
-                        self.models["weighted_ICAR_prior_annotations_have_locations_external_covariates"],
+                        self.models["ICAR_prior_annotations_have_locations"],
                         data=self.data_to_use["observed_data"],
                     )
                     self.ADDITIONAL_PARAMS_TO_SAVE +=  ['spatial_sigma', 'external_covariate_beta']
