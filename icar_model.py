@@ -220,7 +220,6 @@ class ICAR_MODEL:
             if self.icar_prior_setting == "cheating":
                 self.logger.info("Building model with cheating ICAR prior.")
                 self.data_to_use["observed_data"]["use_ICAR_prior"] = 1
-                self.data_to_use["observed_data"]["ICAR_prior_weight"] = 0.5
                 if self.annotations_have_locations:
                     self.logger.info(
                         "Building model with annotations have locations."
@@ -241,7 +240,6 @@ class ICAR_MODEL:
             elif self.icar_prior_setting == "none":
                 self.logger.info("Building model with no ICAR prior.")
                 self.data_to_use["observed_data"]["use_ICAR_prior"] = 0
-                self.data_to_use["observed_data"]["ICAR_prior_weight"] = 0
                 if self.annotations_have_locations:
                     self.logger.info(
                         "Building model with annotations have locations."
@@ -277,7 +275,7 @@ class ICAR_MODEL:
                 raise ValueError("Invalid icar_prior_options", self.icar_prior_setting)
 
 
-            self.logger.info(f"Successfully built the model, with use_icar_prior: {self.data_to_use['observed_data']['use_ICAR_prior']} and icar_prior_weight: {self.data_to_use['observed_data']['ICAR_prior_weight']}.")
+            self.logger.info(f"Successfully built the model, with use_icar_prior: {self.data_to_use['observed_data']['use_ICAR_prior']}.")
 
             with warnings.catch_warnings(action="ignore"):
                 fit = model.sample(num_chains=4, num_warmup=WARMUP, num_samples=SAMPLES)
@@ -299,7 +297,6 @@ class ICAR_MODEL:
                 "WARMUP": WARMUP,
                 "SAMPLES": SAMPLES,
                 "use_icar_prior": self.data_to_use["observed_data"]["use_ICAR_prior"],
-                "icar_prior_weight": self.data_to_use["observed_data"]["ICAR_prior_weight"],
                 "icar_prior_setting": self.icar_prior_setting,
                 "N_ANNOTATED_CLASSIFIED_NEGATIVE": self.N_ANNOTATED_CLASSIFIED_NEGATIVE,
                 "N_ANNOTATED_CLASSIFIED_POSITIVE": self.N_ANNOTATED_CLASSIFIED_POSITIVE,

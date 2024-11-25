@@ -18,7 +18,6 @@ data {
   real <upper=0> center_of_phi_offset_prior; 
 
   int<lower=0,upper=1> use_ICAR_prior; // 1 if you want to use ICAR prior, 0 if you don't. ICAR prior basically smooths the data. 
-  real <lower=0> ICAR_prior_weight; // weight of ICAR prior.
 
   // external covariate matrix. This part is new. 
   int<lower=1> n_external_covariates; // number of external covariates.
@@ -52,10 +51,9 @@ transformed parameters {
 model {
   // You can't just scale ICAR priors by random numbers; the only principled value for ICAR_prior_weight is 0.5. 
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
-  // still, there's no computational reason you can't use another value. 
   if (use_ICAR_prior == 1) {
     // just have the spatial component with an L2 loss tying adjacent areas together. 
-    target += -ICAR_prior_weight * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
+    target += -0.5 * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
     sum(phi_spatial_component) ~ normal(0, 0.001 * N);
     spatial_sigma ~ normal(0, 1);
   }else{
