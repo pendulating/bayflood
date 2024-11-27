@@ -51,6 +51,7 @@ transformed parameters {
 model {
   // You can't just scale ICAR priors by random numbers; the only principled value for ICAR_prior_weight is 0.5. 
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
+  # see https://mc-stan.org/users/documentation/case-studies/icar_stan.html for source. 
   if (use_ICAR_prior == 1) {
     // just have the spatial component with an L2 loss tying adjacent areas together. 
     target += -0.5 * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
@@ -63,6 +64,7 @@ model {
   }
   
   external_covariate_beta ~ normal(0, 2); // we no longer need an explicit phi offset because it's wrapped into the intercept term. 
+  
   // model the classification results by Census tract for the UNANNOTATED images. 
   // note that this binomial statement should be equivalent a statement which increments the target directly, but that's more verbose. 
   n_non_annotated_by_area_classified_positive ~ binomial(n_non_annotated_by_area, p_y .* p_y_hat_1_given_y_1 + (1 - p_y) .* p_y_hat_1_given_y_0);
