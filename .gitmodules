@@ -4,3 +4,6 @@
 [submodule "cambrian"]
 	path = cambrian
 	url = git@github.com:cambrian-mllm/cambrian.git
+[submodule "KDD-2025-Matt-Flooding-Paper"]
+	path = KDD-2025-Matt-Flooding-Paper
+	url = git@github.com:mattwfranchi/KDD-2025-Matt-Flooding-Paper.git
