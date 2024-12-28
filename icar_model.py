@@ -7,8 +7,12 @@
 
 ## Module Imports 
 import util
+from IPython import embed
+
 
 import json
+from copy import deepcopy
+from sklearn.metrics import roc_auc_score
 import datetime
 import os
 import logger
@@ -206,7 +210,8 @@ class ICAR_MODEL:
 
 
 
-    def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500):
+    def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500, data_already_loaded=False):
+        # pass in reload_data = False if you want to use data that's already been loaded in. 
         self.RUNID = datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
         # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
@@ -215,7 +220,8 @@ class ICAR_MODEL:
         os.makedirs(f"runs/{self.RUNID}", exist_ok=True)
 
         for i in range(CYCLES):
-            self.load_data()
+            if not data_already_loaded:
+                self.load_data()
 
             if self.icar_prior_setting == "icar":
                 self.logger.info("Building model with ICAR prior.")
@@ -316,6 +322,93 @@ class ICAR_MODEL:
 
 
             return fit, df
+        
+    def divide_data(self, full_dataset, train_frac=0.7):
+        train_data = {}
+        test_data = {}
+        full_dataset = deepcopy(full_dataset)
+        full_dataset['observed_data']['n_non_annotated_by_area_classified_negative'] = full_dataset['observed_data']['n_non_annotated_by_area'] - full_dataset['observed_data']['n_non_annotated_by_area_classified_positive']
+        for k in full_dataset['observed_data']:
+            if k in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
+                train_data[k] = deepcopy(full_dataset['observed_data'][k])
+                test_data[k] = deepcopy(full_dataset['observed_data'][k])
+        for k in ['n_classified_positive_annotated_positive_by_area', 
+                       'n_classified_positive_annotated_negative_by_area', 
+                       'n_classified_negative_annotated_negative_by_area', 
+                       'n_classified_negative_annotated_positive_by_area', 
+                       'n_non_annotated_by_area_classified_positive', 
+                       'n_non_annotated_by_area_classified_negative']:
+                n_in_train = np.random.binomial(full_dataset['observed_data'][k], train_frac)
+                n_in_test = full_dataset['observed_data'][k] - n_in_train
+                train_data[k] = n_in_train
+                test_data[k] = n_in_test
+        train_data['n_non_annotated_by_area'] = train_data['n_non_annotated_by_area_classified_positive'] + train_data['n_non_annotated_by_area_classified_negative']
+        test_data['n_non_annotated_by_area'] = test_data['n_non_annotated_by_area_classified_positive'] + test_data['n_non_annotated_by_area_classified_negative']
+        train_data['n_images_by_area'] = train_data['n_non_annotated_by_area'] + train_data['n_classified_positive_annotated_positive_by_area'] + train_data['n_classified_positive_annotated_negative_by_area'] + train_data['n_classified_negative_annotated_negative_by_area'] + train_data['n_classified_negative_annotated_positive_by_area']
+        test_data['n_images_by_area'] = test_data['n_non_annotated_by_area'] + test_data['n_classified_positive_annotated_positive_by_area'] + test_data['n_classified_positive_annotated_negative_by_area'] + test_data['n_classified_negative_annotated_negative_by_area'] + test_data['n_classified_negative_annotated_positive_by_area']
+        train_data['n_classified_positive_by_area'] = train_data['n_classified_positive_annotated_positive_by_area'] + train_data['n_classified_positive_annotated_negative_by_area'] + train_data['n_non_annotated_by_area_classified_positive']
+        test_data['n_classified_positive_by_area'] = test_data['n_classified_positive_annotated_positive_by_area'] + test_data['n_classified_positive_annotated_negative_by_area'] + test_data['n_non_annotated_by_area_classified_positive']
+
+        for k in full_dataset['observed_data'].keys():
+            if k not in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
+                assert train_data[k].sum() + test_data[k].sum() == full_dataset['observed_data'][k].sum()
+        print("With a train frac of %2.3f, train set has %i total images; test set has %i" % 
+                (train_frac, train_data['n_images_by_area'].sum(), test_data['n_images_by_area'].sum()))
+        return train_data, test_data
+        
+
+    def extract_baselines(self, data):
+        frac_positive_classifications_baseline = data['n_classified_positive_by_area'] / data['n_images_by_area']
+        is_na = np.isnan(frac_positive_classifications_baseline)
+        print("warning: fraction %2.3f entries of positive classifications are NA; imputing with mean" % (is_na.mean()))
+        frac_positive_classifications_baseline[is_na] = 1. * data['n_classified_positive_by_area'].sum() / data['n_images_by_area'].sum()
+        
+        frac_positive_ground_truth_baseline = ((data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']) / 
+                                                  (data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_positive_annotated_negative_by_area'] + 
+                                                    data['n_classified_negative_annotated_negative_by_area'] + data['n_classified_negative_annotated_positive_by_area']))
+        is_na = np.isnan(frac_positive_ground_truth_baseline)
+        print("warning: fraction %2.3f entries of positive ground truth are NA; imputing with zero" % (is_na.mean()))
+        print("We can do better than imputing with 0 (maybe??) - fix this!") 
+        frac_positive_ground_truth_baseline[is_na] = 0
+
+        any_positive_classifications_baseline = 1. * (data['n_classified_positive_by_area'] > 0)
+        any_positive_ground_truth_baseline = 1. * ((data['n_classified_positive_annotated_positive_by_area'] + 
+                                                    data['n_classified_negative_annotated_positive_by_area']) > 0)
+        
+        estimates = {'frac_positive_classifications':frac_positive_classifications_baseline, 
+                     'any_positive_classifications':any_positive_classifications_baseline, 
+                     'n_positive_classifications':data['n_classified_positive_by_area'],
+                     'any_positive_ground_truth':any_positive_ground_truth_baseline, 
+                     'SKETCHY frac_positive_ground_truth':frac_positive_ground_truth_baseline, 
+                     'n_positive_ground_truth':data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']}
+        return estimates
+        
+    def compare_to_baselines(self, train_frac = 0.2):
+        """
+        fit on train set, assess on test set, compare to baselines estimated in extract_baselines. 
+        """
+        self.load_data()
+        train_data, test_data = self.divide_data(self.data_to_use, train_frac=train_frac)
+
+        self.data_to_use = {'observed_data':train_data}
+        fit, df = self.fit(CYCLES=1, WARMUP=500, SAMPLES=500, data_already_loaded=True)
+
+        p_y_bayesian_estimate = np.array([df['p_y.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
+        at_least_one_positive_by_area_bayesian_estimate = np.array([df['at_least_one_positive_image_by_area.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
+        method_and_baselines = self.extract_baselines(train_data)
+        method_and_baselines['bayesian_model_p_y'] = p_y_bayesian_estimate
+        method_and_baselines['bayesian_model_at_least_one_positive_by_area'] = at_least_one_positive_by_area_bayesian_estimate
+        
+        ground_truth = self.extract_baselines(test_data)
+
+        performance = {}
+        for estimate in method_and_baselines:
+            performance[estimate] = {}
+            performance[estimate]['pearson r, frac_positive_classifications'] = pearsonr(method_and_baselines[estimate], ground_truth['frac_positive_classifications'])[0]
+            performance[estimate]['AUC, any ground truth positive'] = roc_auc_score(ground_truth['any_positive_ground_truth'], method_and_baselines[estimate])
+            performance[estimate]['AUC, any classified positive'] = roc_auc_score(ground_truth['any_positive_classifications'], method_and_baselines[estimate])
+        print(pd.DataFrame(performance).transpose())
+        return performance
 
     def plot_results(self, fit, df):
         if self.icar_prior_setting == "just_model_p_y":
@@ -638,26 +731,37 @@ if __name__ == "__main__":
         help="Set to True if external covariates are used. Default is False."
     )
 
+    parser.add_argument(
+        '--compare_to_baselines', 
+        action='store_true',
+        help='run comparisons to baselines')
+
     # Parse the arguments
     args = parser.parse_args()
 
     model = ICAR_MODEL(
-        ICAR_PRIOR_SETTING=args.icar_prior_setting,
-        ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
-        ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
-        EXTERNAL_COVARIATES=args.external_covariates,
-        SIMULATED_DATA=args.simulated_data,
-        EMPIRICAL_DATA_PATH="aggregation/context_df_11082024.csv",
-        adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
-        adj_matrix_storage=False
-    )
-    #
-    fit, df = model.fit(CYCLES=1, WARMUP=500, SAMPLES=500)
-    model.plot_histogram(fit, df)
-    model.plot_scatter(fit, df)
-    model.plot_results(fit, df)
-    model.write_estimate(fit, df)
-    model.logger.info(f"Generating maps for {model.RUNID}")
-    generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area')
-    generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
-    model.logger.success("All items in main program routine completed.")
+            ICAR_PRIOR_SETTING=args.icar_prior_setting,
+            ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
+            ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
+            EXTERNAL_COVARIATES=args.external_covariates,
+            SIMULATED_DATA=args.simulated_data,
+            EMPIRICAL_DATA_PATH="aggregation/context_df_11082024.csv",
+            adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
+            adj_matrix_storage=False
+        )
+
+    if args.compare_to_baselines:
+        model.logger.info("Running comparisons to baselines.")
+        model.compare_to_baselines()
+    else:   
+        
+        #
+        fit, df = model.fit(CYCLES=1, WARMUP=500, SAMPLES=500)
+        model.plot_histogram(fit, df)
+        model.plot_scatter(fit, df)
+        model.plot_results(fit, df)
+        model.write_estimate(fit, df)
+        model.logger.info(f"Generating maps for {model.RUNID}")
+        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area')
+        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
+        model.logger.success("All items in main program routine completed.")
