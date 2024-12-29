@@ -23,7 +23,7 @@ if multiprocessing.get_start_method(allow_none=True) is None:
 import pandas as pd
 import stan
 import numpy as np
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, spearmanr
 import arviz as az
 from scipy.special import expit
 import matplotlib.pyplot as plt
@@ -211,7 +211,8 @@ class ICAR_MODEL:
 
 
     def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500, data_already_loaded=False):
-        # pass in reload_data = False if you want to use data that's already been loaded in. 
+        # pass in data_already_loaded = True if you want to use data that's already been loaded in. 
+        # by default the method reloads the data. 
         self.RUNID = datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
         # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
@@ -323,25 +324,31 @@ class ICAR_MODEL:
 
             return fit, df
         
-    def divide_data(self, full_dataset, train_frac=0.7):
+    def divide_data_into_train_and_test_set(self, full_dataset, train_frac=0.7):
+        """
+        Partitions the images into a train and test set. For each Census tract, randomly 
+        assigns a fraction of the images to the train set, and the rest to the test set.
+        This is a bit tricky to do because the raw data comes as counts. 
+        """
         train_data = {}
         test_data = {}
         full_dataset = deepcopy(full_dataset)
+        # add a convenience field because it makes the rest of the code easier to write succinctly. 
         full_dataset['observed_data']['n_non_annotated_by_area_classified_negative'] = full_dataset['observed_data']['n_non_annotated_by_area'] - full_dataset['observed_data']['n_non_annotated_by_area_classified_positive']
         for k in full_dataset['observed_data']:
             if k in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
                 train_data[k] = deepcopy(full_dataset['observed_data'][k])
                 test_data[k] = deepcopy(full_dataset['observed_data'][k])
         for k in ['n_classified_positive_annotated_positive_by_area', 
-                       'n_classified_positive_annotated_negative_by_area', 
-                       'n_classified_negative_annotated_negative_by_area', 
-                       'n_classified_negative_annotated_positive_by_area', 
-                       'n_non_annotated_by_area_classified_positive', 
-                       'n_non_annotated_by_area_classified_negative']:
-                n_in_train = np.random.binomial(full_dataset['observed_data'][k], train_frac)
-                n_in_test = full_dataset['observed_data'][k] - n_in_train
-                train_data[k] = n_in_train
-                test_data[k] = n_in_test
+                  'n_classified_positive_annotated_negative_by_area', 
+                  'n_classified_negative_annotated_negative_by_area', 
+                  'n_classified_negative_annotated_positive_by_area', 
+                  'n_non_annotated_by_area_classified_positive', 
+                  'n_non_annotated_by_area_classified_negative']:
+                train_data[k] = np.random.binomial(full_dataset['observed_data'][k], train_frac)
+                test_data[k] = full_dataset['observed_data'][k] - train_data[k]
+                assert (train_data[k] >= 0).all()
+                assert (test_data[k] >= 0).all()
         train_data['n_non_annotated_by_area'] = train_data['n_non_annotated_by_area_classified_positive'] + train_data['n_non_annotated_by_area_classified_negative']
         test_data['n_non_annotated_by_area'] = test_data['n_non_annotated_by_area_classified_positive'] + test_data['n_non_annotated_by_area_classified_negative']
         train_data['n_images_by_area'] = train_data['n_non_annotated_by_area'] + train_data['n_classified_positive_annotated_positive_by_area'] + train_data['n_classified_positive_annotated_negative_by_area'] + train_data['n_classified_negative_annotated_negative_by_area'] + train_data['n_classified_negative_annotated_positive_by_area']
@@ -351,62 +358,60 @@ class ICAR_MODEL:
 
         for k in full_dataset['observed_data'].keys():
             if k not in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
-                assert train_data[k].sum() + test_data[k].sum() == full_dataset['observed_data'][k].sum()
+                assert (train_data[k] + test_data[k] == full_dataset['observed_data'][k]).all()
         print("With a train frac of %2.3f, train set has %i total images; test set has %i" % 
                 (train_frac, train_data['n_images_by_area'].sum(), test_data['n_images_by_area'].sum()))
         return train_data, test_data
         
 
     def extract_baselines(self, data):
+        """
+        extracts various simple baselines from the data. 
+        We actually end up running this on both the train set (where it's genuinely used to create baselines)
+        and the test set (where it's used to create ground-truth measures to validate against). 
+        """
         frac_positive_classifications_baseline = data['n_classified_positive_by_area'] / data['n_images_by_area']
         is_na = np.isnan(frac_positive_classifications_baseline)
-        print("warning: fraction %2.3f entries of positive classifications are NA; imputing with mean" % (is_na.mean()))
+        print("warning: fraction %2.3f entries of frac_positive_classifications_baseline are NA; imputing with mean" % (is_na.mean()))
         frac_positive_classifications_baseline[is_na] = 1. * data['n_classified_positive_by_area'].sum() / data['n_images_by_area'].sum()
-        
-        frac_positive_ground_truth_baseline = ((data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']) / 
-                                                  (data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_positive_annotated_negative_by_area'] + 
-                                                    data['n_classified_negative_annotated_negative_by_area'] + data['n_classified_negative_annotated_positive_by_area']))
-        is_na = np.isnan(frac_positive_ground_truth_baseline)
-        print("warning: fraction %2.3f entries of positive ground truth are NA; imputing with zero" % (is_na.mean()))
-        print("We can do better than imputing with 0 (maybe??) - fix this!") 
-        frac_positive_ground_truth_baseline[is_na] = 0
-
-        any_positive_classifications_baseline = 1. * (data['n_classified_positive_by_area'] > 0)
-        any_positive_ground_truth_baseline = 1. * ((data['n_classified_positive_annotated_positive_by_area'] + 
-                                                    data['n_classified_negative_annotated_positive_by_area']) > 0)
+        # not including fraction of positives among ground truth for now because 
+        # there are too many NAs and it's not clear to me what the appropriate thing to fill that in with is. 
         
         estimates = {'frac_positive_classifications':frac_positive_classifications_baseline, 
-                     'any_positive_classifications':any_positive_classifications_baseline, 
+                     'any_positive_classifications': 1. * (data['n_classified_positive_by_area'] > 0), 
                      'n_positive_classifications':data['n_classified_positive_by_area'],
-                     'any_positive_ground_truth':any_positive_ground_truth_baseline, 
-                     'SKETCHY frac_positive_ground_truth':frac_positive_ground_truth_baseline, 
-                     'n_positive_ground_truth':data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']}
+                     'any_positive_ground_truth':1. * ((data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']) > 0), 
+                     'n_positive_ground_truth':data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']
+                     }
         return estimates
         
-    def compare_to_baselines(self, train_frac = 0.2):
+    def compare_to_baselines(self, train_frac=0.2):
         """
         fit on train set, assess on test set, compare to baselines estimated in extract_baselines. 
         """
         self.load_data()
-        train_data, test_data = self.divide_data(self.data_to_use, train_frac=train_frac)
+        train_data, test_data = self.divide_data_into_train_and_test_set(self.data_to_use, train_frac=train_frac)
+        method_and_baselines = self.extract_baselines(train_data)
+        ground_truth = self.extract_baselines(test_data)
 
         self.data_to_use = {'observed_data':train_data}
         fit, df = self.fit(CYCLES=1, WARMUP=500, SAMPLES=500, data_already_loaded=True)
 
         p_y_bayesian_estimate = np.array([df['p_y.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
         at_least_one_positive_by_area_bayesian_estimate = np.array([df['at_least_one_positive_image_by_area.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
-        method_and_baselines = self.extract_baselines(train_data)
+        
         method_and_baselines['bayesian_model_p_y'] = p_y_bayesian_estimate
         method_and_baselines['bayesian_model_at_least_one_positive_by_area'] = at_least_one_positive_by_area_bayesian_estimate
         
-        ground_truth = self.extract_baselines(test_data)
-
         performance = {}
+        no_images_in_test = test_data['n_images_by_area'] == 0
+        print("warning: test set has fraction %2.3f tracts with no images; not using these in evals" % no_images_in_test.mean())
         for estimate in method_and_baselines:
             performance[estimate] = {}
-            performance[estimate]['pearson r, frac_positive_classifications'] = pearsonr(method_and_baselines[estimate], ground_truth['frac_positive_classifications'])[0]
-            performance[estimate]['AUC, any ground truth positive'] = roc_auc_score(ground_truth['any_positive_ground_truth'], method_and_baselines[estimate])
-            performance[estimate]['AUC, any classified positive'] = roc_auc_score(ground_truth['any_positive_classifications'], method_and_baselines[estimate])
+            performance[estimate]['pearson r, frac_positive_classifications'] = pearsonr(method_and_baselines[estimate][~no_images_in_test], ground_truth['frac_positive_classifications'][~no_images_in_test])[0]
+            performance[estimate]['spearman r, frac_positive_classifications'] = spearmanr(method_and_baselines[estimate][~no_images_in_test], ground_truth['frac_positive_classifications'][~no_images_in_test])[0]
+            performance[estimate]['AUC, any ground truth positive'] = roc_auc_score(ground_truth['any_positive_ground_truth'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
+            performance[estimate]['AUC, any classified positive'] = roc_auc_score(ground_truth['any_positive_classifications'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
         print(pd.DataFrame(performance).transpose())
         return performance
 
