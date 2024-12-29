@@ -432,6 +432,7 @@ class ICAR_MODEL:
                         'RandomForest_pred_frac_positive_classifications':RandomForest_pred_frac_positive_classifications,
                         'RandomForest_pred_n_positive_ground_truth':RandomForest_pred_n_positive_ground_truth
                      }
+        
         return estimates
         
     def compare_to_baselines(self, train_frac=0.2):
