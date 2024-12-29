@@ -13,6 +13,8 @@ from IPython import embed
 import json
 from copy import deepcopy
 from sklearn.metrics import roc_auc_score
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
 import datetime
 import os
 import logger
@@ -26,6 +28,7 @@ import numpy as np
 from scipy.stats import pearsonr, spearmanr
 import arviz as az
 from scipy.special import expit
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import nest_asyncio
 
@@ -363,6 +366,21 @@ class ICAR_MODEL:
                 (train_frac, train_data['n_images_by_area'].sum(), test_data['n_images_by_area'].sum()))
         return train_data, test_data
         
+    def construct_graph_laplacian_baseline(self, N, N_edges, node1, node2, y, alpha=0.01, iterations=1):
+        y = deepcopy(y)
+        A = np.zeros((N, N))
+        A[node1 - 1, node2 - 1] = 1
+        assert A.sum() == N_edges == len(node1) == len(node2)
+        assert (node1 != node2).all()
+        assert (A == (A.T)).all()
+        degrees = A.sum(axis=1)
+        D = np.diag(degrees)
+        L = D - A
+        for _ in range(iterations):
+            assert (L@y).shape == y.shape
+            y = y - alpha * (L @ y)
+        return y
+
 
     def extract_baselines(self, data):
         """
@@ -370,18 +388,49 @@ class ICAR_MODEL:
         We actually end up running this on both the train set (where it's genuinely used to create baselines)
         and the test set (where it's used to create ground-truth measures to validate against). 
         """
+        
         frac_positive_classifications_baseline = data['n_classified_positive_by_area'] / data['n_images_by_area']
         is_na = np.isnan(frac_positive_classifications_baseline)
         print("warning: fraction %2.3f entries of frac_positive_classifications_baseline are NA; imputing with mean" % (is_na.mean()))
         frac_positive_classifications_baseline[is_na] = 1. * data['n_classified_positive_by_area'].sum() / data['n_images_by_area'].sum()
         # not including fraction of positives among ground truth for now because 
         # there are too many NAs and it's not clear to me what the appropriate thing to fill that in with is. 
+
+
+        # also include some more sophisticated ML methods that use the graph laplacian. 
+        graph_laplacian_frac_pos_classifications_one_iter = self.construct_graph_laplacian_baseline(N=data['N'], N_edges=data['N_edges'], node1=np.array(data['node1']), node2=np.array(data['node2']), 
+                                                                                    y=frac_positive_classifications_baseline, iterations=1)
+        graph_laplacian_frac_pos_classifications_five_iter = self.construct_graph_laplacian_baseline(N=data['N'], N_edges=data['N_edges'], node1=np.array(data['node1']), node2=np.array(data['node2']),
+                                                                                    y=frac_positive_classifications_baseline, iterations=5)
         
-        estimates = {'frac_positive_classifications':frac_positive_classifications_baseline, 
+        graph_laplacian_n_positive_ground_truth_one_iter = self.construct_graph_laplacian_baseline(N=data['N'], N_edges=data['N_edges'], node1=np.array(data['node1']), node2=np.array(data['node2']), 
+                                                                                    y=data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area'], iterations=1)
+        graph_laplacian_n_positive_ground_truth_five_iter = self.construct_graph_laplacian_baseline(N=data['N'], N_edges=data['N_edges'], node1=np.array(data['node1']), node2=np.array(data['node2']),
+                                                                                    y=data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area'], iterations=5)
+        # supervised baselines which predict outcome from external covariates
+        assert (data['external_covariates'][:, 0] == 1).all()
+        X = data['external_covariates'][:, 1:]
+        OLS_pred_frac_positive_classifications = LinearRegression().fit(X, frac_positive_classifications_baseline).predict(X)
+        OLS_pred_n_positive_ground_truth = LinearRegression().fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
+        RandomForest_pred_frac_positive_classifications = RandomForestRegressor().fit(X, frac_positive_classifications_baseline).predict(X)
+        RandomForest_pred_n_positive_ground_truth = RandomForestRegressor().fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
+        
+        estimates = {# heuristic baselines
+                    'frac_positive_classifications':frac_positive_classifications_baseline, 
                      'any_positive_classifications': 1. * (data['n_classified_positive_by_area'] > 0), 
                      'n_positive_classifications':data['n_classified_positive_by_area'],
                      'any_positive_ground_truth':1. * ((data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']) > 0), 
-                     'n_positive_ground_truth':data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']
+                     'n_positive_ground_truth':data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area'],
+                    # graph laplacian baselines
+                     'graph_laplacian_frac_pos_classifications_one_iter':graph_laplacian_frac_pos_classifications_one_iter,
+                        'graph_laplacian_frac_pos_classifications_five_iter':graph_laplacian_frac_pos_classifications_five_iter,
+                        'graph_laplacian_n_positive_ground_truth_one_iter':graph_laplacian_n_positive_ground_truth_one_iter, 
+                        'graph_laplacian_n_positive_ground_truth_five_iter':graph_laplacian_n_positive_ground_truth_five_iter,
+                        # supervised learning baselines
+                        'OLS_pred_frac_positive_classifications':OLS_pred_frac_positive_classifications,
+                        'OLS_pred_n_positive_ground_truth':OLS_pred_n_positive_ground_truth, 
+                        'RandomForest_pred_frac_positive_classifications':RandomForest_pred_frac_positive_classifications,
+                        'RandomForest_pred_n_positive_ground_truth':RandomForest_pred_n_positive_ground_truth
                      }
         return estimates
         
@@ -389,6 +438,9 @@ class ICAR_MODEL:
         """
         fit on train set, assess on test set, compare to baselines estimated in extract_baselines. 
         """
+        pd.set_option('display.width', 1000)
+        pd.set_option('display.max_rows', 50)
+        pd.set_option('display.max_columns', 50)
         self.load_data()
         train_data, test_data = self.divide_data_into_train_and_test_set(self.data_to_use, train_frac=train_frac)
         method_and_baselines = self.extract_baselines(train_data)
@@ -409,7 +461,6 @@ class ICAR_MODEL:
         for estimate in method_and_baselines:
             performance[estimate] = {}
             performance[estimate]['pearson r, frac_positive_classifications'] = pearsonr(method_and_baselines[estimate][~no_images_in_test], ground_truth['frac_positive_classifications'][~no_images_in_test])[0]
-            performance[estimate]['spearman r, frac_positive_classifications'] = spearmanr(method_and_baselines[estimate][~no_images_in_test], ground_truth['frac_positive_classifications'][~no_images_in_test])[0]
             performance[estimate]['AUC, any ground truth positive'] = roc_auc_score(ground_truth['any_positive_ground_truth'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
             performance[estimate]['AUC, any classified positive'] = roc_auc_score(ground_truth['any_positive_classifications'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
         print(pd.DataFrame(performance).transpose())
