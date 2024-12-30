@@ -4,7 +4,7 @@
 // This assumes we have location information for each annotation. 
 data {
   int<lower=0> N; // number of Census tracts. 
-  int<lower=0> N_edges; // number of edges in the graph (i.e. number of pairs of adjacent Census tracts). 
+  int<lower=0> N_edges; // number of edges in the graph (i.e. number of pairs of adjacent Census tracts) such that i < j. 
   array[N_edges] int<lower=1, upper=N> node1; // node1[i] adjacent to node2[i]
   array[N_edges] int<lower=1, upper=N> node2; // and node1[i] < node2[i]
   vector[N] n_images_by_area; // vector with one entry per Census tract of the number of images in that tract. 

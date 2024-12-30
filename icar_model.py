@@ -371,7 +371,8 @@ class ICAR_MODEL:
         y = deepcopy(y)
         A = np.zeros((N, N))
         A[node1 - 1, node2 - 1] = 1
-        assert A.sum() == N_edges == len(node1) == len(node2)
+        A[node2 - 1, node1 - 1] = 1
+        assert A.sum() == 2 * N_edges == 2 * len(node1) == 2 * len(node2)
         assert (node1 != node2).all()
         assert (A == (A.T)).all()
         degrees = A.sum(axis=1)

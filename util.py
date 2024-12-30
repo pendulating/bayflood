@@ -43,6 +43,18 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
             with open(adj[1], "r") as f:
                 node2 = [int(line) for line in f]
 
+            remove_duplicates_node1 = []
+            remove_duplicates_node2 = []
+            for i in range(len(node1)):
+                assert node1[i] != node2[i]
+                if node1[i] < node2[i]:
+                    remove_duplicates_node1.append(node1[i])
+                    remove_duplicates_node2.append(node2[i])
+            node1 = remove_duplicates_node1
+            node2 = remove_duplicates_node2
+            assert (np.array(node1) < np.array(node2)).all()
+            
+
             logger.info(f"Read node1 of length: {len(node1)}")
             logger.info(f"Read node2 of length: {len(node2)}")
             
