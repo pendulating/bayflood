@@ -50,6 +50,7 @@ model {
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
   // see https://mc-stan.org/users/documentation/case-studies/icar_stan.html for source. 
   spatial_sigma ~ normal(0, 1);
+  logit_p_yhat_1_given_y ~ normal(0, 2); 
   if (use_ICAR_prior == 1) {
     // just have the spatial component with an L2 loss tying adjacent areas together. 
     target += -0.5 * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
