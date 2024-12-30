@@ -25,19 +25,16 @@ data {
 }
 parameters {
   //real<upper=0> phi_offset; // this is the mean from which phis are drawn. Upper bound at 0 to rule out bad modes and set prior that true positives are rare. 
-  ordered[2] logit_p_y_1_given_y_hat; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
+  ordered[2] logit_p_yhat_1_given_y; // ordered to impose the constraint that p_y_1_given_y_hat_0 < p_y_1_given_y_hat_1.
   real<lower=0> spatial_sigma; 
   vector[N] phi_spatial_component;
   vector[n_external_covariates] external_covariate_beta; // coefficients for the external covariates.
 }
 transformed parameters {
     vector[N] phi = center_of_phi_offset_prior + external_covariates * external_covariate_beta + phi_spatial_component * spatial_sigma; 
-    real p_y_1_given_y_hat_0 = inv_logit(logit_p_y_1_given_y_hat[1]);
-    real p_y_1_given_y_hat_1 = inv_logit(logit_p_y_1_given_y_hat[2]);
+    real p_y_hat_1_given_y_0 = inv_logit(logit_p_yhat_1_given_y[1]);
+    real p_y_hat_1_given_y_1 = inv_logit(logit_p_yhat_1_given_y[2]);
     vector[N] p_y = inv_logit(phi);
-    real empirical_p_yhat = sum(n_classified_positive_by_area) * 1.0 / sum(n_images_by_area);
-    real p_y_hat_1_given_y_1 = empirical_p_yhat * p_y_1_given_y_hat_1 / (empirical_p_yhat * p_y_1_given_y_hat_1 + (1 - empirical_p_yhat) * p_y_1_given_y_hat_0);
-    real p_y_hat_1_given_y_0 = empirical_p_yhat * (1 - p_y_1_given_y_hat_1) / (empirical_p_yhat * (1 - p_y_1_given_y_hat_1) + (1 - empirical_p_yhat) * (1 - p_y_1_given_y_hat_0));
     vector[N] at_least_one_positive_image_by_area = (1 - pow(1 - p_y, n_images_by_area));
     vector[N] at_least_one_positive_image_by_area_if_you_have_100_images = (1 - pow(1 - p_y, 100));
     // set at_least_one_positive_image to 1 if there is at least one annotated positive image in the Census tract.
@@ -52,15 +49,16 @@ model {
   // You can't just scale ICAR priors by random numbers; the only principled value for ICAR_prior_weight is 0.5. 
   // https://stats.stackexchange.com/questions/333258/strength-parameter-in-icar-spatial-model
   // see https://mc-stan.org/users/documentation/case-studies/icar_stan.html for source. 
+  spatial_sigma ~ normal(0, 1);
+  //logit_p_yhat_1_given_y ~ normal(0, 2);
+
   if (use_ICAR_prior == 1) {
     // just have the spatial component with an L2 loss tying adjacent areas together. 
     target += -0.5 * dot_self(phi_spatial_component[node1] - phi_spatial_component[node2]);
     sum(phi_spatial_component) ~ normal(0, 0.001 * N);
-    spatial_sigma ~ normal(0, 1);
   }else{
     // now the spatial effects are just random effects (adjacent areas are uncorrelated, no smoothing). 
     phi_spatial_component ~ normal(0, 1); 
-    spatial_sigma ~ normal(0, 1);
   }
   
   external_covariate_beta ~ normal(0, 2); // we no longer need an explicit phi offset because it's wrapped into the intercept term. 

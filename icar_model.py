@@ -367,6 +367,7 @@ class ICAR_MODEL:
         return train_data, test_data
         
     def construct_graph_laplacian_baseline(self, N, N_edges, node1, node2, y, alpha=0.01, iterations=1):
+        # https://www.math.fsu.edu/~bertram/lectures/Diffusion.pdf and ChatGPT seem to agree on this. 
         y = deepcopy(y)
         A = np.zeros((N, N))
         A[node1 - 1, node2 - 1] = 1
@@ -448,7 +449,7 @@ class ICAR_MODEL:
         ground_truth = self.extract_baselines(test_data)
 
         self.data_to_use = {'observed_data':train_data}
-        fit, df = self.fit(CYCLES=1, WARMUP=500, SAMPLES=500, data_already_loaded=True)
+        fit, df = self.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000, data_already_loaded=True)
 
         p_y_bayesian_estimate = np.array([df['p_y.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
         at_least_one_positive_by_area_bayesian_estimate = np.array([df['at_least_one_positive_image_by_area.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
@@ -475,9 +476,9 @@ class ICAR_MODEL:
                     var_names=[
                         "p_y_1_given_y_hat_1",
                         "p_y_1_given_y_hat_0",
-                        "p_y_hat_1_given_y_1",
-                        "p_y_hat_1_given_y_0",
-                        "empirical_p_yhat",
+                        #"p_y_hat_1_given_y_1",
+                        #"p_y_hat_1_given_y_0",
+                        #"empirical_p_yhat",
                     ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                 )
             )
@@ -491,9 +492,9 @@ class ICAR_MODEL:
                             "p_y_hat_1_given_y_1",
                             "p_y_hat_1_given_y_0",
                             "phi_offset",
-                            "p_y_1_given_y_hat_1",
-                            "p_y_1_given_y_hat_0",
-                            "empirical_p_yhat",
+                            #"p_y_1_given_y_hat_1",
+                            #"p_y_1_given_y_hat_0",
+                            #"empirical_p_yhat",
                         ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                     ).to_string()
                 )
@@ -505,9 +506,9 @@ class ICAR_MODEL:
                     var_names=[
                         "p_y_hat_1_given_y_1",
                         "p_y_hat_1_given_y_0",
-                        "p_y_1_given_y_hat_1",
-                        "p_y_1_given_y_hat_0",
-                        "empirical_p_yhat",
+                        #"p_y_1_given_y_hat_1",
+                        #"p_y_1_given_y_hat_0",
+                        #"empirical_p_yhat",
                     ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                 )
             )
@@ -520,9 +521,9 @@ class ICAR_MODEL:
                         var_names=[
                             "p_y_hat_1_given_y_1",
                             "p_y_hat_1_given_y_0",
-                            "p_y_1_given_y_hat_1",
-                            "p_y_1_given_y_hat_0",
-                            "empirical_p_yhat",
+                            #"p_y_1_given_y_hat_1",
+                            #"p_y_1_given_y_hat_0",
+                            #"empirical_p_yhat",
                         ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
                     ).to_string()
                 )
@@ -811,9 +812,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines()
     else:   
-        
-        #
-        fit, df = model.fit(CYCLES=1, WARMUP=500, SAMPLES=500)
+        fit, df = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
