@@ -52,6 +52,7 @@ nest_asyncio.apply()
 class ICAR_MODEL:
     def __init__(
         self,
+        PREFIX='',
         ICAR_PRIOR_SETTING="none",
         ANNOTATIONS_HAVE_LOCATIONS=True,
         EXTERNAL_COVARIATES=False,
@@ -146,9 +147,6 @@ class ICAR_MODEL:
         self.adj_path = adj
         self.adj_matrix_storage = adj_matrix_storage
 
-        self.RUNID = "NOT_SET"
-
-
         # other misc sanity checks 
 
         # cannot use the at_least_one_positive_image_by_area parameter if additional annotation location data is not utilized 
@@ -156,7 +154,15 @@ class ICAR_MODEL:
             assert 'at_least_one_positive_image_by_area' not in self.ESTIMATE_PARAMETERS
 
         # refresh cache 
-        
+        #refresh_cache('mwf62')
+
+        # if there's a non-blank prefix, prepend it to runid 
+        if PREFIX:
+            self.logger.info(f"Setting prefix to {PREFIX}")
+            self.RUNID = PREFIX
+        else: 
+            self.logger.info("No prefix set.")
+            self.RUNID = ""
 
     def parse_data_for_validation(self):
         # write jsonified observed data to file for debugging
@@ -216,7 +222,7 @@ class ICAR_MODEL:
     def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500, data_already_loaded=False):
         # pass in data_already_loaded = True if you want to use data that's already been loaded in. 
         # by default the method reloads the data. 
-        self.RUNID = datetime.datetime.now().strftime("%Y%m%d-%H%M")
+        self.RUNID = self.RUNID + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
         # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
         self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/covariates_{self.use_external_covariates}/{self.RUNID}"
@@ -770,35 +776,48 @@ if __name__ == "__main__":
         help="The setting for the ICAR prior."
     )
 
-    # Add optional flag for annotations having locations (default to True)
+    # Boolean flags
     parser.add_argument(
-        "--annotations_have_locations", 
+        "--annotations_have_locations",
         action='store_true',
-        help="Set to True if annotations do not have locations. Default is False."
+        default=False,
+        help="Include if annotations have associated locations"
     )
 
-    # Add optional flag for simulated data (default to True)
     parser.add_argument(
-        "--simulated_data", 
+        "--simulated_data",
         action='store_true',
-        help="Set to True if data is not simulated. Default is False."
+        default=False,
+        help="Include if using simulated data"
     )
 
     parser.add_argument(
         '--external_covariates',
         action='store_true',
-        help="Set to True if external covariates are used. Default is False."
+        default=False,
+        help="Include if using external covariates"
     )
 
     parser.add_argument(
-        '--compare_to_baselines', 
+        '--compare_to_baselines',
         action='store_true',
-        help='run comparisons to baselines')
+        default=False,
+        help='Include to run comparisons against baselines'
+    )
+
+    # Prefix argument
+    parser.add_argument(
+        '--prefix',
+        type=str,
+        required=False,
+        help='Prefix for the run ID when saving results'
+    )
 
     # Parse the arguments
     args = parser.parse_args()
 
     model = ICAR_MODEL(
+            PREFIX=args.prefix,
             ICAR_PRIOR_SETTING=args.icar_prior_setting,
             ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
