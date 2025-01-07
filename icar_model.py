@@ -40,6 +40,8 @@ import argparse
 from generate_maps import generate_maps
 from refresh_cache import refresh_cache
 
+from analysis_df import generate_nyc_analysis_df
+
 LATEX_PLOTTING=False
 if LATEX_PLOTTING:
     plt.rc('text', usetex=True)
@@ -819,7 +821,7 @@ if __name__ == "__main__":
     model = ICAR_MODEL(
             PREFIX=args.prefix,
             ICAR_PRIOR_SETTING=args.icar_prior_setting,
-            ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
+            ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area", "at_least_one_positive_image_by_area_if_you_have_100_images"],
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
@@ -832,7 +834,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines()
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000)
+        fit, df = model.fit(CYCLES=1, WARMUP=100, SAMPLES=100)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
@@ -840,4 +842,10 @@ if __name__ == "__main__":
         model.logger.info(f"Generating maps for {model.RUNID}")
         generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area')
         generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
+        
+        model.logger.info(f"Generating NYC analysis dataframe for {model.RUNID}")
+        generate_nyc_analysis_df(run_dir=f"runs/{model.RUNID}", custom_prefix=args.prefix, use_smoothing=True, logger=model.logger)
+
         model.logger.success("All items in main program routine completed.")
+
+
