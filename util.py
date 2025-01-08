@@ -43,15 +43,31 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
             with open(adj[1], "r") as f:
                 node2 = [int(line) for line in f]
 
-            remove_duplicates_node1 = []
-            remove_duplicates_node2 = []
+            # Pass 1: Ensure node1 < node2 in every row
+            ordered_node1 = []
+            ordered_node2 = []
             for i in range(len(node1)):
-                assert node1[i] != node2[i]
+                assert node1[i] != node2[i]  # No self-loops
                 if node1[i] < node2[i]:
-                    remove_duplicates_node1.append(node1[i])
-                    remove_duplicates_node2.append(node2[i])
-            node1 = remove_duplicates_node1
-            node2 = remove_duplicates_node2
+                    ordered_node1.append(node1[i])
+                    ordered_node2.append(node2[i])
+                else:
+                    ordered_node1.append(node2[i])
+                    ordered_node2.append(node1[i])
+
+            # Pass 2: Drop duplicates while preserving order
+            seen_edges = set()
+            unique_node1 = []
+            unique_node2 = []
+            for i in range(len(ordered_node1)):
+                edge = (ordered_node1[i], ordered_node2[i])
+                if edge not in seen_edges:
+                    seen_edges.add(edge)
+                    unique_node1.append(ordered_node1[i])
+                    unique_node2.append(ordered_node2[i])
+
+            node1 = unique_node1
+            node2 = unique_node2
             assert (np.array(node1) < np.array(node2)).all()
             
 
