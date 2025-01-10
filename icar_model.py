@@ -477,9 +477,11 @@ class ICAR_MODEL:
         print(pd.DataFrame(performance).transpose())
 
         if save: 
-            performance.to_csv(
+            self.logger.info(f"Saving performance csv to runs/{self.RUNID}/performance_on_baselines.csv")
+            pd.DataFrame(performance).transpose().to_csv(
                 f"runs/{self.RUNID}/performance_on_baselines.csv"
             )
+
             
         return performance
 
