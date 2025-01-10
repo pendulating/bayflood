@@ -445,7 +445,7 @@ class ICAR_MODEL:
         
         return estimates
         
-    def compare_to_baselines(self, train_frac=0.2):
+    def compare_to_baselines(self, train_frac=0.2, save=True):
         """
         fit on train set, assess on test set, compare to baselines estimated in extract_baselines. 
         """
@@ -475,6 +475,12 @@ class ICAR_MODEL:
             performance[estimate]['AUC, any ground truth positive'] = roc_auc_score(ground_truth['any_positive_ground_truth'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
             performance[estimate]['AUC, any classified positive'] = roc_auc_score(ground_truth['any_positive_classifications'][~no_images_in_test], method_and_baselines[estimate][~no_images_in_test])
         print(pd.DataFrame(performance).transpose())
+
+        if save: 
+            performance.to_csv(
+                f"runs/{self.RUNID}/performance_on_baselines.csv"
+            )
+            
         return performance
 
     def plot_results(self, fit, df):
@@ -834,7 +840,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines()
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=100, SAMPLES=100)
+        fit, df = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
