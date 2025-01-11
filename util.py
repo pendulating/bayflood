@@ -267,6 +267,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 return {"observed_data": observed_data}
             
             return process_covariates(df, observed_data, use_external_covariates)
+        else: 
+            return {"observed_data": observed_data}
     else:
         return {
             "observed_data": {
