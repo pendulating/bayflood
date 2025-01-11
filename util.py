@@ -160,22 +160,113 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         # column of ones for external covariates
         observed_data['external_covariates'] = np.ones((N, 1)) # just an intercept term by default. 
         if use_external_covariates:
-            df['any_311_report'] = False
-            cols_to_use = []
-            for k in df.columns:
-                if '311' in k:
-                    df['binary_%s' % k] = (df[k] > 0).astype(int)
-                    print("Adding data from column %s" % k)
-                    df['any_311_report'] = df['any_311_report'] | (df[k] > 0) 
-                    cols_to_use.append('binary_%s' % k)
-            external_covariate_matrix = df[cols_to_use].values
-            for i in range(external_covariate_matrix.shape[1]): # z-score
-                print("z-scoring external covariate column %i with mean %f and std %f" % (i, np.mean(external_covariate_matrix[:, i]), np.std(external_covariate_matrix[:, i])))
-                external_covariate_matrix[:, i] = (external_covariate_matrix[:, i] - np.mean(external_covariate_matrix[:, i])) / np.std(external_covariate_matrix[:, i])
 
-            observed_data['external_covariates'] = np.hstack((observed_data['external_covariates'], external_covariate_matrix))
-        observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
-        return {"observed_data": observed_data}
+            def robust_zscore(x, eps=1e-8):
+                """Z-score with numeric stability check."""
+                mean = np.mean(x)
+                std = np.std(x)
+                if std < eps:  # Essentially constant feature
+                    print(f"Warning: Nearly constant feature detected with std={std}")
+                    return np.zeros_like(x)
+                return (x - mean) / std
+
+            def check_binary_frequency(x):
+                """Check for rare binary events."""
+                prop_ones = np.mean(x)
+                if prop_ones < 0.01 or prop_ones > 0.99:
+                    print(f"Warning: Highly imbalanced binary feature detected with proportion={prop_ones}")
+
+            def process_covariates(df, observed_data, use_external_covariates=True):
+                """Process covariates with robust handling for large N observations."""
+                if not use_external_covariates:
+                    return {"observed_data": observed_data}
+
+                # Initialize binary flags
+                df['any_311_report'] = False
+                df['any_sensors'] = df['n_floodnet_sensors'] > 0
+
+                # 1. Process right-skewed continuous variables
+                skewed_cols = [
+                    'ft_elevation_min', 
+                    'ft_elevation_mean', 
+                    'ft_elevation_max',
+                    'dep_moderate_1_area', 
+                    'dep_moderate_2_area'
+                ]
+                
+                for col in skewed_cols:
+                    # Ensure numeric
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+                    
+                    # Check for outliers
+                    data = df[col]
+                    q1, q3 = np.percentile(data, [25, 75])
+                    iqr = q3 - q1
+                    outlier_mask = (data < q1 - 3*iqr) | (data > q3 + 3*iqr)
+                    if np.any(outlier_mask):
+                        print(f"Warning: {np.sum(outlier_mask)} outliers detected in {col}")
+                    
+                    df[f'{col}_log'] = np.log1p(df[col])
+                
+                # 2. Process categorical FSHRI (1-5)
+                df['fshri'] = pd.to_numeric(df['fshri'], errors='coerce')
+                fshri_dummies = pd.get_dummies(df['fshri'], prefix='fshri')
+                
+                for col in fshri_dummies.columns:
+                    prop = fshri_dummies[col].mean()
+                    if prop < 0.05:
+                        print(f"Warning: Rare category detected in {col} with proportion {prop:.4f}")
+                
+                # 3. Collect covariates
+                cols_to_use = [f'{col}_log' for col in skewed_cols]
+                cols_to_use.append('any_sensors')
+                
+                # Process 311 binary columns
+                for k in df.columns:
+                    if '311' in k:
+                        df[k] = pd.to_numeric(df[k], errors='coerce')
+                        binary_col = (df[k] > 0).astype(int)
+                        check_binary_frequency(binary_col)
+                        df[f'binary_{k}'] = binary_col
+                        print(f"Adding data from column {k}")
+                        df['any_311_report'] = df['any_311_report'] | (df[k] > 0) 
+                        cols_to_use.append(f'binary_{k}')
+                
+                # Convert to numeric matrix
+                feature_matrix = df[cols_to_use].values.astype(float)
+                fshri_matrix = fshri_dummies.values.astype(float)
+                
+                external_covariate_matrix = np.hstack([feature_matrix, fshri_matrix])
+                
+                # Z-score everything with robust checks
+                n_features = external_covariate_matrix.shape[1]
+                for i in range(n_features):
+                    col_name = cols_to_use[i] if i < len(cols_to_use) else f"fshri_{i-len(cols_to_use)+1}"
+                    col_data = external_covariate_matrix[:, i].astype(float)
+                    
+                    # Now we can safely check for NaN/inf
+                    if np.any(np.isnan(col_data)) or np.any(np.isinf(col_data)):
+                        print(f"Warning: Missing or infinite values detected in {col_name}")
+                        col_data = np.nan_to_num(col_data, nan=0, posinf=0, neginf=0)
+                    
+                    external_covariate_matrix[:, i] = robust_zscore(col_data)
+                    print(f"Z-scoring {col_name}: mean={np.mean(col_data):.4f}, std={np.std(col_data):.4f}")
+                
+                # Update observed data
+                if 'external_covariates' in observed_data:
+                    observed_data['external_covariates'] = np.hstack((
+                        observed_data['external_covariates'], 
+                        external_covariate_matrix
+                    ))
+                else:
+                    observed_data['external_covariates'] = external_covariate_matrix
+                
+                observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
+                print(f"Final external covariate matrix shape: {observed_data['external_covariates'].shape}")
+                
+                return {"observed_data": observed_data}
+            
+            return process_covariates(df, observed_data, use_external_covariates)
     else:
         return {
             "observed_data": {
