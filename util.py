@@ -287,7 +287,13 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         }
 
 
-def validate_observed_data(observed_data, annotations_have_locations=False):
+def validate_observed_data(observed_data, annotations_have_locations=False, downsample_frac=1):
+
+    # JAN 16 
+    # if downsample_frac != 1, return True. binomial sampling will mess up the counts.
+    if downsample_frac != 1:
+        return True
+
     # first, logic split on annotations_have_locations
     if annotations_have_locations:
         REQ_COLS = [
@@ -348,20 +354,20 @@ def validate_observed_data(observed_data, annotations_have_locations=False):
         if (
             sum(observed_data["n_classified_positive_annotated_positive_by_area"])
             + sum(observed_data["n_classified_positive_annotated_negative_by_area"])
-            != TOTAL_ANNOTATED_CLASSIFIED_POSITIVE
+            != (TOTAL_ANNOTATED_CLASSIFIED_POSITIVE * downsample_frac)
         ):
             raise ValueError(
-                "sum of n_classified_positive_annotated_positive_by_area and n_classified_positive_annotated_negative_by_area should equal total_annotated_classified_positive"
+                f"sum of n_classified_positive_annotated_positive_by_area ({sum(observed_data["n_classified_positive_annotated_positive_by_area"])}) and n_classified_positive_annotated_negative_by_area ({sum(observed_data["n_classified_positive_annotated_negative_by_area"])}) should equal total_annotated_classified_positive ({(TOTAL_ANNOTATED_CLASSIFIED_POSITIVE * downsample_frac)})"
             )
 
         # sum of n_classified_negative_annotated_positive_by_area and n_classified_negative_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE
         if (
             sum(observed_data["n_classified_negative_annotated_positive_by_area"])
             + sum(observed_data["n_classified_negative_annotated_negative_by_area"])
-            != TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE
+            != (TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE * downsample_frac)
         ):
             raise ValueError(
-                "sum of n_classified_negative_annotated_positive_by_area and n_classified_negative_annotated_negative_by_area should equal total_annotated_classified_negative"
+                f"sum of n_classified_negative_annotated_positive_by_area ({sum(observed_data["n_classified_negative_annotated_positive_by_area"])})  and n_classified_negative_annotated_negative_by_area ({sum(observed_data["n_classified_negative_annotated_negative_by_area"])}) should equal total_annotated_classified_negative ({(TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE * downsample_frac)})"
             )
 
     else:
