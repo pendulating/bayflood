@@ -373,6 +373,104 @@ class ICAR_MODEL:
         print("With a train frac of %2.3f, train set has %i total images; test set has %i" % 
                 (train_frac, train_data['n_images_by_area'].sum(), test_data['n_images_by_area'].sum()))
         return train_data, test_data
+
+    def downsample_data(self, full_dataset, downsample_frac=0.1, train_frac=0.7):
+        """
+        Partitions the images into a train and test set, with downsampling of annotated images.
+        For each Census tract:
+        - Annotated images are first downsampled by downsample_frac
+        - These downsampled images are then split into train/test using train_frac
+        - Non-annotated images are only split into train/test without downsampling
+        
+        Example with 1000 annotated images, downsample_frac=0.1, train_frac=0.7:
+        - First downsample to 100 images total (1000 * 0.1)
+        - Then split into 70 train images (100 * 0.7) and 30 test images (100 * 0.3)
+        """
+        train_data = {}
+        test_data = {}
+        full_dataset = deepcopy(full_dataset)
+        
+        # Convenience fields (same as before)
+        full_dataset['observed_data']['n_non_annotated_by_area_classified_negative'] = (
+            full_dataset['observed_data']['n_non_annotated_by_area'] - 
+            full_dataset['observed_data']['n_non_annotated_by_area_classified_positive']
+        )
+        
+        full_dataset['observed_data']['n_annotated_by_area'] = (
+            full_dataset['observed_data']['n_classified_positive_annotated_positive_by_area'] + 
+            full_dataset['observed_data']['n_classified_positive_annotated_negative_by_area'] + 
+            full_dataset['observed_data']['n_classified_negative_annotated_negative_by_area'] + 
+            full_dataset['observed_data']['n_classified_negative_annotated_positive_by_area']
+        )
+        
+        # Copy static fields (same as before)
+        static_fields = ['N', 'N_edges', 'node1', 'node2', 'tract_id', 
+                        'center_of_phi_offset_prior', 'external_covariates', 
+                        'n_external_covariates']
+        for k in static_fields:
+            train_data[k] = deepcopy(full_dataset['observed_data'][k])
+            test_data[k] = deepcopy(full_dataset['observed_data'][k])
+        
+        # Handle non-annotated images (same as before - only train/test split)
+        non_annotated_fields = [
+            'n_non_annotated_by_area_classified_positive',
+            'n_non_annotated_by_area_classified_negative'
+        ]
+        for k in non_annotated_fields:
+            train_data[k] = np.random.binomial(full_dataset['observed_data'][k], train_frac)
+            test_data[k] = full_dataset['observed_data'][k] - train_data[k]
+            assert (train_data[k] >= 0).all()
+            assert (test_data[k] >= 0).all()
+        
+        # Handle annotated images (modified to maintain train/test ratio after downsampling)
+        annotated_fields = [
+            'n_classified_positive_annotated_positive_by_area',
+            'n_classified_positive_annotated_negative_by_area',
+            'n_classified_negative_annotated_negative_by_area',
+            'n_classified_negative_annotated_positive_by_area'
+        ]
+        for k in annotated_fields:
+            # First downsample the total number of images we want
+            total_downsampled = np.random.binomial(full_dataset['observed_data'][k], 
+                                                downsample_frac)
+            # Then split that downsampled amount into train/test
+            train_data[k] = np.random.binomial(total_downsampled, train_frac)
+            test_data[k] = total_downsampled - train_data[k]
+            
+            assert (train_data[k] >= 0).all()
+            assert (test_data[k] >= 0).all()
+            assert (train_data[k] + test_data[k] <= full_dataset['observed_data'][k]).all()
+        
+        # Rest of the code remains the same
+        train_data['n_non_annotated_by_area'] = (
+            train_data['n_non_annotated_by_area_classified_positive'] + 
+            train_data['n_non_annotated_by_area_classified_negative']
+        )
+        test_data['n_non_annotated_by_area'] = (
+            test_data['n_non_annotated_by_area_classified_positive'] + 
+            test_data['n_non_annotated_by_area_classified_negative']
+        )
+        
+        for split in [train_data, test_data]:
+            split['n_images_by_area'] = (
+                split['n_non_annotated_by_area'] +
+                split['n_classified_positive_annotated_positive_by_area'] +
+                split['n_classified_positive_annotated_negative_by_area'] +
+                split['n_classified_negative_annotated_negative_by_area'] +
+                split['n_classified_negative_annotated_positive_by_area']
+            )
+            split['n_classified_positive_by_area'] = (
+                split['n_classified_positive_annotated_positive_by_area'] +
+                split['n_classified_positive_annotated_negative_by_area'] +
+                split['n_non_annotated_by_area_classified_positive']
+            )
+        
+        print(f"Train set: {train_data['n_images_by_area'].sum()} total images "
+            f"({sum(train_data[k].sum() for k in annotated_fields)} annotated)")
+        print(f"Test set: {test_data['n_images_by_area'].sum()} total images "
+            f"({sum(test_data[k].sum() for k in annotated_fields)} annotated)")
+        
+        return train_data, test_data
         
     def construct_graph_laplacian_baseline(self, N, N_edges, node1, node2, y, alpha=0.01, iterations=1):
         # https://www.math.fsu.edu/~bertram/lectures/Diffusion.pdf and ChatGPT seem to agree on this. 
@@ -833,7 +931,7 @@ if __name__ == "__main__":
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="aggregation/context_df_11082024.csv",
+            EMPIRICAL_DATA_PATH="aggregation/context_df_01112025.csv",
             adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
             adj_matrix_storage=False
         )
