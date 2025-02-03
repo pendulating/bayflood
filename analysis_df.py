@@ -6,6 +6,8 @@ import os
 from typing import Optional, Dict, List
 import logging
 
+from shapely import wkt
+
 def generate_nyc_analysis_df(
     run_dir: str,
     custom_prefix: str,
@@ -79,10 +81,26 @@ def generate_nyc_analysis_df(
         icar_estimates[os.path.splitext(os.path.basename(f))[0]] = df
 
     # Load census tract geometries
-    ct_nyc = gpd.read_file(f'{base_dir}/aggregation/geo/data/ct-nyc-wi-2020.geojson')
+    ct_nyc = gpd.read_file(f'{base_dir}/aggregation/geo/data/ct-nyc-2020.geojson')
+    length_before_processing = len(ct_nyc.index)
     TO_DROP = ['OBJECTID', 'BoroCode', 'CT2020', 'CDEligibil', 'NTA2020', 'CDTA2020', 'Shape__Area', 'Shape__Length', 'geometry']
     ct_nyc.drop(columns=TO_DROP, inplace=True)
     ct_nyc = ct_nyc.set_index('GEOID').astype(str)
+
+    # Load positive images 
+    sep29_positives = pd.read_csv(f'{base_dir}/data/processed/sep29_positives.csv')
+    sep29_positives = sep29_positives[['image_path', 'sentiment_1']]
+
+    sep29_positives = sep29_positives.rename(columns={'sentiment_1': 'positive_image', 'image_path': 'image_path'})
+    sep29_positives['frame_id'] = sep29_positives['image_path'].str.split('/').str[-1].str.split('.').str[0]
+
+    # Load sep29 metadata 
+    sep29_md = pd.read_csv(f'{base_dir}/data/md.csv')
+    # Filter metadata to only include sep29 images and merge 
+    sep29_md_positives = sep29_md[sep29_md['frame_id'].isin(sep29_positives['frame_id'])]
+
+    sep29_md_positives = gpd.GeoDataFrame(sep29_md_positives, geometry=gpd.points_from_xy(sep29_md_positives['gps_info.longitude'], sep29_md_positives['gps_info.latitude']), crs=WGS).to_crs(PROJ)
+
 
     # Merge ICAR estimates
     ct_nyc = ct_nyc.merge(icar_estimates['estimate_p_y'], left_index=True, right_on='tract_id', suffixes=('_ct', '_p_y')).set_index('tract_id')
@@ -92,12 +110,16 @@ def generate_nyc_analysis_df(
     # Load and merge demographic data
     # Race data
     race_cols = {
-        'DP05_0001E': 'total_population',
-        'DP05_0079E': 'nhl_white_alone',
-        'DP05_0080E': 'nhl_black_alone',
-        'DP05_0073E': 'hispanic_alone',
-        'DP05_0082E': 'nhl_asian_alone'
-    }
+    'DP05_0001E': 'total_population',
+    'DP05_0079E': 'nhl_white_alone', 
+    'DP05_0080E': 'nhl_black_alone', 
+    'DP05_0073E': 'hispanic_alone', 
+    'DP05_0082E': 'nhl_asian_alone',
+    'DP05_0019E': 'n_children', 
+    'DP05_0024E': 'n_elderly',
+}
+
+
     dp05_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_dp05.json', orient='records')
     race_nyc = parse_acs(dp05_nyc, race_cols)
     ct_nyc = ct_nyc.merge(race_nyc, left_index=True, right_index=True)
@@ -142,7 +164,7 @@ def generate_nyc_analysis_df(
     ct_nyc = ct_nyc.merge(topology_ct_nyc, left_index=True, right_on='GEOID')
 
     # Add geographic features
-    gdf_ct_nyc = gpd.read_file(f'{base_dir}/aggregation/geo/data/ct-nyc-wi-2020.geojson').to_crs(PROJ)[['GEOID', 'geometry']]
+    gdf_ct_nyc = gpd.read_file(f'{base_dir}/aggregation/geo/data/ct-nyc-2020.geojson').to_crs(PROJ)[['GEOID', 'geometry']]
     gdf_ct_nyc['area'] = gdf_ct_nyc.area
     ct_nyc = ct_nyc.merge(gdf_ct_nyc[['GEOID', 'area']], left_index=True, right_on='GEOID').set_index('GEOID')
 
@@ -191,6 +213,59 @@ def generate_nyc_analysis_df(
         
         ct_nyc[frac_col] = ct_nyc[area_col] / ct_nyc['area']
 
+
+        # NEW JAN 27: dep flooding specifically around classified positive images 
+        # Create 250ft buffers around all positive images at once
+        #positive_buffers = sep29_md_positives.geometry.buffer(250)
+        #positive_buffers_gdf = gpd.GeoDataFrame(geometry=positive_buffers, crs=PROJ)
+
+        # Calculate flooded areas for each category
+        #for category in [1, 2]:
+        #    dep_cat = dep_moderate_flat[dep_moderate_flat['Flooding_Category'] == category]
+        #    area_col = f'dep_moderate_{category}_area_250ft'
+            
+            # Vectorized intersection between all buffers and flood areas
+        #    flooded_areas = gpd.overlay(positive_buffers_gdf, dep_cat, how='intersection')
+        #    flooded_areas['area'] = flooded_areas.geometry.area
+            
+            # Assign areas back to original points
+        #    sep29_md_positives[f'flooded_area_{category}_250ft'] = flooded_areas.groupby(level=0)['area'].sum()
+
+            # log the distribution of flooded_area_250ft before grouping by tract 
+        #    logger.info(f"Category {category} flooded area 250ft distribution, image level: {sep29_md_positives[f'flooded_area_{category}_250ft'].describe()}")
+            
+            # Spatial join to get tract-level summaries
+        #    tract_floods = gpd.sjoin(
+        #        gdf_ct_nyc, 
+        #        gpd.GeoDataFrame(
+        #            sep29_md_positives[['geometry', f'flooded_area_{category}_250ft']], 
+        #            crs=PROJ
+        #        ),
+        #        predicate='contains',
+        #        how='left'
+        #    )
+            
+        #    flooded_area_250ft = tract_floods.groupby('GEOID')[f'flooded_area_{category}_250ft'].sum()
+            # log the distribution of flooded_area_250ft 
+        #    logger.info(f"Category {category} flooded area 250ft distribution, tract level: {flooded_area_250ft.describe()}")
+            # cast GEOID to string 
+        #    flooded_area_250ft.index = flooded_area_250ft.index.astype(str)
+
+        #    ct_nyc = ct_nyc.merge(
+        #        flooded_area_250ft.to_frame(), 
+        #        left_index=True, 
+        #        right_index=True, 
+        #        how='left'
+        #    ).fillna(0)
+
+            
+
+
+
+        
+        
+        
+
     # Add 311 data
     nyc311_sep29 = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc311_flooding_sep29.csv').dropna(subset=['latitude', 'longitude'])
     nyc311_sep29 = gpd.GeoDataFrame(
@@ -206,9 +281,25 @@ def generate_nyc_analysis_df(
         )
 
     # Add NYC Flood Vulnerability Index
+    print(len(ct_nyc.index))
     nyc_fvi = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc_fvi.csv')
+    def try_geo_parse(x):
+        try:
+            return wkt.loads(x)
+        except:
+            return None
+        
+    nyc_fvi['geometry'] = nyc_fvi['the_geom'].apply(try_geo_parse)
+    # drop na geometry 
+    nyc_fvi = nyc_fvi.dropna(subset=['geometry'])
+    # drop the_geom 
+    nyc_fvi.drop(columns=['the_geom'], inplace=True)
+    nyc_fvi = gpd.GeoDataFrame(nyc_fvi, crs=WGS, geometry='geometry').to_crs(PROJ)
     nyc_fvi['geoid'] = nyc_fvi['geoid'].astype(str)
-    ct_nyc = ct_nyc.join(nyc_fvi.set_index('geoid'))
+    nyc_fvi = ct_nyc.merge(nyc_fvi.set_index('geoid'), left_index=True, right_index=True)[['fshri']]
+    print(len(nyc_fvi.index))
+    ct_nyc = ct_nyc.merge(nyc_fvi, left_index=True, right_index=True, how='left').drop_duplicates()
+    print(len(ct_nyc.index))
 
     # Final cleaning
     gdf_ct_nyc.drop(columns=['area', 'geometry'], inplace=True)
@@ -219,6 +310,8 @@ def generate_nyc_analysis_df(
     ct_nyc = ct_nyc.loc[:, ~ct_nyc.columns.str.contains('|'.join(TO_DROP))]
     
     logger.info(f"Dropped columns: {set(current_cols) - set(ct_nyc.columns)}")
+
+    assert length_before_processing == len(ct_nyc.index), "Number of rows changed during processing."
 
     # Save outputs
     todays_date = pd.to_datetime('today').strftime('%m%d%Y')
