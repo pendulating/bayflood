@@ -516,8 +516,8 @@ class ICAR_MODEL:
         X = data['external_covariates'][:, 1:]
         OLS_pred_frac_positive_classifications = LinearRegression().fit(X, frac_positive_classifications_baseline).predict(X)
         OLS_pred_n_positive_ground_truth = LinearRegression().fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
-        RandomForest_pred_frac_positive_classifications = RandomForestRegressor().fit(X, frac_positive_classifications_baseline).predict(X)
-        RandomForest_pred_n_positive_ground_truth = RandomForestRegressor().fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
+        RandomForest_pred_frac_positive_classifications = RandomForestRegressor(random_state=777).fit(X, frac_positive_classifications_baseline).predict(X)
+        RandomForest_pred_n_positive_ground_truth = RandomForestRegressor(random_state=777).fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
         
         estimates = {# heuristic baselines
                     'frac_positive_classifications':frac_positive_classifications_baseline, 
@@ -552,7 +552,9 @@ class ICAR_MODEL:
         ground_truth = self.extract_baselines(test_data)
 
         self.data_to_use = {'observed_data':train_data}
-        fit, df = self.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000, data_already_loaded=True)
+        fit, df = self.fit(CYCLES=1, WARMUP=8000, SAMPLES=8000, data_already_loaded=True)
+
+        self.plot_results(fit, df)
 
         p_y_bayesian_estimate = np.array([df['p_y.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
         at_least_one_positive_by_area_bayesian_estimate = np.array([df['at_least_one_positive_image_by_area.%i' % i].mean() for i in range(1, train_data['N'] + 1)])
@@ -580,64 +582,43 @@ class ICAR_MODEL:
         return performance
 
     def plot_results(self, fit, df):
-        if self.icar_prior_setting == "just_model_p_y":
-            print(
-                az.summary(
-                    fit,
-                    var_names=[
-                        "p_y_1_given_y_hat_1",
-                        "p_y_1_given_y_hat_0",
-                        #"p_y_hat_1_given_y_1",
-                        #"p_y_hat_1_given_y_0",
-                        #"empirical_p_yhat",
-                    ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
-                )
+
+        def validate_results(summary, rhat_thres=1.1):
+            """
+            Validate the results of the fit by checking that the rhat values are below a certain threshold.
+            summary is a pandas DataFrame with a column 'r_hat'
+            """
+            
+            # warning log any rhat values above the threshold
+            for i, row in summary.iterrows():
+                if row['r_hat'] > rhat_thres:
+                    self.logger.warning(f"r_hat for parameter {i} is {row['r_hat']}, above threshold of {rhat_thres}")
+    
+
+        def print_write_results(fit):
+            summary = az.summary(
+                fit,
+                var_names=[
+                    "p_y_hat_1_given_y_1",
+                    "p_y_hat_1_given_y_0",
+                    "p_y_1_given_y_hat_1",
+                    "p_y_1_given_y_hat_0",
+                    "empirical_p_yhat",
+                ],
             )
+
+            print(summary)
+
+            # validate the summary 
+            validate_results(summary)
 
             # also, write to file 
             with open(f"runs/{self.RUNID}/summary.txt", "w") as f:
                 f.write(
-                    az.summary(
-                        fit,
-                        var_names=[
-                            "p_y_hat_1_given_y_1",
-                            "p_y_hat_1_given_y_0",
-                            "phi_offset",
-                            #"p_y_1_given_y_hat_1",
-                            #"p_y_1_given_y_hat_0",
-                            #"empirical_p_yhat",
-                        ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
-                    ).to_string()
+                    summary.to_string()
                 )
-
-        else:
-            print(
-                az.summary(
-                    fit,
-                    var_names=[
-                        "p_y_hat_1_given_y_1",
-                        "p_y_hat_1_given_y_0",
-                        #"p_y_1_given_y_hat_1",
-                        #"p_y_1_given_y_hat_0",
-                        #"empirical_p_yhat",
-                    ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
-                )
-            )
-
-            # also, write to file 
-            with open(f"runs/{self.RUNID}/summary.txt", "w") as f:
-                f.write(
-                    az.summary(
-                        fit,
-                        var_names=[
-                            "p_y_hat_1_given_y_1",
-                            "p_y_hat_1_given_y_0",
-                            #"p_y_1_given_y_hat_1",
-                            #"p_y_1_given_y_hat_0",
-                            #"empirical_p_yhat",
-                        ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
-                    ).to_string()
-                )
+        
+        print_write_results(fit)
 
         if self.use_simulated_data:
 
@@ -938,17 +919,17 @@ if __name__ == "__main__":
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="aggregation/context_df_01112025.csv",
-            adj=["data/processed/ct_nyc_adj_list_node1.txt","data/processed/ct_nyc_adj_list_node2.txt"],
+            EMPIRICAL_DATA_PATH="aggregation/context_df_02012025.csv",
+            adj=["data/processed/ct_nyc_adj_list_custom_geometric_node1.txt","data/processed/ct_nyc_adj_list_custom_geometric_node2.txt"],
             adj_matrix_storage=False,
             downsample_frac=args.downsample_frac
         )
 
     if args.compare_to_baselines:
         model.logger.info("Running comparisons to baselines.")
-        model.compare_to_baselines()
+        model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1000)
+        fit, df = model.fit(CYCLES=1, WARMUP=8000, SAMPLES=8000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
