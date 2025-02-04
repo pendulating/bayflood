@@ -169,23 +169,43 @@ def generate_nyc_analysis_df(
     ct_nyc = ct_nyc.merge(gdf_ct_nyc[['GEOID', 'area']], left_index=True, right_on='GEOID').set_index('GEOID')
 
     # Add FloodNet sensor data
-    floodnet_sensor = pd.read_csv(f'{base_dir}/aggregation/flooding/static/floodnet-flood-sensor-sep-2023.csv', engine='pyarrow')
-    floodnet_tide = pd.read_csv(f'{base_dir}/aggregation/flooding/static/floodnet-tide-sep-2023.csv', engine='pyarrow')
-    floodnet_weather = pd.read_csv(f'{base_dir}/aggregation/flooding/static/floodnet-weather-sep-2023.csv', engine='pyarrow')
+    # FLOODNET 
+    sep2923_floodnet_sensors = pd.read_csv(f'{base_dir}/aggregation/flooding/static/floodnet-flood-sensor-sep-2023.csv', engine='pyarrow')
 
-    all_sensors = pd.concat([
-        floodnet_sensor.groupby('deployment_id').first()[['lat', 'lon']].reset_index(),
-        floodnet_tide.groupby('sensor_id').first()[['lat', 'lon']].reset_index(),
-        floodnet_weather.groupby('sensor_id').first()[['lat', 'lon']].reset_index()
-    ])
-    
-    all_sensors_geo = gpd.GeoDataFrame(
-        all_sensors, 
-        geometry=gpd.points_from_xy(all_sensors.lon, all_sensors.lat),
-        crs=WGS
-    ).to_crs(PROJ)
+    dec1224_floodnet_sensors = pd.read_csv(f'{base_dir}/aggregation/flooding/static/current_floodnet_sensors.csv', engine='pyarrow')
 
-    ct_nyc['n_floodnet_sensors'] = gpd.sjoin(gdf_ct_nyc, all_sensors_geo).groupby('GEOID').size().reindex(ct_nyc.index).fillna(0)
+
+    sep2923_floodnet_sensors_geo = sep2923_floodnet_sensors.groupby('deployment_id').first()
+    all_floodnet_sensors_geo = dec1224_floodnet_sensors.groupby('deployment_id').first()
+
+    logger.info(f"Found {len(sep2923_floodnet_sensors_geo)} sensors in the September 2023 dataset.")
+    logger.info(f"Found {len(all_floodnet_sensors_geo)} sensors in the December 2024 dataset.")
+
+    distance_thres=1 
+
+    all_floodnet_sensors_geo = gpd.GeoDataFrame(all_floodnet_sensors_geo, geometry=gpd.points_from_xy(all_floodnet_sensors_geo['longitude'], all_floodnet_sensors_geo['latitude']), crs='EPSG:4326').to_crs(2263)
+
+    # drop sensors that are within distance_thres of each other
+    # for each sensor, check if there is a sensor within distance_thres
+    # if so, drop it
+    to_drop = []
+    for i, row in all_floodnet_sensors_geo.iterrows():
+        if i in to_drop:
+            continue
+        for j, row2 in all_floodnet_sensors_geo.iterrows():
+            if i == j:
+                continue
+            if row.geometry.distance(row2.geometry) < distance_thres:
+                to_drop.append(j)
+    all_floodnet_sensors_geo = all_floodnet_sensors_geo.drop(to_drop)
+    logger.info(f"Dropped {len(to_drop)} sensors that were within {distance_thres} foot of each other, so that there are {len(all_floodnet_sensors_geo)} unique sensors.")
+
+
+    logger.info("Loaded and processed Floodnet sensor data.")
+
+    del sep2923_floodnet_sensors, dec1224_floodnet_sensors
+
+    ct_nyc['n_floodnet_sensors'] = gpd.sjoin(gdf_ct_nyc, all_floodnet_sensors_geo).groupby('GEOID').size().reindex(ct_nyc.index).fillna(0)
 
     # Add DEP stormwater data
     dep_moderate = gpd.read_file(f'{base_dir}/aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb').to_crs(PROJ)
@@ -299,7 +319,19 @@ def generate_nyc_analysis_df(
     nyc_fvi = ct_nyc.merge(nyc_fvi.set_index('geoid'), left_index=True, right_index=True)[['fshri']]
     print(len(nyc_fvi.index))
     ct_nyc = ct_nyc.merge(nyc_fvi, left_index=True, right_index=True, how='left').drop_duplicates()
+    ct_nyc['fshri'] = ct_nyc['fshri'].fillna(0)
     print(len(ct_nyc.index))
+
+    COLS_ALLOWED_NA_VALS = ['empirical_estimate']
+    def na_validation(df, cols_allowed_na_vals):
+        for c in df.columns:
+            if c in cols_allowed_na_vals:
+                continue
+            if df[c].isna().sum() > 0:
+                logger.error(f"Column {c} has {df[c].isna().sum()} NA values.")
+        else: 
+            logger.success("No N/A values found in columns.")
+    na_validation(ct_nyc, COLS_ALLOWED_NA_VALS)
 
     # Final cleaning
     gdf_ct_nyc.drop(columns=['area', 'geometry'], inplace=True)
