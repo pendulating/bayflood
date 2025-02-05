@@ -923,12 +923,12 @@ if __name__ == "__main__":
     model = ICAR_MODEL(
             PREFIX=args.prefix,
             ICAR_PRIOR_SETTING=args.icar_prior_setting,
-            ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area", "at_least_one_positive_image_by_area_if_you_have_100_images"],
+            ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
             EMPIRICAL_DATA_PATH="aggregation/context_df_02052025.csv",
-            adj=["data/processed/ct_nyc_adj_list_custom_geometric_node1.txt","data/processed/ct_nyc_adj_list_custom_geometric_node2.txt"],
+            adj=["data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt","data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"],
             adj_matrix_storage=False,
             downsample_frac=args.downsample_frac
         )
@@ -937,7 +937,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=10000, SAMPLES=10000)
+        fit, df = model.fit(CYCLES=1, WARMUP=2000, SAMPLES=2000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
