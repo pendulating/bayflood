@@ -105,7 +105,7 @@ def generate_nyc_analysis_df(
     # Merge ICAR estimates
     ct_nyc = ct_nyc.merge(icar_estimates['estimate_p_y'], left_index=True, right_on='tract_id', suffixes=('_ct', '_p_y')).set_index('tract_id')
     ct_nyc = ct_nyc.merge(icar_estimates['estimate_at_least_one_positive_image_by_area'], left_index=True, right_on='tract_id', suffixes=('_ct', '_p_alop')).set_index('tract_id')
-    ct_nyc = ct_nyc.merge(icar_estimates['estimate_at_least_one_positive_image_by_area_if_you_have_100_images'], left_index=True, right_on='tract_id', suffixes=('_ct', '_p_y_100')).set_index('tract_id')
+    #ct_nyc = ct_nyc.merge(icar_estimates['estimate_at_least_one_positive_image_by_area_if_you_have_100_images'], left_index=True, right_on='tract_id', suffixes=('_ct', '_p_y_100')).set_index('tract_id')
 
     # Load and merge demographic data
     # Race data
