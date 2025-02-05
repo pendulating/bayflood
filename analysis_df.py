@@ -279,14 +279,6 @@ def generate_nyc_analysis_df(
         #        how='left'
         #    ).fillna(0)
 
-            
-
-
-
-        
-        
-        
-
     # Add 311 data
     nyc311_sep29 = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc311_flooding_sep29.csv').dropna(subset=['latitude', 'longitude'])
     nyc311_sep29 = gpd.GeoDataFrame(
@@ -302,26 +294,26 @@ def generate_nyc_analysis_df(
         )
 
     # Add NYC Flood Vulnerability Index
-    print(len(ct_nyc.index))
-    nyc_fvi = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc_fvi.csv')
-    def try_geo_parse(x):
-        try:
-            return wkt.loads(x)
-        except:
-            return None
+    #print(len(ct_nyc.index))
+    #nyc_fvi = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc_fvi.csv')
+    #def try_geo_parse(x):
+    #    try:
+    #        return wkt.loads(x)
+    #    except:
+    #        return None
         
-    nyc_fvi['geometry'] = nyc_fvi['the_geom'].apply(try_geo_parse)
+    #nyc_fvi['geometry'] = nyc_fvi['the_geom'].apply(try_geo_parse)
     # drop na geometry 
-    nyc_fvi = nyc_fvi.dropna(subset=['geometry'])
+    #nyc_fvi = nyc_fvi.dropna(subset=['geometry'])
     # drop the_geom 
-    nyc_fvi.drop(columns=['the_geom'], inplace=True)
-    nyc_fvi = gpd.GeoDataFrame(nyc_fvi, crs=WGS, geometry='geometry').to_crs(PROJ)
-    nyc_fvi['geoid'] = nyc_fvi['geoid'].astype(str)
-    nyc_fvi = ct_nyc.merge(nyc_fvi.set_index('geoid'), left_index=True, right_index=True)[['fshri']]
-    print(len(nyc_fvi.index))
-    ct_nyc = ct_nyc.merge(nyc_fvi, left_index=True, right_index=True, how='left').drop_duplicates()
-    ct_nyc['fshri'] = ct_nyc['fshri'].fillna(0)
-    print(len(ct_nyc.index))
+    #nyc_fvi.drop(columns=['the_geom'], inplace=True)
+    #nyc_fvi = gpd.GeoDataFrame(nyc_fvi, crs=WGS, geometry='geometry').to_crs(PROJ)
+    #nyc_fvi['geoid'] = nyc_fvi['geoid'].astype(str)
+    #nyc_fvi = ct_nyc.merge(nyc_fvi.set_index('geoid'), left_index=True, right_index=True)[['fshri']]
+    #print(len(nyc_fvi.index))
+    #ct_nyc = ct_nyc.merge(nyc_fvi, left_index=True, right_index=True, how='left').drop_duplicates()
+    #ct_nyc['fshri'] = ct_nyc['fshri'].fillna(0)
+    #print(len(ct_nyc.index))
 
     COLS_ALLOWED_NA_VALS = ['empirical_estimate']
     def na_validation(df, cols_allowed_na_vals):
