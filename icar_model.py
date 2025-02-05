@@ -157,8 +157,6 @@ class ICAR_MODEL:
         if not self.annotations_have_locations: 
             assert 'at_least_one_positive_image_by_area' not in self.ESTIMATE_PARAMETERS
 
-        # refresh cache 
-        #refresh_cache('mwf62')
 
         # if there's a non-blank prefix, prepend it to runid 
         if PREFIX:
@@ -211,10 +209,18 @@ class ICAR_MODEL:
             self.logger.success("Successfully generated simulated data.")
         else:
             self.logger.info("Reading empirical data.")
-            self.data_to_use = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
+            self.data_to_use, external_covariates_info = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
                 annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage, 
                                 use_external_covariates = self.use_external_covariates
             )
+
+            if self.use_external_covariates:
+                # write external covariates to file for debugging
+                print(external_covariates_info)
+                external_covariates_info = pd.DataFrame.from_dict(external_covariates_info['external_covariates'])
+                with open(f"runs/{self.RUNID}/external_covariates.csv", "w") as f:
+                    external_covariates_info.to_csv(f)
+                    
             self.logger.success("Successfully read empirical data.")
 
             if self.downsample_frac < 1:
@@ -601,10 +607,10 @@ class ICAR_MODEL:
                 var_names=[
                     "p_y_hat_1_given_y_1",
                     "p_y_hat_1_given_y_0",
-                    "p_y_1_given_y_hat_1",
-                    "p_y_1_given_y_hat_0",
-                    "empirical_p_yhat",
-                ],
+                    #"p_y_1_given_y_hat_1",
+                    #"p_y_1_given_y_hat_0",
+                    #"empirical_p_yhat",
+                ] + self.ESTIMATE_PARAMETERS + self.ADDITIONAL_PARAMS_TO_SAVE,
             )
 
             print(summary)
@@ -919,7 +925,7 @@ if __name__ == "__main__":
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="aggregation/context_df_02012025.csv",
+            EMPIRICAL_DATA_PATH="aggregation/context_df_02052025.csv",
             adj=["data/processed/ct_nyc_adj_list_custom_geometric_node1.txt","data/processed/ct_nyc_adj_list_custom_geometric_node2.txt"],
             adj_matrix_storage=False,
             downsample_frac=args.downsample_frac
@@ -929,7 +935,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=8000, SAMPLES=8000)
+        fit, df = model.fit(CYCLES=1, WARMUP=10000, SAMPLES=10000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
