@@ -598,7 +598,9 @@ class ICAR_MODEL:
             # warning log any rhat values above the threshold
             for i, row in summary.iterrows():
                 if row['r_hat'] > rhat_thres:
-                    self.logger.warning(f"r_hat for parameter {i} is {row['r_hat']}, above threshold of {rhat_thres}")
+                    self.logger.error(f"r_hat for parameter {i} is {row['r_hat']}, above threshold of {rhat_thres}")
+                    # end the program 
+                    raise ValueError(f"r_hat for parameter {i} is {row['r_hat']}, above threshold of {rhat_thres}")
     
 
         def print_write_results(fit):
