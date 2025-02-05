@@ -223,13 +223,14 @@ def generate_nyc_analysis_df(
 
     # Calculate flooding areas
     for category in [1, 2]:
-        dep_cat = dep_moderate_flat[dep_moderate_flat['Flooding_Category'] == category]
+        dep_cat = dep_moderate_flat[dep_moderate_flat['Flooding_Category'] <= category]
         area_col = f'dep_moderate_{category}_area'
         frac_col = f'dep_moderate_{category}_frac'
         
         ct_nyc[area_col] = gpd.overlay(gdf_ct_nyc, dep_cat, how='intersection').groupby('GEOID')['geometry'].apply(
             lambda geom: geom.area.sum()
         ).reindex(ct_nyc.index).fillna(0)
+        
         
         ct_nyc[frac_col] = ct_nyc[area_col] / ct_nyc['area']
 
