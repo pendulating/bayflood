@@ -240,10 +240,11 @@ class ICAR_MODEL:
     def fit(self, CYCLES=1, WARMUP=1000, SAMPLES=1500, data_already_loaded=False):
         # pass in data_already_loaded = True if you want to use data that's already been loaded in. 
         # by default the method reloads the data. 
-        self.RUNID = self.RUNID + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M")
+        if not data_already_loaded:
+            self.RUNID = self.RUNID + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M")
 
-        # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
-        self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/covariates_{self.use_external_covariates}/{self.RUNID}"
+            # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
+            self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/covariates_{self.use_external_covariates}/{self.RUNID}"
 
         os.makedirs(f"runs/{self.RUNID}", exist_ok=True)
 
@@ -552,6 +553,14 @@ class ICAR_MODEL:
         pd.set_option('display.width', 1000)
         pd.set_option('display.max_rows', 50)
         pd.set_option('display.max_columns', 50)
+
+        self.RUNID = self.RUNID + "_" + datetime.datetime.now().strftime("%Y%m%d-%H%M")
+
+        # add parent dirs that split runs based on simulated or empirical, annotations_have_locations, and icar_prior_setting
+        self.RUNID = f"icar_{self.icar_prior_setting}/simulated_{self.use_simulated_data}/ahl_{self.annotations_have_locations}/covariates_{self.use_external_covariates}/{self.RUNID}"
+
+        os.makedirs(f"runs/{self.RUNID}", exist_ok=True)
+
         self.load_data()
         train_data, test_data = self.divide_data_into_train_and_test_set(self.data_to_use, train_frac=train_frac)
         method_and_baselines = self.extract_baselines(train_data)
@@ -937,7 +946,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=2000, SAMPLES=2000)
+        fit, df = model.fit(CYCLES=1, WARMUP=6000, SAMPLES=6000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)

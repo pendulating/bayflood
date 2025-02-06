@@ -190,8 +190,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     'ft_elevation_min', 
                     'ft_elevation_mean', 
                     'ft_elevation_max',
-                    'dep_moderate_1_area', 
-                    'dep_moderate_2_area'
+                    'dep_moderate_1_frac', 
+                    'dep_moderate_2_frac'
                 ]
                 
                 for col in skewed_cols:
@@ -209,13 +209,13 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     df[f'{col}_log'] = np.log1p(df[col])
                 
                 # 2. Process categorical FSHRI (1-5)
-                df['fshri'] = pd.to_numeric(df['fshri'], errors='coerce')
-                fshri_dummies = pd.get_dummies(df['fshri'], prefix='fshri')
+                #df['fshri'] = pd.to_numeric(df['fshri'], errors='coerce')
+                #fshri_dummies = pd.get_dummies(df['fshri'], prefix='fshri')
                 
-                for col in fshri_dummies.columns:
-                    prop = fshri_dummies[col].mean()
-                    if prop < 0.05:
-                        print(f"Warning: Rare category detected in {col} with proportion {prop:.4f}")
+                #for col in fshri_dummies.columns:
+                #    prop = fshri_dummies[col].mean()
+                #    if prop < 0.05:
+                #        print(f"Warning: Rare category detected in {col} with proportion {prop:.4f}")
                 
                 # 3. Collect covariates
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
@@ -234,14 +234,18 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)
-                fshri_matrix = fshri_dummies.values.astype(float)
+                #fshri_matrix = fshri_dummies.values.astype(float)
+                # feature matrix columns is all column labels from feature matrix and fshri matrix 
+                feature_matrix_columns = cols_to_use #+ fshri_dummies.columns.tolist()
+                print(feature_matrix_columns)
+                # write covariate columns to csv 
                 
-                external_covariate_matrix = np.hstack([feature_matrix, fshri_matrix])
+                external_covariate_matrix = np.hstack([feature_matrix])
                 
                 # Z-score everything with robust checks
                 n_features = external_covariate_matrix.shape[1]
                 for i in range(n_features):
-                    col_name = cols_to_use[i] if i < len(cols_to_use) else f"fshri_{i-len(cols_to_use)+1}"
+                    col_name = feature_matrix_columns[i]
                     col_data = external_covariate_matrix[:, i].astype(float)
                     
                     # Now we can safely check for NaN/inf
@@ -258,17 +262,31 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                         observed_data['external_covariates'], 
                         external_covariate_matrix
                     ))
+                    # create dataframe of covariate labels, zscored means, and zscored stds 
+                    external_covariates_info = pd.DataFrame({
+                        'covariate': feature_matrix_columns,
+                        'mean': np.mean(external_covariate_matrix, axis=0),
+                        'std': np.std(external_covariate_matrix, axis=0)
+                    })
                 else:
                     observed_data['external_covariates'] = external_covariate_matrix
+
+                    external_covariates_info = pd.DataFrame({
+                        'covariate': feature_matrix_columns,
+                        'mean': np.mean(external_covariate_matrix, axis=0),
+                        'std': np.std(external_covariate_matrix, axis=0)
+                    })
                 
                 observed_data['n_external_covariates'] = observed_data['external_covariates'].shape[1]
                 print(f"Final external covariate matrix shape: {observed_data['external_covariates'].shape}")
                 
-                return {"observed_data": observed_data}
+                return {"observed_data": observed_data}, { "external_covariates": external_covariates_info}
             
             return process_covariates(df, observed_data, use_external_covariates)
         else: 
-            return {"observed_data": observed_data}
+            observed_data['external_covariates'] = np.ones((N, 1)) # just an intercept term by default.
+            observed_data['n_external_covariates'] = 1
+            return {"observed_data": observed_data}, { "external_covariates": {}}
     else:
         return {
             "observed_data": {
@@ -284,7 +302,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 "total_annotated_classified_negative_true_positive": TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE,
                 "total_annotated_classified_positive_true_positive": TOTAL_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE,
             }
-        }
+        }, 
+        { "external_covariates": {} }
 
 
 def validate_observed_data(observed_data, annotations_have_locations=False, downsample_frac=1):
