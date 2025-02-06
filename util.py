@@ -188,7 +188,6 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 # 1. Process right-skewed continuous variables
                 skewed_cols = [
                     'ft_elevation_min', 
-                    'ft_elevation_mean', 
                     'ft_elevation_max',
                     'dep_moderate_1_frac', 
                     'dep_moderate_2_frac'
