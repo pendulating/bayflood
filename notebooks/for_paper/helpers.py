@@ -19,8 +19,34 @@ def add_helper_cols(analysis_df: pd.DataFrame):
 
     return analysis_df
 
+def add_demo_cols(analysis_df: pd.DataFrame):
+    analysis_df['frac_white'] = analysis_df['nhl_white_alone'] / analysis_df['total_population'] 
+    analysis_df['frac_black'] = analysis_df['nhl_black_alone'] / analysis_df['total_population']
+    analysis_df['frac_hispanic'] = analysis_df['hispanic_alone'] / analysis_df['total_population']
+    analysis_df['frac_asian'] = analysis_df['nhl_asian_alone'] / analysis_df['total_population']
 
-def enable_latex(flag: bool):
+    # educational attainment 
+    analysis_df['frac_hs'] = analysis_df['num_high_school_graduates'] / analysis_df['total_population']
+    analysis_df['frac_bachelors'] = analysis_df['num_bachelors_degree'] / analysis_df['total_population']
+    analysis_df['frac_grad'] = analysis_df['num_graduate_degree'] / analysis_df['total_population']
+
+
+    # age 
+    analysis_df['frac_children'] = analysis_df['n_children'] / analysis_df['total_population']
+    analysis_df['frac_elderly']  = analysis_df['n_elderly'] / analysis_df['total_population']
+
+    # internet 
+    analysis_df['frac_internet'] = analysis_df['num_households_with_internet'] / analysis_df['total_households']
+    analysis_df['frac_smartphone'] = analysis_df['num_households_with_smartphone'] / analysis_df['total_households']
+
+    # english first language 
+    analysis_df['frac_limited_english'] = analysis_df['num_limited_english_speaking_households'] / analysis_df['total_households']
+
+    return analysis_df
+
+
+
+def latex(flag: bool):
     if flag:
         log.info("Enabling LaTeX for matplotlib.")
         import matplotlib.pyplot as plt
