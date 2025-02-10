@@ -223,6 +223,24 @@ class TractWeightsGenerator:
         )
         
         return self.weights_results
+
+    def compute_custom_geometric_weights(self, buffer_dist: float = 0.1, debug=False) -> Dict[str, WeightsAnalysis]:
+        """Compute custom geometric weights."""
+        W = compute_custom_geometric_weights(
+            self.ct_state_plane,
+            buffer_dist=buffer_dist,
+            blacklist=self.blacklist,
+            debug=debug
+        )
+        n_conn, isolated, avg_conn = analyze_weights(W)
+        self.weights_results['custom_geometric'] = WeightsAnalysis(
+            W, n_conn, isolated, avg_conn,
+            f"Custom Geometric with {buffer_dist}ft buffer" + 
+            (" and blacklist" if self.blacklist else "")
+        )
+
+        return self.weights_results
+
     
     def compare_specific_tract(self, tract_id: int) -> Dict[str, List[int]]:
         """
