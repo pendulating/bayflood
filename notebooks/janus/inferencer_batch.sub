@@ -1,0 +1,12 @@
+pwd
+source /home/mwf62/.bashrc
+
+cd /share/ju/matt/street-flooding/notebooks/janus
+
+sbatch inferencer_worker.sub 0
+sbatch inferencer_worker.sub 1
+sbatch inferencer_worker.sub 2
+sbatch inferencer_worker.sub 3
+sbatch inferencer_worker.sub 4
+sbatch inferencer_worker.sub 5
+
