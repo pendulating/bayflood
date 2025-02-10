@@ -1,5 +1,5 @@
 CURRENT_DF="/share/ju/matt/street-flooding/runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB5_FINAL_PRE_KDD_MODEL_20250205-1603/analysis_df_FEB5_FINAL_PRE_KDD_MODEL_02052025.csv"
-PAPER_PATH='/share/ju/matt/street-flooding/KDD-2025-Matt-Flooding-Paper'
+PAPER_PATH='/share/ju/matt/street-flooding/KDD-2025-Flooding-Paper'
 WGS='EPSG:4326'
 PROJ='EPSG:2263'
 GEO_PATH='../../aggregation/geo/data'
