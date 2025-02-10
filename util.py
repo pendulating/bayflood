@@ -176,21 +176,18 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 if prop_ones < 0.01 or prop_ones > 0.99:
                     print(f"Warning: Highly imbalanced binary feature detected with proportion={prop_ones}")
 
+
             def process_covariates(df, observed_data, use_external_covariates=True):
                 """Process covariates with robust handling for large N observations."""
                 if not use_external_covariates:
                     return {"observed_data": observed_data}
 
-                # Initialize binary flags
-                df['any_311_report'] = False
-                df['any_sensors'] = df['n_floodnet_sensors'] > 0
 
                 # 1. Process right-skewed continuous variables
                 skewed_cols = [
                     'ft_elevation_min', 
-                    'ft_elevation_max',
-                    'dep_moderate_1_frac', 
-                    'dep_moderate_2_frac'
+                    'n_311_reports',
+                    'n_floodnet_sensors'
                 ]
                 
                 for col in skewed_cols:
@@ -218,18 +215,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 # 3. Collect covariates
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
-                cols_to_use.append('any_sensors')
-                
-                # Process 311 binary columns
-                for k in df.columns:
-                    if '311' in k:
-                        df[k] = pd.to_numeric(df[k], errors='coerce')
-                        binary_col = (df[k] > 0).astype(int)
-                        check_binary_frequency(binary_col)
-                        df[f'binary_{k}'] = binary_col
-                        print(f"Adding data from column {k}")
-                        df['any_311_report'] = df['any_311_report'] | (df[k] > 0) 
-                        cols_to_use.append(f'binary_{k}')
+                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)
