@@ -520,7 +520,9 @@ class ICAR_MODEL:
                                                                                     y=data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area'], iterations=5)
         # supervised baselines which predict outcome from external covariates
         assert (data['external_covariates'][:, 0] == 1).all()
+        # drop the intercept
         X = data['external_covariates'][:, 1:]
+        
         OLS_pred_frac_positive_classifications = LinearRegression().fit(X, frac_positive_classifications_baseline).predict(X)
         OLS_pred_n_positive_ground_truth = LinearRegression().fit(X, data['n_classified_positive_annotated_positive_by_area'] + data['n_classified_negative_annotated_positive_by_area']).predict(X)
         RandomForest_pred_frac_positive_classifications = RandomForestRegressor(random_state=777).fit(X, frac_positive_classifications_baseline).predict(X)
@@ -936,7 +938,7 @@ if __name__ == "__main__":
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="aggregation/context_df_02052025.csv",
+            EMPIRICAL_DATA_PATH="/share/ju/matt/street-flooding/aggregation/context_df_02072025.csv",
             adj=["data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt","data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"],
             adj_matrix_storage=False,
             downsample_frac=args.downsample_frac
