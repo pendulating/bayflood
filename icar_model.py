@@ -1,7 +1,3 @@
-# Dashcam-Bayesian Flooding Model Project 
-# Developers: Matthew Franchi (mattwfranchi) and Emma Pierson (epierson9)
-# Cornell Tech 
-
 # In this script, we house a class that fits various Stan models to a processed dataset of urban street flooding conditions in New York City. 
 
 
