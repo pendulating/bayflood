@@ -120,7 +120,7 @@ def generate_nyc_analysis_df(
 }
 
 
-    dp05_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_dp05.json', orient='records')
+    dp05_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs2023_dp05.json', orient='records')
     race_nyc = parse_acs(dp05_nyc, race_cols)
     ct_nyc = ct_nyc.merge(race_nyc, left_index=True, right_index=True)
 
@@ -130,13 +130,13 @@ def generate_nyc_analysis_df(
         'S2801_C01_012E': 'num_households_with_internet',
         'S2801_C01_005E': 'num_households_with_smartphone'
     }
-    s2801_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_s2801.json', orient='records')
+    s2801_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs2023_s2801.json', orient='records')
     internet_nyc = parse_acs(s2801_nyc, internet_cols)
     ct_nyc = ct_nyc.join(internet_nyc)
 
     # Income data
     income_cols = {'S1901_C01_012E': 'median_household_income'}
-    s1901_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_s1901.json', orient='records')
+    s1901_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs2023_s1901.json', orient='records')
     income_nyc = parse_acs(s1901_nyc, income_cols)
     ct_nyc = ct_nyc.join(income_nyc)
 
@@ -146,13 +146,13 @@ def generate_nyc_analysis_df(
         'S1501_C01_012E': 'num_bachelors_degree',
         'S1501_C01_013E': 'num_graduate_degree'
     }
-    s1501_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_s1501.json', orient='records')
+    s1501_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs2023_s1501.json', orient='records')
     education_nyc = parse_acs(s1501_nyc, education_cols)
     ct_nyc = ct_nyc.join(education_nyc)
 
     # Limited English speaking households
     leh_cols = {'S1602_C03_001E': 'num_limited_english_speaking_households'}
-    s1602_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs22_s1602.json', orient='records')
+    s1602_nyc = pd.read_json(f'{base_dir}/aggregation/demo/data/acs2023_s1602.json', orient='records')
     leh_nyc = parse_acs(s1602_nyc, leh_cols)
     ct_nyc = ct_nyc.join(leh_nyc)
 
@@ -292,28 +292,6 @@ def generate_nyc_analysis_df(
         gdf_ct_nyc[desc] = gdf_ct_nyc['geometry'].apply(
             lambda x: nyc311_sep29[nyc311_sep29['descriptor'] == descriptor].within(x).sum()
         )
-
-    # Add NYC Flood Vulnerability Index
-    #print(len(ct_nyc.index))
-    #nyc_fvi = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc_fvi.csv')
-    #def try_geo_parse(x):
-    #    try:
-    #        return wkt.loads(x)
-    #    except:
-    #        return None
-        
-    #nyc_fvi['geometry'] = nyc_fvi['the_geom'].apply(try_geo_parse)
-    # drop na geometry 
-    #nyc_fvi = nyc_fvi.dropna(subset=['geometry'])
-    # drop the_geom 
-    #nyc_fvi.drop(columns=['the_geom'], inplace=True)
-    #nyc_fvi = gpd.GeoDataFrame(nyc_fvi, crs=WGS, geometry='geometry').to_crs(PROJ)
-    #nyc_fvi['geoid'] = nyc_fvi['geoid'].astype(str)
-    #nyc_fvi = ct_nyc.merge(nyc_fvi.set_index('geoid'), left_index=True, right_index=True)[['fshri']]
-    #print(len(nyc_fvi.index))
-    #ct_nyc = ct_nyc.merge(nyc_fvi, left_index=True, right_index=True, how='left').drop_duplicates()
-    #ct_nyc['fshri'] = ct_nyc['fshri'].fillna(0)
-    #print(len(ct_nyc.index))
 
     COLS_ALLOWED_NA_VALS = ['empirical_estimate']
     def na_validation(df, cols_allowed_na_vals):
