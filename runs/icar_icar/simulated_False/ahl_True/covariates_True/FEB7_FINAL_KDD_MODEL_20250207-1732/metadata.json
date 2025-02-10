@@ -1,0 +1,23 @@
+{
+    "RUNID": "icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732",
+    "ANNOTATIONS_HAVE_LOCATIONS": true,
+    "SIMULATED_DATA": false,
+    "EXTERNAL_COVARIATES": true,
+    "CYCLES": 1,
+    "WARMUP": 6000,
+    "SAMPLES": 6000,
+    "use_icar_prior": 1,
+    "icar_prior_setting": "icar",
+    "N_ANNOTATED_CLASSIFIED_NEGATIVE": 500,
+    "N_ANNOTATED_CLASSIFIED_POSITIVE": 500,
+    "N_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE": 3,
+    "N_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE": 329,
+    "TOTAL_PRED_POSITIVE": 1465,
+    "TOTAL_PRED_NEGATIVE": 924747,
+    "N_SIMULATED_TRACTS": 1000,
+    "adj": [
+        "data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt",
+        "data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"
+    ],
+    "adj_matrix_storage": false
+}
