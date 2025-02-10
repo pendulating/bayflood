@@ -1,0 +1,12 @@
+pwd
+source /home/mwf62/.bashrc
+
+cd /share/ju/matt/street-flooding/notebooks/cambrian
+
+sbatch inferencer_worker_8b.sub 0
+sbatch inferencer_worker_8b.sub 1
+sbatch inferencer_worker_8b.sub 2
+sbatch inferencer_worker_8b.sub 3
+sbatch inferencer_worker_8b.sub 4
+sbatch inferencer_worker_8b.sub 5
+

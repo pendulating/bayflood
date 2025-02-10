@@ -1,0 +1,24 @@
+#!/bin/bash 
+#SBATCH -J inferencer
+#SBATCH -o /share/ju/matt/street-flooding/notebooks/cambrian/logs/worker8b/%j.out 
+#SBATCH -e /share/ju/matt/street-flooding/notebooks/cambrian/logs/worker8b/%j.err 
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=mwf62@cornell.edu 
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH --get-user-env 
+#SBATCH --mem=16gb
+#SBATCH -t 400:00:00 
+#SBATCH --gpus=1
+#SBATCH --partition=ju
+
+pwd
+source /home/mwf62/.bashrc
+ 
+source activate /share/ju/conda_virtualenvs/cambrian
+
+cd /share/ju/matt/street-flooding/notebooks/cambrian
+
+echo "Starting inference"
+
+python inferencer_worker_8b.py $1 entire_sep29
