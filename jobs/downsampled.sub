@@ -20,4 +20,4 @@ source activate /share/ju/conda_virtualenvs/stan
 cd /share/ju/matt/street-flooding
 
 # args: icar_prior_setting, annotations_have_locations, use_simulated_data
-python icar_model.py icar --annotations_have_locations --external_covariates --compare_to_baselines --prefix FINAL_KDD_BASELINES
+python icar_model.py icar --annotations_have_locations --external_covariates --downsample_frac 0.2 --prefix downsampled_pt2x_final_pre_kdd
