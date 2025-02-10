@@ -7,9 +7,6 @@
 [submodule "KDD-2025-Matt-Flooding-Paper"]
 	path = KDD-2025-Matt-Flooding-Paper
 	url = git@github.com:mattwfranchi/KDD-2025-Matt-Flooding-Paper.git
-[submodule "networks_underreporting"]
-	path = networks_underreporting
-	url = git@github.com:gsagostini/networks_underreporting.git
 [submodule "Janus"]
 	path = Janus
 	url = git@github.com:deepseek-ai/Janus.git
