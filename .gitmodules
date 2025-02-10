@@ -7,3 +7,6 @@
 [submodule "Janus"]
 	path = Janus
 	url = git@github.com:deepseek-ai/Janus.git
+[submodule "KDD-2025-Flooding-Paper"]
+	path = KDD-2025-Flooding-Paper
+	url = git@github.com:mattwfranchi/KDD-2025-Flooding-Paper.git
