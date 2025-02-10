@@ -88,6 +88,6 @@ def sample_topology(topology_path, sampling_geom,save=True):
 if __name__ == '__main__': 
 
     downsample_raster("data/DEM_LiDAR_1ft_2010_Improved_NYC_int.tif", downsample_factor=10, REGEN_TOPOLOGY=True, OUTPUT_PATH='data/processed/topology_nyc_downsampled.tif')
-    sample_topology('data/processed/topology_nyc_downsampled.tif', 'data/ct-nyc-wi-2020.geojson', save=True)
+    sample_topology('data/processed/topology_nyc_downsampled.tif', 'data/ct-nyc-2020.geojson', save=True)
 
     logger.success("Topology sampling complete")
