@@ -48,6 +48,38 @@ nest_asyncio.apply()
 
 ## Class Definition
 class ICAR_MODEL:
+    """
+    Intrinsic Conditional Autoregressive (ICAR) model for urban street flooding analysis.
+    
+    This class implements Bayesian spatial modeling for flood detection using dashcam imagery.
+    It supports multiple prior specifications, external covariates, and various estimation
+    parameters for comprehensive flooding analysis.
+    
+    Attributes:
+        N_ANNOTATED_CLASSIFIED_NEGATIVE (int): Number of annotated negative samples
+        N_ANNOTATED_CLASSIFIED_POSITIVE (int): Number of annotated positive samples
+        N_SIMULATED_TRACTS (int): Number of tracts for simulated data
+        annotations_have_locations (bool): Whether annotations include spatial locations
+        use_simulated_data (bool): Whether to use simulated or empirical data
+        use_external_covariates (bool): Whether to include external covariates
+        icar_prior_setting (str): Type of spatial prior ("none", "icar", "proper", "just_model_p_y")
+        ESTIMATE_PARAMETERS (list): Parameters to estimate from the model
+        models (dict): Dictionary of Stan model specifications
+        logger: Logger instance for tracking progress
+        
+    Example:
+        >>> model = ICAR_MODEL(
+        ...     PREFIX='flooding_analysis',
+        ...     ICAR_PRIOR_SETTING="icar",
+        ...     ANNOTATIONS_HAVE_LOCATIONS=True,
+        ...     EXTERNAL_COVARIATES=True,
+        ...     ESTIMATE_PARAMS=['p_y', 'at_least_one_positive_image_by_area'],
+        ...     EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv"
+        ... )
+        >>> model.load_data()
+        >>> fit = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1500)
+    """
+    
     def __init__(
         self,
         PREFIX='',
@@ -163,6 +195,16 @@ class ICAR_MODEL:
             self.RUNID = ""
 
     def parse_data_for_validation(self):
+        """
+        Parse and prepare observed data for validation and debugging.
+        
+        Converts numpy arrays to lists and handles int64 serialization issues
+        that can occur when saving data to JSON format.
+        
+        Returns:
+            dict: Copy of observed data with numpy arrays converted to lists
+                 and int64 values converted to regular integers
+        """
         # write jsonified observed data to file for debugging
         # need to convert numpy arrays to lists
         observed_data_copy = self.data_to_use["observed_data"].copy()
@@ -186,6 +228,22 @@ class ICAR_MODEL:
         return observed_data_copy
 
     def load_data(self):
+        """
+        Load and prepare data for ICAR model fitting.
+        
+        Depending on configuration, either generates simulated data or loads
+        empirical data from file. Handles data validation, downsampling, and
+        external covariates processing.
+        
+        The loaded data is stored in self.data_to_use and contains:
+        - observed_data: Dictionary with Stan model inputs
+        - external covariates (if enabled)
+        - adjacency information (if provided)
+        
+        Raises:
+            FileNotFoundError: If empirical data file is not found
+            ValueError: If data validation fails
+        """
         if self.use_simulated_data:
             self.logger.info("Generating simulated data.")
             N = self.N_SIMULATED_TRACTS
@@ -357,6 +415,10 @@ class ICAR_MODEL:
         train_data = {}
         test_data = {}
         full_dataset = deepcopy(full_dataset)
+        
+        
+        
+
         # add a convenience field because it makes the rest of the code easier to write succinctly. 
         full_dataset['observed_data']['n_non_annotated_by_area_classified_negative'] = full_dataset['observed_data']['n_non_annotated_by_area'] - full_dataset['observed_data']['n_non_annotated_by_area_classified_positive']
         for k in full_dataset['observed_data']:
@@ -565,7 +627,7 @@ class ICAR_MODEL:
         ground_truth = self.extract_baselines(test_data)
 
         self.data_to_use = {'observed_data':train_data}
-        fit, df = self.fit(CYCLES=1, WARMUP=8000, SAMPLES=8000, data_already_loaded=True)
+        fit, df = self.fit(CYCLES=1, WARMUP=25000, SAMPLES=25000, data_already_loaded=True)
 
         self.plot_results(fit, df)
 
@@ -934,7 +996,7 @@ if __name__ == "__main__":
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
             EXTERNAL_COVARIATES=args.external_covariates,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="/share/ju/matt/street-flooding/aggregation/context_df_02072025.csv",
+            EMPIRICAL_DATA_PATH="/share/ju/matt/street-flooding/aggregation/context_df_02102025.csv",
             adj=["data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt","data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"],
             adj_matrix_storage=False,
             downsample_frac=args.downsample_frac
