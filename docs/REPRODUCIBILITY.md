@@ -62,7 +62,7 @@ generate_maps(
 
 ### 4) Regenerating runs (optional)
 
-To re-run training (requires full data):
+To re-run training (requires a powerful computer):
 
 ```bash
 python icar_model.py icar \

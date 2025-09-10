@@ -4,6 +4,14 @@ A framework for detecting and analyzing urban street flooding using dashcam imag
 
 ![High-level process overview of BayFlood.](docs/bayflood_teaser.gif)
 
+### Documentation
+
+- Reproducibility: [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)
+- Data Dependencies: [docs/DATA_DEPENDENCIES.md](docs/DATA_DEPENDENCIES.md)
+- Components: [docs/COMPONENTS.md](docs/COMPONENTS.md)
+- CLI Reference: [docs/CLI_REFERENCE.md](docs/CLI_REFERENCE.md)
+- Stan Models: [docs/STAN_MODELS.md](docs/STAN_MODELS.md)
+
 ## Overview
 
 This repository contains tools and analyses for understanding urban street flooding patterns in New York City using:
