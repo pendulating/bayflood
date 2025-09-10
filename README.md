@@ -175,6 +175,88 @@ df = generate_nyc_analysis_df(
 4. **Generate visualizations** using `generate_maps.py`
 5. **Perform additional analysis** using the notebooks
 
+## End-to-end usage example (conda env → train → maps → analysis)
+
+- Create and activate a fresh conda environment (Python 3.10)
+```bash
+conda create -n bayflood-icar python=3.10 -y
+conda activate bayflood-icar
+```
+
+- Install dependencies (recommended: conda for geo libs, pip for the rest)
+```bash
+# Core + geospatial via conda-forge
+conda install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn jupyter -y
+conda install -c conda-forge geopandas shapely pyproj fiona rasterio pyarrow -y
+
+# Stan http backend + utils via pip
+pip install stan arviz nest-asyncio rasterstats tqdm python-json-logger termcolor
+```
+Alternatively:
+```bash
+pip install -r requirements-core.txt
+```
+
+- Move into the repo and (optional) clear Stan cache
+```bash
+cd /share/ju/matt/street-flooding
+python -c "from refresh_cache import refresh_cache; refresh_cache()"
+```
+
+- Verify required data are present (adjust paths as needed)
+```bash
+ls aggregation/context_df_02102025.csv
+ls aggregation/geo/data/ct-nyc-2020.geojson
+ls aggregation/flooding/data/nyc311_flooding_sep29.csv
+ls aggregation/flooding/static/current_floodnet_sensors.csv
+# Optional for maps depending on local data layout
+# ls "aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb"
+```
+
+- Train a new ICAR model on the provided dataset (with covariates)
+```bash
+EMPIRICAL="aggregation/context_df_02102025.csv"
+
+python icar_model.py icar \
+  --annotations_have_locations \
+  --external_covariates \
+  --prefix VALIDATION_WITH_COVS \
+  --empirical_data_path "$EMPIRICAL"
+```
+
+- (Optional) Train without covariates for comparison
+```bash
+python icar_model.py icar \
+  --annotations_have_locations \
+  --prefix VALIDATION_NO_COVS \
+  --empirical_data_path "$EMPIRICAL"
+```
+
+- Locate the latest run ID (with covariates)
+```bash
+RUN_DIR=$(ls -td runs/icar_icar/simulated_False/ahl_True/covariates_True/* | head -1)
+RUN_ID=${RUN_DIR#runs/}
+echo "$RUN_ID"
+```
+
+- Generate maps from the new run (optional)
+```bash
+python generate_maps.py "$RUN_ID" "runs/$RUN_ID/estimate_p_y.csv" p_y
+python generate_maps.py "$RUN_ID" "runs/$RUN_ID/estimate_at_least_one_positive_image_by_area.csv" at_least_one_positive_image_by_area
+```
+
+- Generate the tract-level analysis CSVs (core output)
+```bash
+python -c "from analysis_df import generate_nyc_analysis_df as g; g(run_dir='runs/$RUN_ID', custom_prefix='validation', use_smoothing=True)"
+```
+
+- Validate outputs exist
+```bash
+ls runs/$RUN_ID/estimate_p_y.csv
+ls runs/$RUN_ID/analysis_df_validation_*.csv
+ls runs/$RUN_ID/analysis_df_describe_validation_*.csv
+```
+
 ### Notebooks
 
 Paper notebooks live in submodules and are out of scope for this artifact.
