@@ -3,6 +3,7 @@
 
 ## Module Imports 
 import util
+import config
 from IPython import embed
 
 
@@ -19,7 +20,7 @@ if multiprocessing.get_start_method(allow_none=True) is None:
     multiprocessing.set_start_method("fork")
 
 import pandas as pd
-import stan
+import stan as stan
 import numpy as np
 from scipy.stats import pearsonr, spearmanr
 import arviz as az
@@ -94,7 +95,7 @@ class ICAR_MODEL:
         downsample_frac=1
     ):
 
-        refresh_cache('mwf62')
+        refresh_cache()
         print(SIMULATED_DATA)
 
         # Sanity checks on user inputs 
@@ -146,12 +147,7 @@ class ICAR_MODEL:
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
         self.icar_prior_setting = ICAR_PRIOR_SETTING
-        assert self.icar_prior_setting in [
-            "none",
-            "icar",
-            "proper",
-            "just_model_p_y",
-        ]
+        assert self.icar_prior_setting in ["icar"], "Only 'icar' setting is supported in this artifact."
 
         self.VALID_ESTIMATE_PARAMETERS = ["p_y", "at_least_one_positive_image_by_area", "at_least_one_positive_image_by_area_if_you_have_100_images"]
         self.ADDITIONAL_PARAMS_TO_SAVE = []
@@ -162,13 +158,11 @@ class ICAR_MODEL:
 
         # This dictionary stores the available stan models
         self.models = {
-            "weighted_ICAR_prior": open("stan_models/weighted_ICAR_prior.stan").read(),
-            "proper_car_prior": open("stan_models/proper_car_prior.stan").read(),
-            "uniform_p_y": open(
-                "stan_models/uniform_p_y_prior_just_for_debugging.stan"
-            ).read(),
             "ICAR_prior_annotations_have_locations": open(
                 "stan_models/ICAR_prior_annotations_have_locations.stan"
+            ).read(),
+            "weighted_ICAR_prior": open(
+                "stan_models/weighted_ICAR_prior.stan"
             ).read(),
         }
 
@@ -319,54 +313,14 @@ class ICAR_MODEL:
                         data=self.data_to_use["observed_data"],
                     )
                     self.ADDITIONAL_PARAMS_TO_SAVE += ['spatial_sigma', 'external_covariate_beta']
-
                 else:
-                    self.logger.info("Building model without annotation location data.")
-                    model = stan.build(
-                        self.models["weighted_ICAR_prior"],
-                        data=self.data_to_use["observed_data"],
-                    )
-            elif self.icar_prior_setting == "none":
-                self.logger.info("Building model with no ICAR prior.")
-                self.data_to_use["observed_data"]["use_ICAR_prior"] = 0
-                if self.annotations_have_locations:
-                    self.logger.info(
-                        "Building model with annotations have locations."
-                    )
-                    self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
-                    model = stan.build(
-                        self.models["ICAR_prior_annotations_have_locations"],
-                        data=self.data_to_use["observed_data"],
-                    )
-                    self.ADDITIONAL_PARAMS_TO_SAVE +=  ['spatial_sigma', 'external_covariate_beta']
-
-                    
-                else:
-                    self.logger.info("Building model without annotation location data.")
-                    model = stan.build(
-                        self.models["weighted_ICAR_prior"],
-                        data=self.data_to_use["observed_data"],
-                    )
-            elif self.icar_prior_setting == "just_model_p_y":
-                del self.data_to_use["observed_data"]["node1"]
-                del self.data_to_use["observed_data"]["node2"]
-                del self.data_to_use["observed_data"]["N_edges"]
-                self.logger.info("Building model with just model p_y.")
-                model = stan.build(
-                    self.models["uniform_p_y"], data=self.data_to_use["observed_data"]
-                )
-
-            elif self.icar_prior_setting == "proper":
-                model = stan.build(self.models['proper_car_prior'], data=self.data_to_use['observed_data'])
-            
-
-            else:
-                raise ValueError("Invalid icar_prior_options", self.icar_prior_setting)
+                    raise ValueError("This artifact requires annotations_have_locations=True.")
 
 
             self.logger.info(f"Successfully built the model, with use_icar_prior: {self.data_to_use['observed_data']['use_ICAR_prior']}.")
 
-            with warnings.catch_warnings(action="ignore"):
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
                 fit = model.sample(num_chains=4, num_warmup=WARMUP, num_samples=SAMPLES)
             print(az.summary(fit))
             df = fit.to_frame()
@@ -929,7 +883,7 @@ class ICAR_MODEL:
 if __name__ == "__main__":
 
     # Create an argument parser
-    parser = argparse.ArgumentParser(description="Process some settings.")
+    parser = argparse.ArgumentParser(description="BayFlood ICAR pipeline training script")
 
     # Add required argument for ICAR prior setting
     parser.add_argument(
@@ -984,21 +938,71 @@ if __name__ == "__main__":
         help='Fraction of annotated images to keep in the dataset'
     )
 
+    # Data/config path overrides
+    parser.add_argument(
+        '--empirical_data_path',
+        type=str,
+        required=False,
+        default=None,
+        help='Path to empirical dataset CSV (defaults to EMPIRICAL_DATA_PATH env or config.DATASET_PATH)'
+    )
+
+    parser.add_argument(
+        '--adj_node1_path',
+        type=str,
+        required=False,
+        default=None,
+        help='Path to adjacency edge list node1 file (.txt)'
+    )
+    parser.add_argument(
+        '--adj_node2_path',
+        type=str,
+        required=False,
+        default=None,
+        help='Path to adjacency edge list node2 file (.txt)'
+    )
+    parser.add_argument(
+        '--adj_npy_path',
+        type=str,
+        required=False,
+        default=None,
+        help='Path to adjacency matrix .npy file (mutually exclusive with node1/node2)'
+    )
+
 
 
     # Parse the arguments
     args = parser.parse_args()
+
+    # Resolve dataset path
+    empirical_path = args.empirical_data_path or config.DATASET_PATH
+
+    # Resolve adjacency inputs
+    adj = []
+    adj_matrix_storage = False
+    if args.adj_npy_path:
+        adj = [args.adj_npy_path]
+        adj_matrix_storage = True
+    elif args.adj_node1_path and args.adj_node2_path:
+        adj = [args.adj_node1_path, args.adj_node2_path]
+        adj_matrix_storage = False
+    elif config.ADJ_NPY_PATH:
+        adj = [config.ADJ_NPY_PATH]
+        adj_matrix_storage = True
+    else:
+        adj = [config.ADJ_NODE1_PATH, config.ADJ_NODE2_PATH]
+        adj_matrix_storage = False
 
     model = ICAR_MODEL(
             PREFIX=args.prefix,
             ICAR_PRIOR_SETTING=args.icar_prior_setting,
             ESTIMATE_PARAMS=["p_y", "at_least_one_positive_image_by_area"],
             ANNOTATIONS_HAVE_LOCATIONS=args.annotations_have_locations,
-            EXTERNAL_COVARIATES=args.external_covariates,
+            EXTERNAL_COVARIATES=args.external_covariates if args.external_covariates is not None else config.EXTERNAL_COVARIATES,
             SIMULATED_DATA=args.simulated_data,
-            EMPIRICAL_DATA_PATH="/share/ju/matt/street-flooding/aggregation/context_df_02102025.csv",
-            adj=["data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt","data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"],
-            adj_matrix_storage=False,
+            EMPIRICAL_DATA_PATH=empirical_path,
+            adj=adj,
+            adj_matrix_storage=adj_matrix_storage,
             downsample_frac=args.downsample_frac
         )
 
