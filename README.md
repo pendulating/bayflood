@@ -8,18 +8,17 @@ A comprehensive analysis framework for detecting and analyzing urban street floo
 
 This repository contains tools and analyses for understanding urban street flooding patterns in New York City using:
 
-- **Dashcam imagery analysis** for automated flood detection
+- **Zero-shot classification of dense street imagery (here, from networked dashcams)** for automated flood detection
 - **ICAR (Intrinsic Conditional Autoregressive) models** for spatial analysis
 - **Bayesian inference** using Stan probabilistic programming
-- **Multiple data sources**: 311 complaints, FloodNet sensors, census data, topographic data
+- **External sources of flooding**: 311 complaints, FloodNet sensors, census data, topographic data
 - **Geospatial analysis** with NYC census tracts as the primary unit
 
 ## Scope and Key Features
 
 - **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, and tract-level analysis CSVs via `analysis_df.py`.
-- **Out of scope for this artifact**: Submodules `urbanECG`, `cambrian`, `Janus`, and other external paper repositories (kept as references only).
+- **Out of scope for this artifact**: Submodules `cambrian`, `Janus`, and other external paper repositories (kept as references only).
 - **Optional visualization**: `generate_maps.py` can render geospatial maps but is not required for reproducing model outputs.
- - Note: the historical `deliverables/` folder is out of scope; all outputs are written under `runs/<RUN_ID>/`.
 
 ## Project Structure (relevant to ICAR pipeline)
 
@@ -35,21 +34,18 @@ bayflood/
 ├── observed_data.csv          # Processed flooding observations
 ├── stan_models/               # Stan model specifications
 │   ├── weighted_ICAR_prior.stan
-│   ├── proper_car_prior.stan
-│   └── ...
+│   ├── ICAR_prior_annotations_have_locations.stan
 ├── notebooks/                 # Jupyter notebooks for analysis
 │   ├── for_paper/            # Paper-specific analyses
-│   ├── (paper notebooks)     # External paper analyses (out of scope)
-│   ├── for_floodnet/         # FloodNet sensor analysis
-│   └── ...
+│   └── visual_assets
 ├── data/                      # Data storage
 │   ├── processed/            # Processed datasets
-│   └── ...
+│   └── adjacency/            # Pre-computed adjacency matrix of NYC census tracts, in Stan-compatible format
 ├── aggregation/              # Aggregated data sources
 │   ├── flooding/            # Flooding-related data
 │   ├── demo/                # Demographic data
 │   └── geo/                 # Geographic data
-└── runs/                     # Model run outputs
+└── runs/                     # Model run outputs (two replication runs included in Repo)
 ```
 
 ## Installation
@@ -57,9 +53,7 @@ bayflood/
 ### Prerequisites
 
 - Python 3.8 or higher
-- Stan (PyStan) for Bayesian modeling
-- Geographic data processing libraries
-- Computer vision libraries for image analysis
+- Stan (PyStan)
 
 ### Environment Setup
 
