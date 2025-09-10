@@ -2,6 +2,8 @@
 
 A comprehensive analysis framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources.
 
+![High-level process overview of BayFlood.](docs/bayflood_teaser.gif)
+
 ## Overview
 
 This repository contains tools and analyses for understanding urban street flooding patterns in New York City using:
