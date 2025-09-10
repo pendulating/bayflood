@@ -63,26 +63,16 @@ bayflood/
    cd bayflood
    ```
 
-2. **Create a virtual environment:**
+2. **Create a virtual environment:** (use mamba or conda interchangeablely)
    ```bash
-   conda create -n bayflood python=3.10
-   conda activate bayflood
+   mamba create -n bayflood python=3.10
+   mamba activate bayflood
    ```
 
 3. **Install dependencies (Python 3.10):**
    ```bash
-   pip install -r requirements.txt  # or: pip install -r requirements-core.txt
+   pip install -r requirements.txt
    ```
-
-   Or install manually:
-   ```bash
-   pip install pandas numpy scipy scikit-learn
-   pip install geopandas matplotlib seaborn
-   pip install stan pystan arviz
-   pip install jupyter notebook
-   pip install shapely pyproj
-   ```
-
 4. **Stan backend**: We use `pystan` for Stan.
 
 ## Data Requirements
