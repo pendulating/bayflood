@@ -161,31 +161,22 @@ df = generate_nyc_analysis_df(
 
 ## End-to-end usage example (conda env → train → maps → analysis)
 
-- Create and activate a fresh conda environment (Python 3.10)
+- Create and activate a fresh conda environment (Python 3.10, use mamba or conda commands interchangeably)
 ```bash
-conda create -n bayflood-icar python=3.10 -y
-conda activate bayflood-icar
+mamba create -n bayflood-icar python=3.10 -y
+mamba activate bayflood-icar
 ```
 
 - Install dependencies (recommended: conda for geo libs, pip for the rest)
 ```bash
 # Core + geospatial via conda-forge
-conda install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn jupyter -y
-conda install -c conda-forge geopandas shapely pyproj fiona rasterio pyarrow -y
+mamba install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn jupyter -y
+mamba install -c conda-forge geopandas shapely pyproj fiona rasterio pyarrow -y
 
 # Stan http backend + utils via pip
-pip install stan arviz nest-asyncio rasterstats tqdm python-json-logger termcolor
-```
-Alternatively:
-```bash
-pip install -r requirements-core.txt
+mamba install pystan arviz nest-asyncio rasterstats tqdm python-json-logger termcolor
 ```
 
-- Move into the repo and (optional) clear Stan cache
-```bash
-cd /share/ju/matt/street-flooding
-python -c "from refresh_cache import refresh_cache; refresh_cache()"
-```
 
 - Verify required data are present (adjust paths as needed)
 ```bash
@@ -259,7 +250,8 @@ The ICAR (Intrinsic Conditional Autoregressive) model accounts for spatial depen
 ### Stan Models
 
 Located in `stan_models/`:
-- `ICAR_prior_annotations_have_locations.stan`: ICAR model with annotation locations (only model used)
+- `ICAR_prior_annotations_have_locations.stan`: ICAR model with annotation locations (only model used in paper)
+- `weighted_ICAR_prior.stan`: ICAR model, but doesn't use annotation locations data. 
 
 ## Outputs
 
@@ -271,13 +263,13 @@ Located in `stan_models/`:
 
 ### Analysis Outputs
 
-- **Comprehensive DataFrames**: Combined analysis with all covariates
+- **DataFrames**: Combined analysis with all covariates, as well as output DataFrame of per-column descriptive statistics. 
 - **Statistical summaries**: Correlation analyses, bias assessments
-- **Visualizations**: Maps, plots, and interactive figures
+- **Visualizations**: Maps & plots
 
 ## Citation
 
-If you use this work, please cite:
+If you use or build off of this work, please cite:
 
 - Bayesian Modeling of Zero-Shot Classifications for Urban Flood Detection. arXiv:2503.14754v2, 26 Mar 2025. [arXiv](https://arxiv.org/abs/2503.14754v2)
 
