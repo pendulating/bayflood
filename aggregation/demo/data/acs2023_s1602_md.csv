@@ -1,0 +1,21 @@
+,desc_1,desc_2,desc_3,desc_4,desc_5
+S1602_C01_001E,Estimate,Total,All households,,
+S1602_C01_002E,Estimate,Total,All households,Households speaking --,Spanish
+S1602_C01_003E,Estimate,Total,All households,Households speaking --,Other Indo-European languages
+S1602_C01_004E,Estimate,Total,All households,Households speaking --,Asian and Pacific Island languages
+S1602_C01_005E,Estimate,Total,All households,Households speaking --,Other languages
+S1602_C02_001E,Estimate,Percent,All households,,
+S1602_C02_002E,Estimate,Percent,All households,Households speaking --,Spanish
+S1602_C02_003E,Estimate,Percent,All households,Households speaking --,Other Indo-European languages
+S1602_C02_004E,Estimate,Percent,All households,Households speaking --,Asian and Pacific Island languages
+S1602_C02_005E,Estimate,Percent,All households,Households speaking --,Other languages
+S1602_C03_001E,Estimate,Limited English-speaking households,All households,,
+S1602_C03_002E,Estimate,Limited English-speaking households,All households,Households speaking --,Spanish
+S1602_C03_003E,Estimate,Limited English-speaking households,All households,Households speaking --,Other Indo-European languages
+S1602_C03_004E,Estimate,Limited English-speaking households,All households,Households speaking --,Asian and Pacific Island languages
+S1602_C03_005E,Estimate,Limited English-speaking households,All households,Households speaking --,Other languages
+S1602_C04_001E,Estimate,Percent limited English-speaking households,All households,,
+S1602_C04_002E,Estimate,Percent limited English-speaking households,All households,Households speaking --,Spanish
+S1602_C04_003E,Estimate,Percent limited English-speaking households,All households,Households speaking --,Other Indo-European languages
+S1602_C04_004E,Estimate,Percent limited English-speaking households,All households,Households speaking --,Asian and Pacific Island languages
+S1602_C04_005E,Estimate,Percent limited English-speaking households,All households,Households speaking --,Other languages

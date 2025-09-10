@@ -1,0 +1,385 @@
+,desc_1,desc_2,desc_3,desc_4,desc_5
+S1501_C01_001E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C01_002E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C01_003E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C01_004E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C01_005E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C01_006E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C01_007E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C01_008E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C01_009E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C01_010E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C01_011E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C01_012E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C01_013E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C01_014E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C01_015E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C01_016E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C01_017E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C01_018E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C01_019E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C01_020E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C01_021E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C01_022E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C01_023E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C01_024E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C01_025E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C01_026E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C01_027E,Estimate,Total,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C01_028E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C01_029E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C01_030E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C01_031E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C01_032E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C01_033E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C01_034E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C01_035E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C01_036E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C01_037E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C01_038E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C01_039E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C01_040E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C01_041E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C01_042E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C01_043E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C01_044E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C01_045E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C01_046E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C01_047E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C01_048E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C01_049E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C01_050E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C01_051E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C01_052E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C01_053E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C01_054E,Estimate,Total,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C01_055E,Estimate,Total,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C01_056E,Estimate,Total,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C01_057E,Estimate,Total,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C01_058E,Estimate,Total,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C01_059E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C01_060E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C01_061E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C01_062E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C01_063E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C01_064E,Estimate,Total,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
+S1501_C02_001E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C02_002E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C02_003E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C02_004E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C02_005E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C02_006E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C02_007E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C02_008E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C02_009E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C02_010E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C02_011E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C02_012E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C02_013E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C02_014E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C02_015E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C02_016E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C02_017E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C02_018E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C02_019E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C02_020E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C02_021E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C02_022E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C02_023E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C02_024E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C02_025E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C02_026E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C02_027E,Estimate,Percent,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C02_028E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C02_029E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C02_030E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C02_031E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C02_032E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C02_033E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C02_034E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C02_035E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C02_036E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C02_037E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C02_038E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C02_039E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C02_040E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C02_041E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C02_042E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C02_043E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C02_044E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C02_045E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C02_046E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C02_047E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C02_048E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C02_049E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C02_050E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C02_051E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C02_052E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C02_053E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C02_054E,Estimate,Percent,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C02_055E,Estimate,Percent,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C02_056E,Estimate,Percent,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C02_057E,Estimate,Percent,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C02_058E,Estimate,Percent,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C02_059E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C02_060E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C02_061E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C02_062E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C02_063E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C02_064E,Estimate,Percent,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
+S1501_C03_001E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C03_002E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C03_003E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C03_004E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C03_005E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C03_006E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C03_007E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C03_008E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C03_009E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C03_010E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C03_011E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C03_012E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C03_013E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C03_014E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C03_015E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C03_016E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C03_017E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C03_018E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C03_019E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C03_020E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C03_021E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C03_022E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C03_023E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C03_024E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C03_025E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C03_026E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C03_027E,Estimate,Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C03_028E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C03_029E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C03_030E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C03_031E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C03_032E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C03_033E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C03_034E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C03_035E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C03_036E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C03_037E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C03_038E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C03_039E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C03_040E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C03_041E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C03_042E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C03_043E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C03_044E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C03_045E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C03_046E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C03_047E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C03_048E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C03_049E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C03_050E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C03_051E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C03_052E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C03_053E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C03_054E,Estimate,Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C03_055E,Estimate,Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C03_056E,Estimate,Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C03_057E,Estimate,Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C03_058E,Estimate,Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C03_059E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C03_060E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C03_061E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C03_062E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C03_063E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C03_064E,Estimate,Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
+S1501_C04_001E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C04_002E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C04_003E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C04_004E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C04_005E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C04_006E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C04_007E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C04_008E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C04_009E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C04_010E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C04_011E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C04_012E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C04_013E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C04_014E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C04_015E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C04_016E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C04_017E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C04_018E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C04_019E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C04_020E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C04_021E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C04_022E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C04_023E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C04_024E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C04_025E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C04_026E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C04_027E,Estimate,Percent Male,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C04_028E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C04_029E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C04_030E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C04_031E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C04_032E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C04_033E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C04_034E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C04_035E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C04_036E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C04_037E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C04_038E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C04_039E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C04_040E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C04_041E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C04_042E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C04_043E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C04_044E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C04_045E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C04_046E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C04_047E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C04_048E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C04_049E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C04_050E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C04_051E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C04_052E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C04_053E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C04_054E,Estimate,Percent Male,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C04_055E,Estimate,Percent Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C04_056E,Estimate,Percent Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C04_057E,Estimate,Percent Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C04_058E,Estimate,Percent Male,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C04_059E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C04_060E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C04_061E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C04_062E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C04_063E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C04_064E,Estimate,Percent Male,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
+S1501_C05_001E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C05_002E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C05_003E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C05_004E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C05_005E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C05_006E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C05_007E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C05_008E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C05_009E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C05_010E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C05_011E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C05_012E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C05_013E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C05_014E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C05_015E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C05_016E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C05_017E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C05_018E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C05_019E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C05_020E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C05_021E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C05_022E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C05_023E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C05_024E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C05_025E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C05_026E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C05_027E,Estimate,Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C05_028E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C05_029E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C05_030E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C05_031E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C05_032E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C05_033E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C05_034E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C05_035E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C05_036E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C05_037E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C05_038E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C05_039E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C05_040E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C05_041E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C05_042E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C05_043E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C05_044E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C05_045E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C05_046E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C05_047E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C05_048E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C05_049E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C05_050E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C05_051E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C05_052E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C05_053E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C05_054E,Estimate,Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C05_055E,Estimate,Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C05_056E,Estimate,Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C05_057E,Estimate,Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C05_058E,Estimate,Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C05_059E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C05_060E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C05_061E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C05_062E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C05_063E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C05_064E,Estimate,Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
+S1501_C06_001E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,
+S1501_C06_002E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Less than high school graduate
+S1501_C06_003E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,High school graduate (includes equivalency)
+S1501_C06_004E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Some college or associate's degree
+S1501_C06_005E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 18 to 24 years,Bachelor's degree or higher
+S1501_C06_006E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,
+S1501_C06_007E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Less than 9th grade
+S1501_C06_008E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"9th to 12th grade, no diploma"
+S1501_C06_009E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate (includes equivalency)
+S1501_C06_010E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,"Some college, no degree"
+S1501_C06_011E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Associate's degree
+S1501_C06_012E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree
+S1501_C06_013E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Graduate or professional degree
+S1501_C06_014E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,High school graduate or higher
+S1501_C06_015E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 years and over,Bachelor's degree or higher
+S1501_C06_016E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,
+S1501_C06_017E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,High school graduate or higher
+S1501_C06_018E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 25 to 34 years,Bachelor's degree or higher
+S1501_C06_019E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,
+S1501_C06_020E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,High school graduate or higher
+S1501_C06_021E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 35 to 44 years,Bachelor's degree or higher
+S1501_C06_022E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,
+S1501_C06_023E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,High school graduate or higher
+S1501_C06_024E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 45 to 64 years,Bachelor's degree or higher
+S1501_C06_025E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,
+S1501_C06_026E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,High school graduate or higher
+S1501_C06_027E,Estimate,Percent Female,AGE BY EDUCATIONAL ATTAINMENT,Population 65 years and over,Bachelor's degree or higher
+S1501_C06_028E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,
+S1501_C06_029E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,High school graduate or higher
+S1501_C06_030E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,White alone,Bachelor's degree or higher
+S1501_C06_031E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",
+S1501_C06_032E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",High school graduate or higher
+S1501_C06_033E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,"White alone, not Hispanic or Latino",Bachelor's degree or higher
+S1501_C06_034E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,
+S1501_C06_035E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,High school graduate or higher
+S1501_C06_036E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Black alone,Bachelor's degree or higher
+S1501_C06_037E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,
+S1501_C06_038E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,High school graduate or higher
+S1501_C06_039E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,American Indian or Alaska Native alone,Bachelor's degree or higher
+S1501_C06_040E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,
+S1501_C06_041E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,High school graduate or higher
+S1501_C06_042E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Asian alone,Bachelor's degree or higher
+S1501_C06_043E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,
+S1501_C06_044E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,High school graduate or higher
+S1501_C06_045E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Native Hawaiian and Other Pacific Islander alone,Bachelor's degree or higher
+S1501_C06_046E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,
+S1501_C06_047E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,High school graduate or higher
+S1501_C06_048E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Some other race alone,Bachelor's degree or higher
+S1501_C06_049E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,
+S1501_C06_050E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,High school graduate or higher
+S1501_C06_051E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Two or more races,Bachelor's degree or higher
+S1501_C06_052E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,
+S1501_C06_053E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,High school graduate or higher
+S1501_C06_054E,Estimate,Percent Female,RACE AND HISPANIC OR LATINO ORIGIN BY EDUCATIONAL ATTAINMENT,Hispanic or Latino Origin,Bachelor's degree or higher
+S1501_C06_055E,Estimate,Percent Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Less than high school graduate,
+S1501_C06_056E,Estimate,Percent Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,High school graduate (includes equivalency),
+S1501_C06_057E,Estimate,Percent Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Some college or associate's degree,
+S1501_C06_058E,Estimate,Percent Female,POVERTY RATE FOR THE POPULATION 25 YEARS AND OVER FOR WHOM POVERTY STATUS IS DETERMINED BY EDUCATIONAL ATTAINMENT LEVEL,Bachelor's degree or higher,
+S1501_C06_059E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,
+S1501_C06_060E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Less than high school graduate
+S1501_C06_061E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,High school graduate (includes equivalency)
+S1501_C06_062E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Some college or associate's degree
+S1501_C06_063E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Bachelor's degree
+S1501_C06_064E,Estimate,Percent Female,MEDIAN EARNINGS IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS),Population 25 years and over with earnings,Graduate or professional degree
