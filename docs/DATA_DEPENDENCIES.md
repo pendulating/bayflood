@@ -31,16 +31,14 @@ data/
       ct_nyc_adj_list_custom_geometric_node2.txt
 ```
 
-### Main tract-level dataset: `flooding_ct_dataset.csv`
+### Main tract-level dataset: `context_df_*.csv`
 
-- Required columns:
+- Typical path: `aggregation/context_df_YYYYMMDD.csv` (e.g., `aggregation/context_df_02102025.csv`)
+- Required columns (subset used by the ICAR pipeline):
   - `GEOID` (string): Census tract identifier
   - `n_total` (int): Total number of images per tract
   - `n_classified_positive` (int): Number of images classified positive for flooding
-  - `geometry` (WKT): Tract geometry
-- Optional (when `--annotations_have_locations` is set):
-  - `n_tp`, `n_fn`, `n_fp`, `n_tn` (int): Manual annotation counts per tract
-  - `total_not_annotated` (int), `positives_not_annotated` (int)
+  - (optional) When using annotation locations: `n_tp`, `n_fn`, `n_fp`, `n_tn`, `total_not_annotated`, `positives_not_annotated`
 
 This file is the output of the broader data pipeline (dashcam VLM inference + manual annotation integration). That pipeline is out of scope here; reviewers use this processed CSV as input to the ICAR model.
 
@@ -56,6 +54,10 @@ Used by `ICAR_prior_annotations_have_locations.stan` via `external_covariates` m
 - DEP stormwater coverage fractions
 - FloodNet sensor counts per tract
 - 311 complaint counts per tract
+ 
+#### ACS demographic features (used in analysis)
+- Location: `aggregation/demo/data/`
+- Files (2023): `acs2023_dp05.json`, `acs2023_s2801.json`, `acs2023_s1901.json`, `acs2023_s1501.json`, `acs2023_s1602.json`
 
 ### Mapping and analysis inputs
 
