@@ -6,9 +6,9 @@ This guide explains how to reproduce the main results using precomputed run outp
 
 Example precomputed runs are included at:
 - Without covariates:
-  `runs/icar_icar/simulated_False/ahl_True/covariates_False/FEB7_FINAL_KDD_MODEL_NO_COVARIATES_20250207-1814`
+  `runs/icar_icar/simulated_False/ahl_True/covariates_False/VALIDATION_NO_COVS_20250910-1441`
 - With covariates:
-  `runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732`
+  `runs/icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406`
 
 Each run directory contains at least:
 - `estimate_p_y.csv`
