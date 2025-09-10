@@ -68,28 +68,13 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Install Stan
+### 4. Stan backend (httpstan)
 
-Stan is required for Bayesian modeling. Install using one of these methods:
-
-#### Option A: Using CmdStanPy (Recommended)
+This artifact uses the Python `stan` package (httpstan backend). No CmdStan/PyStan required.
 
 ```bash
-pip install cmdstanpy
-python -c "import cmdstanpy; cmdstanpy.install_cmdstan()"
+pip install stan
 ```
-
-#### Option B: Using PyStan
-
-```bash
-pip install pystan
-```
-
-#### Option C: Manual Installation
-
-1. Download Stan from [mc-stan.org](https://mc-stan.org)
-2. Follow platform-specific installation instructions
-3. Set environment variables if needed
 
 ### 5. Verify Installation
 
@@ -108,7 +93,7 @@ print('✅ All core dependencies installed successfully!')
 
 ## Environment Configuration
 
-### 1. Set Up Environment Variables
+### 1. Set Up Environment Variables (optional)
 
 Create a `.env` file in the project root:
 
@@ -120,10 +105,6 @@ touch .env
 Add the following variables to `.env`:
 
 ```env
-# Stan configuration
-STAN_BACKEND=cmdstanpy
-STAN_THREADS=4
-
 # Data paths (adjust as needed)
 DATA_DIR=./data
 PROCESSED_DATA_DIR=./data/processed
@@ -133,7 +114,7 @@ AGGREGATION_DIR=./aggregation
 LOG_LEVEL=INFO
 LOG_FILE=./log/analysis.log
 
-# Model parameters
+# Optional model parameters
 DEFAULT_WARMUP=1000
 DEFAULT_SAMPLES=1500
 ```

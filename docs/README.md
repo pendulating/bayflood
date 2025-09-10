@@ -10,9 +10,9 @@ Welcome to the BayFlood documentation. This guide provides an overview of all av
 - **[User Guide](USER_GUIDE.md)** - Comprehensive analysis instructions
 
 ### 📚 Reference Documentation
-- **[API Reference](API_REFERENCE.md)** - Detailed function and class documentation
-- **[Model Specifications](MODEL_SPECS.md)** - Stan model details and theory
-- **[Data Format Guide](DATA_FORMAT.md)** - Data requirements and formats
+Note: Consolidated for the ICAR artifact scope.
+- Model specifications: see `stan_models/*.stan` and inline docs in `icar_model.py`
+- Data format and sources: see `DATA_DEPENDENCIES.md` and `USER_GUIDE.md`
 
 ### 🔧 Advanced Topics
 - **[Advanced Analysis](ADVANCED_ANALYSIS.md)** - Custom analyses and extensions
@@ -27,9 +27,7 @@ docs/
 ├── INSTALLATION.md              # Environment setup
 ├── QUICKSTART.md                # Quick start guide
 ├── USER_GUIDE.md                # Comprehensive user guide
-├── API_REFERENCE.md             # API documentation
-├── MODEL_SPECS.md               # Model specifications
-├── DATA_FORMAT.md               # Data format requirements
+├── DATA_DEPENDENCIES.md         # Data sources and formats (ICAR scope)
 ├── ADVANCED_ANALYSIS.md         # Advanced analysis techniques
 ├── PERFORMANCE.md               # Performance optimization
 ├── TROUBLESHOOTING.md           # Troubleshooting guide
@@ -199,11 +197,9 @@ To contribute documentation:
 
 ## Version Information
 
-This documentation corresponds to:
-- **Repository Version**: 1.0.0
-- **Python Version**: 3.8+
-- **Stan Version**: 2.32+
-- **Last Updated**: [Current Date]
+This documentation corresponds to the ICAR pipeline artifact.
+- **Python Version**: 3.10
+- **Stan Backend**: `stan` (httpstan)
 
 ## License
 
