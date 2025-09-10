@@ -67,7 +67,7 @@ bayflood/
 
 ### Environment Setup
 
-1. **Clone the repository:** (should take < 30 seconds on a fast internet connection)
+1. **Clone the repository** (should take < 30 seconds on a fast internet connection):
    ```bash
    git clone <repository-url>
    cd bayflood
