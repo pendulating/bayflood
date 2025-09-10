@@ -153,7 +153,7 @@ df = generate_nyc_analysis_df(
 
 ### Running a Complete Analysis
 
-1. **Prepare your data** according to the data requirements
+1. **Prepare your data** according to the data requirements, or use pre-downloaded & pre-processed datasets in this repo. 
 2. **Configure model parameters** via CLI flags or environment variables in `config.py`
 3. **Run the ICAR model** to get flooding estimates
 4. **Generate visualizations** using `generate_maps.py`
