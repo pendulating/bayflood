@@ -124,8 +124,8 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     # FLOODNET 
 
-    all_floodnet_sensor_geo = pd.read_csv('aggregation/flooding/static/floodnet_sensor_coordinates.csv')
-    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensor_geo, geometry=gpd.points_from_xy(all_floodnet_sensor_geo.lon, all_floodnet_sensor_geo.lat), crs=WGS).to_crs(PROJ)
+    all_floodnet_sensor_geo = pd.read_csv('aggregation/flooding/static/current_floodnet_sensors.csv')
+    all_floodnet_sensor_geo = gpd.GeoDataFrame(all_floodnet_sensor_geo, geometry=gpd.points_from_xy(all_floodnet_sensor_geo.longitude, all_floodnet_sensor_geo.latitude), crs=WGS).to_crs(PROJ)
 
 
     logger.info("Loaded and processed Floodnet sensor data.")
