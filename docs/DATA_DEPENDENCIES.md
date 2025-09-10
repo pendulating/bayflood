@@ -6,6 +6,7 @@ This document enumerates the datasets used by the ICAR pipeline and their expect
 
 ```
 aggregation/
+  context_df_*.csv                    # Main tract-level dataset (e.g., context_df_02102025.csv)
   geo/
     data/
       ct-nyc-2020.geojson            # NYC census tracts
@@ -19,10 +20,16 @@ aggregation/
       floodnet-flood-sensor-sep-2023.csv
       dep_stormwater_moderate_current/
         data.gdb                     # DEP stormwater polygons (GDB)
+  demo/
+    data/
+      acs2023_dp05.json              # ACS: demographics
+      acs2023_s2801.json             # ACS: internet access
+      acs2023_s1901.json             # ACS: income
+      acs2023_s1501.json             # ACS: education
+      acs2023_s1602.json             # ACS: language
 
 data/
   processed/
-    flooding_ct_dataset.csv          # Main tract-level dataset
     sep29_positives.csv              # Positive dashcam frames (processed)
     sep29_gt.csv                     # Ground-truth annotations (processed)
   adjacency/
