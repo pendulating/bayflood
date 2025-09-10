@@ -88,14 +88,8 @@ BayFlood utilizes several data sources, all uploaded to the repo:
 5. **FloodNet sensor data**
 6. **Topographic data**
 
-### Data Organization
 
-Place data files in the appropriate directories:
-- Raw data: `data/`
-- Processed data: `data/processed/`
-- Aggregated data: `aggregation/`
-
-## Quick Start
+## Functionality
 
 ### 1. Basic ICAR Model Usage
 
