@@ -19,6 +19,7 @@ This repository contains tools and analyses for understanding urban street flood
 - **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, and tract-level analysis CSVs via `analysis_df.py`.
 - **Out of scope for this artifact**: Submodules `urbanECG`, `cambrian`, `Janus`, and paper repos `KDD-2025-Flooding-Paper`, `natcities_bayflood_2025` (kept as references only).
 - **Optional visualization**: `generate_maps.py` can render geospatial maps but is not required for reproducing model outputs.
+ - Note: the historical `deliverables/` folder is out of scope; all outputs are written under `runs/<RUN_ID>/`.
 
 ## Project Structure (relevant to ICAR pipeline)
 
@@ -48,7 +49,6 @@ bayflood/
 │   ├── flooding/            # Flooding-related data
 │   ├── demo/                # Demographic data
 │   └── geo/                 # Geographic data
-├── deliverables/             # Output files and visualizations
 └── runs/                     # Model run outputs
 ```
 
