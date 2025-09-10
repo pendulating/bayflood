@@ -1,4 +1,4 @@
-# BayFlood: Modeling Urban Street Flooding from Dense Street Imagery
+# Modeling Urban Street Flooding from Dense Street Imagery
 
 A comprehensive analysis framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources.
 
