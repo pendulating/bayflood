@@ -1,10 +1,10 @@
 ## Reproducibility Guide (ICAR Artifact Scope)
 
-This guide explains how to reproduce the main results using precomputed run outputs (from the KDD paper) and how to regenerate analyses from those runs.
+This guide explains how to reproduce the main results using precomputed run outputs and how to regenerate analyses from those runs.
 
-### 1) Precomputed runs (KDD)
+### 1) Precomputed runs (examples)
 
-The canonical KDD runs are included at:
+Example precomputed runs are included at:
 - Without covariates:
   `runs/icar_icar/simulated_False/ahl_True/covariates_False/FEB7_FINAL_KDD_MODEL_NO_COVARIATES_20250207-1814`
 - With covariates:
@@ -24,14 +24,14 @@ from analysis_df import generate_nyc_analysis_df
 # With covariates
 df_cov = generate_nyc_analysis_df(
     run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732',
-    custom_prefix='kdd_with_covariates',
+    custom_prefix='with_covariates',
     use_smoothing=True
 )
 
 # Without covariates
 df_nocov = generate_nyc_analysis_df(
     run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_False/FEB7_FINAL_KDD_MODEL_NO_COVARIATES_20250207-1814',
-    custom_prefix='kdd_without_covariates',
+    custom_prefix='without_covariates',
     use_smoothing=True
 )
 ```
@@ -68,7 +68,7 @@ To re-run training (requires full data):
 python icar_model.py icar \
   --annotations_have_locations \
   --external_covariates \
-  --prefix KDD_REDO \
+  --prefix REPRO_REDO \
   --empirical_data_path data/processed/flooding_ct_dataset.csv \
   --adj_node1_path data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt \
   --adj_node2_path data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt
@@ -77,6 +77,6 @@ python icar_model.py icar \
 Then run the analysis step on the new run directory as in step (2).
 
 ### Notes
-- Python 3.10 and the `stan` (httpstan) backend are used.
+- Python 3.10 and the `pystan` backend are used.
 - See `docs/DATA_DEPENDENCIES.md` for required datasets and expected paths.
 - For exact citation and licensing, add `CITATION.cff` and `LICENSE` at the repository root.

@@ -83,6 +83,7 @@ Follow the [User Guide](USER_GUIDE.md) to reproduce the main findings from the B
 
 ### 2. Custom Analysis
 Use the [Advanced Analysis](ADVANCED_ANALYSIS.md) guide to conduct your own BayFlood research.
+Note: the historical `deliverables/` folder is out of scope; outputs are written under `runs/<RUN_ID>/`.
 
 ### 3. Data Integration
 Reference the [Data Format Guide](DATA_FORMAT.md) to integrate your own data sources with BayFlood.
@@ -199,7 +200,7 @@ To contribute documentation:
 
 This documentation corresponds to the ICAR pipeline artifact.
 - **Python Version**: 3.10
-- **Stan Backend**: `stan` (httpstan)
+- **Stan Backend**: `pystan`
 
 ## License
 

@@ -1,7 +1,7 @@
 ## Components (ICAR Artifact Scope)
 
 ### icar_model.py
-- Purpose: Train ICAR/CAR-based Bayesian models in Stan via the Python `stan` (httpstan) backend; manage runs and outputs.
+- Purpose: Train ICAR/CAR-based Bayesian models in Stan via the Python `pystan` backend; manage runs and outputs.
 - Main class: `ICAR_MODEL`
   - Key init args:
     - `PREFIX`: run prefix used in `runs/<...>`
@@ -43,7 +43,7 @@
 - Purpose: Colored logging with custom `SUCCESS` level; `setup_logger(name)` standardizes console logs.
 
 ### refresh_cache.py
-- Purpose: Clear httpstan cache in `~/.cache/httpstan` for a clean rebuild; `refresh_cache(base_dir=None)`.
+- Purpose: Clear local Stan cache directory for a clean rebuild; `refresh_cache(base_dir=None)`.
 
 ### config.py
 - Purpose: Centralize defaults and environment overrides for paths and sampling params.

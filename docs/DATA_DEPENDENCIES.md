@@ -17,8 +17,6 @@ aggregation/
     static/
       current_floodnet_sensors.csv   # FloodNet sensors (current)
       floodnet-flood-sensor-sep-2023.csv
-      floodnet-tide-sep-2023.csv
-      floodnet-weather-sep-2023.csv
       dep_stormwater_moderate_current/
         data.gdb                     # DEP stormwater polygons (GDB)
 

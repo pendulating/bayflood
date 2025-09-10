@@ -17,7 +17,7 @@ This repository contains tools and analyses for understanding urban street flood
 ## Scope and Key Features
 
 - **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, and tract-level analysis CSVs via `analysis_df.py`.
-- **Out of scope for this artifact**: Submodules `urbanECG`, `cambrian`, `Janus`, and paper repos `KDD-2025-Flooding-Paper`, `natcities_bayflood_2025` (kept as references only).
+- **Out of scope for this artifact**: Submodules `urbanECG`, `cambrian`, `Janus`, and other external paper repositories (kept as references only).
 - **Optional visualization**: `generate_maps.py` can render geospatial maps but is not required for reproducing model outputs.
  - Note: the historical `deliverables/` folder is out of scope; all outputs are written under `runs/<RUN_ID>/`.
 
@@ -39,7 +39,7 @@ bayflood/
 │   └── ...
 ├── notebooks/                 # Jupyter notebooks for analysis
 │   ├── for_paper/            # Paper-specific analyses
-│   ├── for_natcities/        # National Cities analysis
+│   ├── (paper notebooks)     # External paper analyses (out of scope)
 │   ├── for_floodnet/         # FloodNet sensor analysis
 │   └── ...
 ├── data/                      # Data storage
@@ -89,7 +89,7 @@ bayflood/
    pip install shapely pyproj
    ```
 
-4. **Stan backend**: We use `stan` (httpstan) exclusively in this artifact. No CmdStan/PyStan required.
+4. **Stan backend**: We use `pystan` for Stan.
 
 ## Data Requirements
 
@@ -275,9 +275,7 @@ The ICAR (Intrinsic Conditional Autoregressive) model accounts for spatial depen
 ### Stan Models
 
 Located in `stan_models/`:
-- `weighted_ICAR_prior.stan`: Standard ICAR model
-- `proper_car_prior.stan`: Proper CAR model
-- `ICAR_prior_annotations_have_locations.stan`: Model with annotation locations
+- `ICAR_prior_annotations_have_locations.stan`: ICAR model with annotation locations (only model used)
 
 ## Outputs
 

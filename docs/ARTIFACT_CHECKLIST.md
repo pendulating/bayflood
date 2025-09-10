@@ -3,13 +3,13 @@
 - Environment
   - Python pinned to 3.10
   - Install via `requirements-core.txt` or `requirements.txt`
-  - Stan backend: `stan` (httpstan)
+  - Stan backend: `pystan`
 - Data
   - Verify presence and paths in `docs/DATA_DEPENDENCIES.md`
   - Empirical dataset: `flooding_ct_dataset.csv` with required columns
   - Adjacency inputs present (node1/node2 txt or `.npy`)
 - Runs
-  - KDD runs present in `runs/...` with covariates and without
+  - Include representative runs in `runs/...` (with covariates and without), or regenerate per README
   - Each run includes `estimate_*.csv`, `summary.txt`, `metadata.json`
 - Reproducibility
   - Follow `docs/REPRODUCIBILITY.md` to generate analysis CSVs

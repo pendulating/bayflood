@@ -68,12 +68,12 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Stan backend (httpstan)
+### 4. Stan backend (PyStan)
 
-This artifact uses the Python `stan` package (httpstan backend). No CmdStan/PyStan required.
+This artifact uses the Python `pystan` package.
 
 ```bash
-pip install stan
+pip install pystan
 ```
 
 ### 5. Verify Installation
