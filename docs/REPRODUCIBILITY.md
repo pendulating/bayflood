@@ -23,14 +23,14 @@ from analysis_df import generate_nyc_analysis_df
 
 # With covariates
 df_cov = generate_nyc_analysis_df(
-    run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732',
+    run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406',
     custom_prefix='with_covariates',
     use_smoothing=True
 )
 
 # Without covariates
 df_nocov = generate_nyc_analysis_df(
-    run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_False/FEB7_FINAL_KDD_MODEL_NO_COVARIATES_20250207-1814',
+    run_dir='runs/icar_icar/simulated_False/ahl_True/covariates_False/VALIDATION_NO_COVS_20250910-1441',
     custom_prefix='without_covariates',
     use_smoothing=True
 )
@@ -47,15 +47,15 @@ from generate_maps import generate_maps
 
 # p(y)
 generate_maps(
-    run_id='icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732',
-    estimate_path='runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732/estimate_p_y.csv',
+    run_id='icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406',
+    estimate_path='runs/icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406/estimate_p_y.csv',
     estimate='p_y'
 )
 
 # at_least_one_positive_image_by_area
 generate_maps(
-    run_id='icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732',
-    estimate_path='runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732/estimate_at_least_one_positive_image_by_area.csv',
+    run_id='icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406',
+    estimate_path='runs/icar_icar/simulated_False/ahl_True/covariates_True/VALIDATION_WITH_COVS_20250910-1406/estimate_at_least_one_positive_image_by_area.csv',
     estimate='at_least_one_positive_image_by_area'
 )
 ```
