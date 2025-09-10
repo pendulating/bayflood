@@ -209,14 +209,6 @@ Located in `stan_models/`:
 - **Statistical summaries**: Correlation analyses, bias assessments
 - **Visualizations**: Maps, plots, and interactive figures
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes with proper documentation
-4. Add tests if applicable
-5. Submit a pull request
-
 ## Citation
 
 Add `CITATION.cff` in the repository root with your finalized citation. The `docs/README.md` references where to place it.
