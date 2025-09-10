@@ -79,7 +79,7 @@ bayflood/
 
 ### Required Data Files
 
-The analysis requires several data sources:
+BayFlood utilizes several data sources, all uploaded to the repo:
 
 1. **Dashcam imagery data** (processed)
 2. **Census tract boundaries** (GeoJSON format)
