@@ -1,4 +1,4 @@
-# BayFlood: Urban Street Flooding Analysis
+# BayFlood: Urban Street Flooding Analysis (ICAR pipeline)
 
 A comprehensive analysis framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources.
 
@@ -12,16 +12,13 @@ This repository contains tools and analyses for understanding urban street flood
 - **Multiple data sources**: 311 complaints, FloodNet sensors, census data, topographic data
 - **Geospatial analysis** with NYC census tracts as the primary unit
 
-## Key Features
+## Scope and Key Features
 
-- **Automated flood detection** from dashcam imagery using computer vision models
-- **Spatial modeling** with ICAR priors to account for geographic dependencies
-- **Multi-source data integration** combining imagery, sensors, complaints, and demographic data
-- **Bayesian inference** for uncertainty quantification
-- **Interactive visualizations** and mapping capabilities
-- **Reproducible analysis pipeline** with comprehensive documentation
+- **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, and tract-level analysis CSVs via `analysis_df.py`.
+- **Out of scope for this artifact**: Submodules `urbanECG`, `cambrian`, `Janus`, and paper repos `KDD-2025-Flooding-Paper`, `natcities_bayflood_2025` (kept as references only).
+- **Optional visualization**: `generate_maps.py` can render geospatial maps but is not required for reproducing model outputs.
 
-## Project Structure
+## Project Structure (relevant to ICAR pipeline)
 
 ```
 bayflood/
@@ -31,6 +28,7 @@ bayflood/
 ├── analysis_df.py             # Analysis DataFrame generation
 ├── logger.py                  # Logging utilities
 ├── refresh_cache.py           # Cache management
+├── config.py                  # Centralized defaults; env overrides supported
 ├── observed_data.csv          # Processed flooding observations
 ├── stan_models/               # Stan model specifications
 │   ├── weighted_ICAR_prior.stan
@@ -75,9 +73,9 @@ bayflood/
    conda activate bayflood
    ```
 
-3. **Install dependencies:**
+3. **Install dependencies (Python 3.10):**
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt  # or: pip install -r requirements-core.txt
    ```
 
    Or install manually:
@@ -89,10 +87,7 @@ bayflood/
    pip install shapely pyproj
    ```
 
-4. **Install Stan (if not already installed):**
-   ```bash
-   pip install cmdstanpy
-   ```
+4. **Stan backend**: We use `stan` (httpstan) exclusively in this artifact. No CmdStan/PyStan required.
 
 ## Data Requirements
 
@@ -173,19 +168,14 @@ df = generate_nyc_analysis_df(
 ### Running a Complete Analysis
 
 1. **Prepare your data** according to the data requirements
-2. **Configure model parameters** in `icar_model.py`
+2. **Configure model parameters** via CLI flags or environment variables in `config.py`
 3. **Run the ICAR model** to get flooding estimates
 4. **Generate visualizations** using `generate_maps.py`
 5. **Perform additional analysis** using the notebooks
 
 ### Notebooks
 
-The `notebooks/` directory contains various analysis notebooks:
-
-- `for_paper/`: Reproduces figures and analyses from the main paper
-- `for_natcities/`: National Cities analysis
-- `for_floodnet/`: FloodNet sensor placement analysis
-- `visualization/`: Additional visualization examples
+Paper notebooks live in submodules and are out of scope for this artifact.
 
 ## Model Specifications
 
@@ -229,20 +219,11 @@ Located in `stan_models/`:
 
 ## Citation
 
-If you use this code in your research, please cite:
-
-```bibtex
-@article{bayflood_2025,
-  title={BayFlood: Urban Street Flooding Detection and Analysis using Dashcam Imagery and Spatial Modeling},
-  author={[Your Name]},
-  journal={[Journal Name]},
-  year={2025}
-}
-```
+Add `CITATION.cff` in the repository root with your finalized citation. The `docs/README.md` references where to place it.
 
 ## License
 
-[Add your license information here]
+Add a `LICENSE` file at the repository root.
 
 ## Contact
 
