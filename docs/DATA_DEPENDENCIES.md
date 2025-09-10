@@ -62,7 +62,7 @@ Used by `ICAR_prior_annotations_have_locations.stan` via `external_covariates` m
 - `aggregation/geo/data/ct-nyc-2020.geojson`: Census tract geometries
 - `aggregation/flooding/data/nyc311_flooding_sep29.csv`: 311 complaints
 - `aggregation/flooding/static/current_floodnet_sensors.csv`: FloodNet sensors
-- `aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb`: DEP polygons
+- `aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb`: DEP stormwater polygons (moderate, current sea levels)
 - `data/processed/sep29_positives.csv`, `data/processed/sep29_gt.csv`: Processed image-level positives and ground truth
 
 ### Environment configuration

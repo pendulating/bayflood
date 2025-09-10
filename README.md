@@ -186,8 +186,8 @@ ls aggregation/context_df_02102025.csv
 ls aggregation/geo/data/ct-nyc-2020.geojson
 ls aggregation/flooding/data/nyc311_flooding_sep29.csv
 ls aggregation/flooding/static/current_floodnet_sensors.csv
-# Optional for maps depending on local data layout
-# ls "aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb"
+# DEP stormwater polygons (moderate, current sea levels)
+ls aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb
 ```
 
 - Train a new ICAR model on the provided dataset (with covariates)
