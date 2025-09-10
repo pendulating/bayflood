@@ -213,7 +213,11 @@ Located in `stan_models/`:
 
 ## Citation
 
-Add `CITATION.cff` in the repository root with your finalized citation. The `docs/README.md` references where to place it.
+If you use this work, please cite:
+
+- Bayesian Modeling of Zero-Shot Classifications for Urban Flood Detection. arXiv:2503.14754v2, 26 Mar 2025. [arXiv](https://arxiv.org/abs/2503.14754v2)
+
+This repository includes a `CITATION.cff` (use GitHub’s “Cite this repository” for formatted citations).
 
 ## License
 
