@@ -277,14 +277,10 @@ If you use or build off of this work, please cite:
 
 This repository includes a `CITATION.cff` (use GitHub’s “Cite this repository” for formatted citations).
 
-## License
-
-Add a `LICENSE` file at the repository root.
 
 ## Contact
 
-For questions or issues, please open a GitHub issue or contact [your email].
+For questions or issues, please open a GitHub issue or contact mattfranchi@cs.cornell.edu
 
 ## Acknowledgments
-
-- [List any acknowledgments, funding sources, etc.]
+We thank Gabriel Agostini, Sidhika Balachandar, Serina Chang, Zhi Liu, and Anna McClendon for useful discussion and feedback. We thank Nexar for data access under research evaluation and project support. We thank Anthony Townsend and Michael Samuelian for project support. We thank the NYC Department of Environmental Protection for helpful discussions. We thank Charlie Mydlarz and the FloodNet team for helpful discussions and access to FloodNet data. We thank OpenAI for LLM inference credits. We thank the Digital Life Initiative, the Urban Tech Hub at Cornell Tech, a Google Research Scholar award, an AI2050 Early Career Fellowship, NSF CAREER \#2142419, NSF CAREER IIS-2339427, a CIFAR Azrieli Global scholarship, a gift to the LinkedIn-Cornell Bowers CIS Strategic Partnership, the Survival and Flourishing Fund, and the Abby Joseph Cohen Faculty Fund for funding. 
