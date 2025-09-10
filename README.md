@@ -63,7 +63,7 @@ bayflood/
 - Python 3.8 or higher
 - Stan (PyStan)
 - A computer with a powerful processor (at least 8 cores), and 64GB of system RAM to run icar_model.py at default behavior. RAM requirements increase with the number of model samples.
-- The pipeline has only been tested on the Linux operating system. 
+- The pipeline has only been tested on the Linux Ubuntu 20.04 operating system. 
 
 ### Environment Setup
 
