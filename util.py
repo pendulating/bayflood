@@ -15,6 +15,50 @@ logger.setLevel("INFO")
 
 
 def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False):
+    """
+    Read and process real flooding data for ICAR model analysis.
+    
+    Loads census tract-level flooding data and prepares it for Stan model fitting.
+    Handles adjacency matrix construction, external covariates processing, and
+    data validation.
+    
+    Parameters:
+    -----------
+    fpath : str, default="flooding_ct_dataset.csv"
+        Path to the CSV file containing flooding data
+    annotations_have_locations : bool, default=False
+        Whether the dataset includes annotation location information
+    adj : list, default=[]
+        List of file paths for adjacency information. If adj_matrix_storage=True,
+        should contain one path to .npy file. Otherwise, should contain two paths
+        to .txt files with node1 and node2 lists.
+    adj_matrix_storage : bool, default=False
+        Whether adjacency data is stored as matrix (.npy) or edge lists (.txt)
+    use_external_covariates : bool, default=False
+        Whether to include external covariates in the model
+        
+    Returns:
+    --------
+    tuple
+        - observed_data (dict): Dictionary containing data for Stan model
+        - external_covariates_info (dict): Information about external covariates
+          (empty dict if use_external_covariates=False)
+        
+    Raises:
+    ------
+    FileNotFoundError
+        If the data file or adjacency files are not found
+    ValueError
+        If data format is invalid or required columns are missing
+        
+    Example:
+    --------
+    >>> observed_data, cov_info = read_real_data(
+    ...     fpath="data/flooding_ct_dataset.csv",
+    ...     annotations_have_locations=True,
+    ...     use_external_covariates=True
+    ... )
+    """
     single_compartment_for_debugging = False
     df = pd.read_csv(fpath)
 
@@ -356,22 +400,22 @@ def validate_observed_data(observed_data, annotations_have_locations=False, down
 
         # sum of n_classified_positive_annotated_positive_by_area and n_classified_positive_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_POSITIVE
         if (
-            sum(observed_data["n_classified_positive_annotated_positive_by_area"])
-            + sum(observed_data["n_classified_positive_annotated_negative_by_area"])
+            sum(observed_data['n_classified_positive_annotated_positive_by_area'])
+            + sum(observed_data['n_classified_positive_annotated_negative_by_area'])
             != (TOTAL_ANNOTATED_CLASSIFIED_POSITIVE * downsample_frac)
         ):
             raise ValueError(
-                f"sum of n_classified_positive_annotated_positive_by_area ({sum(observed_data["n_classified_positive_annotated_positive_by_area"])}) and n_classified_positive_annotated_negative_by_area ({sum(observed_data["n_classified_positive_annotated_negative_by_area"])}) should equal total_annotated_classified_positive ({(TOTAL_ANNOTATED_CLASSIFIED_POSITIVE * downsample_frac)})"
+                f"sum of n_classified_positive_annotated_positive_by_area ({sum(observed_data['n_classified_positive_annotated_positive_by_area'])}) and n_classified_positive_annotated_negative_by_area ({sum(observed_data['n_classified_positive_annotated_negative_by_area'])}) should equal total_annotated_classified_positive ({(TOTAL_ANNOTATED_CLASSIFIED_POSITIVE * downsample_frac)})"
             )
 
         # sum of n_classified_negative_annotated_positive_by_area and n_classified_negative_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE
         if (
-            sum(observed_data["n_classified_negative_annotated_positive_by_area"])
-            + sum(observed_data["n_classified_negative_annotated_negative_by_area"])
+            sum(observed_data['n_classified_negative_annotated_positive_by_area'])
+            + sum(observed_data['n_classified_negative_annotated_negative_by_area'])
             != (TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE * downsample_frac)
         ):
             raise ValueError(
-                f"sum of n_classified_negative_annotated_positive_by_area ({sum(observed_data["n_classified_negative_annotated_positive_by_area"])})  and n_classified_negative_annotated_negative_by_area ({sum(observed_data["n_classified_negative_annotated_negative_by_area"])}) should equal total_annotated_classified_negative ({(TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE * downsample_frac)})"
+                f"sum of n_classified_negative_annotated_positive_by_area ({sum(observed_data['n_classified_negative_annotated_positive_by_area'])})  and n_classified_negative_annotated_negative_by_area ({sum(observed_data['n_classified_negative_annotated_negative_by_area'])}) should equal total_annotated_classified_negative ({(TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE * downsample_frac)})"
             )
 
     else:
