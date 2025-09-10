@@ -1,6 +1,6 @@
 # Modeling Urban Street Flooding from Dense Street Imagery
 
-A comprehensive analysis framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources.
+A framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources. Broadly applies to other urban phenomena visible in public-scene street imagery. 
 
 ![High-level process overview of BayFlood.](docs/bayflood_teaser.gif)
 
