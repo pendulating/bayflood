@@ -37,8 +37,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     use_external_covariates : bool, default=False
         Whether to include external covariates in the model
     use_catch_basins : bool, default=True
-        Whether to include catch basin covariates (n_catch_basins, catch_basin_density)
-        when use_external_covariates is True
+        Whether to include catch basin covariates (n_catch_basins, catch_basin_density, cb_days_clogged,
+        cb_avg_resolution_time, has_clogged_cb_complaint) when use_external_covariates is True
         
     Returns:
     --------
@@ -241,6 +241,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 if use_catch_basins:
                     skewed_cols.append('n_catch_basins')
                     skewed_cols.append('cb_days_clogged')
+                    skewed_cols.append('cb_avg_resolution_time')
                 
                 for col in skewed_cols:
                     # Ensure numeric
@@ -269,9 +270,10 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
                 cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
                 
-                # Conditionally add catch basin density
+                # Conditionally add catch basin density and binary indicator
                 if use_catch_basins:
                     cols_to_use.append('catch_basin_density')
+                    cols_to_use.append('has_clogged_cb_complaint')
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)

@@ -167,7 +167,7 @@ def generate_nyc_analysis_df(
 
     # Add FloodNet sensor data
     # FLOODNET 
-    sep2923_floodnet_sensors = pd.read_csv(f'{base_dir}/aggregation/flooding/static/floodnet-flood-sensor-sep-2023.csv', engine='pyarrow')
+    sep2923_floodnet_sensors = pd.read_csv(f'{base_dir}/aggregation/flooding/static/sep23_floodnet_sensor_coordinates.csv', engine='pyarrow')
 
     dec1224_floodnet_sensors = pd.read_csv(f'{base_dir}/aggregation/flooding/static/current_floodnet_sensors.csv', engine='pyarrow')
 
@@ -242,6 +242,19 @@ def generate_nyc_analysis_df(
     ct_nyc['cb_days_clogged'] = cb_days_clogged_by_tract.reindex(ct_nyc.index).fillna(0)
     
     logger.info(f"Total catch basin days clogged: {ct_nyc['cb_days_clogged'].sum()}")
+    
+    # Calculate average resolution time per tract
+    avg_resolution_by_tract = clogged_with_tract.groupby('GEOID')['days_clogged'].mean()
+    city_median_resolution = clogged_cb_311['days_clogged'].median()
+    
+    # Binary indicator: tract had at least one clogged CB complaint
+    ct_nyc['has_clogged_cb_complaint'] = avg_resolution_by_tract.reindex(ct_nyc.index).notna().astype(int)
+    
+    # Average resolution time with median imputation
+    ct_nyc['cb_avg_resolution_time'] = avg_resolution_by_tract.reindex(ct_nyc.index).fillna(city_median_resolution)
+    
+    logger.info(f"City-wide median resolution time: {city_median_resolution} days")
+    logger.info(f"Tracts with clogged CB complaints: {ct_nyc['has_clogged_cb_complaint'].sum()}")
 
     # Add DEP stormwater data
     dep_moderate = gpd.read_file(f'{base_dir}/aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb').to_crs(PROJ)
