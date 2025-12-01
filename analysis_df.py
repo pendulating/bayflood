@@ -11,7 +11,6 @@ from shapely import wkt
 def generate_nyc_analysis_df(
     run_dir: str,
     custom_prefix: str,
-    use_smoothing: bool,
     base_dir: str = ".",
     logger: Optional[logging.Logger] = None
 ) -> pd.DataFrame:
@@ -24,8 +23,6 @@ def generate_nyc_analysis_df(
         Directory containing ICAR estimate files
     custom_prefix : str
         Prefix for output files
-    use_smoothing : bool
-        Whether to use smoothing in the analysis
     base_dir : str, optional
         Base directory for all data files, defaults to current directory
     logger : logging.Logger, optional
@@ -220,6 +217,31 @@ def generate_nyc_analysis_df(
     
     logger.info("Merged catch basin data with NYC CT shapefile.")
     logger.info(f"Total catch basins: {ct_nyc['n_catch_basins'].sum()}")
+
+    # Add catch basin days clogged (from 311 complaints June-Sep 2023)
+    clogged_cb_311 = pd.read_csv(f'{base_dir}/aggregation/flooding/data/nyc311_clogged_cb_jun_sep.csv')
+    clogged_cb_311 = clogged_cb_311.dropna(subset=['latitude', 'longitude'])
+    logger.info(f"Loaded {len(clogged_cb_311)} clogged catch basin 311 complaints.")
+    
+    # Parse dates and calculate days clogged
+    clogged_cb_311['created_date'] = pd.to_datetime(clogged_cb_311['created_date'])
+    clogged_cb_311['closed_date'] = pd.to_datetime(clogged_cb_311['closed_date'])
+    end_date = pd.Timestamp('2023-09-29')
+    clogged_cb_311['effective_closed'] = clogged_cb_311['closed_date'].fillna(end_date).clip(upper=end_date)
+    clogged_cb_311['days_clogged'] = (clogged_cb_311['effective_closed'] - clogged_cb_311['created_date']).dt.days.clip(lower=0)
+    
+    # Convert to GeoDataFrame and spatial join
+    clogged_cb_311_geo = gpd.GeoDataFrame(
+        clogged_cb_311,
+        geometry=gpd.points_from_xy(clogged_cb_311['longitude'], clogged_cb_311['latitude']),
+        crs=WGS
+    ).to_crs(PROJ)
+    
+    clogged_with_tract = gpd.sjoin(clogged_cb_311_geo, gdf_ct_nyc[['GEOID', 'geometry']], how='left', predicate='within')
+    cb_days_clogged_by_tract = clogged_with_tract.groupby('GEOID')['days_clogged'].sum()
+    ct_nyc['cb_days_clogged'] = cb_days_clogged_by_tract.reindex(ct_nyc.index).fillna(0)
+    
+    logger.info(f"Total catch basin days clogged: {ct_nyc['cb_days_clogged'].sum()}")
 
     # Add DEP stormwater data
     dep_moderate = gpd.read_file(f'{base_dir}/aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb').to_crs(PROJ)

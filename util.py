@@ -237,9 +237,10 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     'n_floodnet_sensors',
                 ]
                 
-                # Conditionally add catch basin count to skewed columns
+                # Conditionally add catch basin covariates to skewed columns
                 if use_catch_basins:
                     skewed_cols.append('n_catch_basins')
+                    skewed_cols.append('cb_days_clogged')
                 
                 for col in skewed_cols:
                     # Ensure numeric
