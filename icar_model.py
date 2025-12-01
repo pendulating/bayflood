@@ -92,7 +92,8 @@ class ICAR_MODEL:
         EMPIRICAL_DATA_PATH="",
         adj=[],
         adj_matrix_storage=None,
-        downsample_frac=1
+        downsample_frac=1,
+        USE_CATCH_BASINS=True
     ):
 
         refresh_cache()
@@ -143,6 +144,7 @@ class ICAR_MODEL:
         self.annotations_have_locations = ANNOTATIONS_HAVE_LOCATIONS
         self.use_simulated_data = SIMULATED_DATA
         self.use_external_covariates = EXTERNAL_COVARIATES
+        self.use_catch_basins = USE_CATCH_BASINS
         self.downsample_frac = downsample_frac
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
@@ -259,7 +261,8 @@ class ICAR_MODEL:
             self.logger.info("Reading empirical data.")
             self.data_to_use, external_covariates_info = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
                 annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage, 
-                                use_external_covariates = self.use_external_covariates
+                                use_external_covariates = self.use_external_covariates,
+                                use_catch_basins = self.use_catch_basins
             )
 
             if self.use_external_covariates:
@@ -336,6 +339,7 @@ class ICAR_MODEL:
                 "ANNOTATIONS_HAVE_LOCATIONS": self.annotations_have_locations,
                 "SIMULATED_DATA": self.use_simulated_data,
                 "EXTERNAL_COVARIATES": self.use_external_covariates,
+                "USE_CATCH_BASINS": self.use_catch_basins,
                 "CYCLES": CYCLES,
                 "WARMUP": WARMUP,
                 "SAMPLES": SAMPLES,
@@ -915,6 +919,13 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        '--no_catch_basins',
+        action='store_true',
+        default=False,
+        help="Exclude catch basin covariates (n_catch_basins, catch_basin_density) from external covariates"
+    )
+
+    parser.add_argument(
         '--compare_to_baselines',
         action='store_true',
         default=False,
@@ -1003,7 +1014,8 @@ if __name__ == "__main__":
             EMPIRICAL_DATA_PATH=empirical_path,
             adj=adj,
             adj_matrix_storage=adj_matrix_storage,
-            downsample_frac=args.downsample_frac
+            downsample_frac=args.downsample_frac,
+            USE_CATCH_BASINS=not args.no_catch_basins
         )
 
     if args.compare_to_baselines:

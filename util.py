@@ -14,7 +14,7 @@ logger = setup_logger("util-subroutine")
 logger.setLevel("INFO")
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False):
+def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False, use_catch_basins=True):
     """
     Read and process real flooding data for ICAR model analysis.
     
@@ -36,6 +36,9 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         Whether adjacency data is stored as matrix (.npy) or edge lists (.txt)
     use_external_covariates : bool, default=False
         Whether to include external covariates in the model
+    use_catch_basins : bool, default=True
+        Whether to include catch basin covariates (n_catch_basins, catch_basin_density)
+        when use_external_covariates is True
         
     Returns:
     --------
@@ -221,7 +224,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     print(f"Warning: Highly imbalanced binary feature detected with proportion={prop_ones}")
 
 
-            def process_covariates(df, observed_data, use_external_covariates=True):
+            def process_covariates(df, observed_data, use_external_covariates=True, use_catch_basins=True):
                 """Process covariates with robust handling for large N observations."""
                 if not use_external_covariates:
                     return {"observed_data": observed_data}
@@ -232,8 +235,11 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     'ft_elevation_min', 
                     'n_311_reports',
                     'n_floodnet_sensors',
-                    'n_catch_basins'
                 ]
+                
+                # Conditionally add catch basin count to skewed columns
+                if use_catch_basins:
+                    skewed_cols.append('n_catch_basins')
                 
                 for col in skewed_cols:
                     # Ensure numeric
@@ -260,7 +266,11 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 # 3. Collect covariates
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
-                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac', 'catch_basin_density']
+                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
+                
+                # Conditionally add catch basin density
+                if use_catch_basins:
+                    cols_to_use.append('catch_basin_density')
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)
@@ -312,7 +322,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 return {"observed_data": observed_data}, { "external_covariates": external_covariates_info}
             
-            return process_covariates(df, observed_data, use_external_covariates)
+            return process_covariates(df, observed_data, use_external_covariates, use_catch_basins)
         else: 
             observed_data['external_covariates'] = np.ones((N, 1)) # just an intercept term by default.
             observed_data['n_external_covariates'] = 1
