@@ -231,7 +231,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 skewed_cols = [
                     'ft_elevation_min', 
                     'n_311_reports',
-                    'n_floodnet_sensors'
+                    'n_floodnet_sensors',
+                    'n_catch_basins'
                 ]
                 
                 for col in skewed_cols:
@@ -259,7 +260,7 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 # 3. Collect covariates
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
-                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
+                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac', 'catch_basin_density']
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)

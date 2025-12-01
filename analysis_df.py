@@ -207,6 +207,20 @@ def generate_nyc_analysis_df(
 
     ct_nyc['n_floodnet_sensors'] = gpd.sjoin(gdf_ct_nyc, all_floodnet_sensors_geo).groupby('GEOID').size().reindex(ct_nyc.index).fillna(0)
 
+    # Add catch basins data
+    catch_basins = gpd.read_file(f'{base_dir}/aggregation/flooding/static/catch_basins_nyc.geojson')
+    catch_basins = catch_basins.to_crs(PROJ)
+    logger.info(f"Loaded {len(catch_basins)} catch basins.")
+    
+    # Count catch basins per census tract
+    ct_nyc['n_catch_basins'] = gpd.sjoin(gdf_ct_nyc, catch_basins).groupby('GEOID').size().reindex(ct_nyc.index).fillna(0)
+    
+    # Compute catch basin density (count per area)
+    ct_nyc['catch_basin_density'] = ct_nyc['n_catch_basins'] / ct_nyc['area']
+    
+    logger.info("Merged catch basin data with NYC CT shapefile.")
+    logger.info(f"Total catch basins: {ct_nyc['n_catch_basins'].sum()}")
+
     # Add DEP stormwater data
     dep_moderate = gpd.read_file(f'{base_dir}/aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb').to_crs(PROJ)
     

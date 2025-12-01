@@ -74,3 +74,66 @@ unzip -d data data/nyc_stormwater_flooding_maps.zip
 
 # delete zip 
 rm data/nyc_stormwater_flooding_maps.zip
+
+## NYC Catch Basins 
+## https://data.cityofnewyork.us/Environment/DEP-Catch-Basin/2w2g-fk3i/about_data
+## Download as GeoJSON with pagination using Socrata API
+
+catch_basins_url='https://data.cityofnewyork.us/resource/2w2g-fk3i.geojson'
+catch_basins_output='static/catch_basins_nyc.geojson'
+CB_LIMIT=50000
+CB_OFFSET=0
+
+echo "Fetching NYC Catch Basins data..."
+
+# Initialize output file with GeoJSON header
+echo '{ "type": "FeatureCollection", "features": [' > "$catch_basins_output"
+
+first_batch=true
+
+while true; do
+    echo "Fetching catch basins with offset $CB_OFFSET..."
+    
+    # Fetch batch using Socrata API pagination
+    wget -q -O catch_basins_temp.geojson "${catch_basins_url}?\$limit=${CB_LIMIT}&\$offset=${CB_OFFSET}"
+    
+    # Check if we got features (count occurrences of "Feature")
+    feature_count=$(grep -o '"type":"Feature"' catch_basins_temp.geojson | wc -l)
+    
+    if [ "$feature_count" -eq 0 ]; then
+        echo "No more features found."
+        break
+    fi
+    
+    echo "Retrieved $feature_count catch basin features."
+    
+    # Extract features array content (remove outer brackets)
+    python3 -c "import json; data = json.load(open('catch_basins_temp.geojson')); print(json.dumps(data['features'])[1:-1])" > catch_basins_batch.json
+    
+    if [ "$first_batch" = true ]; then
+        cat catch_basins_batch.json >> "$catch_basins_output"
+        first_batch=false
+    else
+        echo "," >> "$catch_basins_output"
+        cat catch_basins_batch.json >> "$catch_basins_output"
+    fi
+    
+    if [ "$feature_count" -lt "$CB_LIMIT" ]; then
+        echo "Finished fetching all catch basin records."
+        break
+    fi
+    
+    CB_OFFSET=$((CB_OFFSET + CB_LIMIT))
+done
+
+# Close the GeoJSON object
+echo ']}' >> "$catch_basins_output"
+
+# Clean up temp files
+rm -f catch_basins_temp.geojson catch_basins_batch.json
+
+echo "Catch basins saved to $catch_basins_output"
+
+# Log total count
+total_basins=$(grep -o '"type":"Feature"' "$catch_basins_output" | wc -l)
+echo "Total catch basins downloaded: $total_basins"
