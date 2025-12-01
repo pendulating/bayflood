@@ -1032,7 +1032,7 @@ if __name__ == "__main__":
         generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
         
         model.logger.info(f"Generating NYC analysis dataframe for {model.RUNID}")
-        generate_nyc_analysis_df(run_dir=f"runs/{model.RUNID}", custom_prefix=args.prefix, use_smoothing=True, logger=model.logger)
+        generate_nyc_analysis_df(run_dir=f"runs/{model.RUNID}", custom_prefix=args.prefix, logger=model.logger)
 
         model.logger.success("All items in main program routine completed.")
 
