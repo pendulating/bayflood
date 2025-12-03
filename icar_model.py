@@ -1008,10 +1008,14 @@ if __name__ == "__main__":
     # Parse the arguments
     args = parser.parse_args()
 
-    # Resolve dataset path
-    empirical_path = args.empirical_data_path or config.DATASET_PATH
+    # Get geometry-specific paths based on --geometry_type argument
+    from geometry_config import get_geometry_paths
+    geo_paths = get_geometry_paths(GeometryType(args.geometry_type))
 
-    # Resolve adjacency inputs
+    # Resolve dataset path (CLI override > geometry config)
+    empirical_path = args.empirical_data_path or str(geo_paths.flooding_dataset_path)
+
+    # Resolve adjacency inputs (CLI override > geometry config)
     adj = []
     adj_matrix_storage = False
     if args.adj_npy_path:
@@ -1020,11 +1024,12 @@ if __name__ == "__main__":
     elif args.adj_node1_path and args.adj_node2_path:
         adj = [args.adj_node1_path, args.adj_node2_path]
         adj_matrix_storage = False
-    elif config.ADJ_NPY_PATH:
-        adj = [config.ADJ_NPY_PATH]
-        adj_matrix_storage = True
     else:
-        adj = [config.ADJ_NODE1_PATH, config.ADJ_NODE2_PATH]
+        # Use geometry-specific adjacency paths
+        adj = [
+            str(geo_paths.adjacency_node1_path('custom_geometric')),
+            str(geo_paths.adjacency_node2_path('custom_geometric'))
+        ]
         adj_matrix_storage = False
 
     model = ICAR_MODEL(
