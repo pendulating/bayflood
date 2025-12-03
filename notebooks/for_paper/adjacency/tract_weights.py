@@ -1,23 +1,34 @@
 """
-Compute and analyze different types of spatial weights for census tracts.
+Compute and analyze different types of spatial weights for census geographies.
+
+This module provides tools for generating adjacency matrices and spatial weights
+for census tracts, block groups, or other geographic units.
 """
 
 import geopandas as gpd
 import numpy as np
 import libpysal
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Optional
 import networkx as nx
 from dataclasses import dataclass
 from pathlib import Path
+
 
 @dataclass
 class WeightsAnalysis:
     """Container for weights analysis results."""
     weights_matrix: np.ndarray
     n_connections: int
-    isolated_tracts: List[int]
+    isolated_areas: List[int]  # Renamed from isolated_tracts for generality
     avg_connections: float
     description: str
+    
+    # Backward compatibility property
+    @property
+    def isolated_tracts(self) -> List[int]:
+        """Alias for isolated_areas for backward compatibility."""
+        return self.isolated_areas
+
 
 def compute_custom_geometric_weights(
     gdf: gpd.GeoDataFrame,
@@ -35,8 +46,8 @@ def compute_custom_geometric_weights(
     buffer_dist : float
         Buffer distance in feet
     blacklist : Dict[int, List[int]], optional
-        Dictionary where keys are 1-indexed tract indices and values are lists
-        of 1-indexed tract indices they should not connect to
+        Dictionary where keys are 1-indexed area indices and values are lists
+        of 1-indexed area indices they should not connect to
     debug : bool
         Whether to print debug information
     """
@@ -61,10 +72,10 @@ def compute_custom_geometric_weights(
         
         if debug:
             print("\nBlacklist validation:")
-            print(f"Number of tracts with blacklist entries: {len(blacklist)}")
+            print(f"Number of areas with blacklist entries: {len(blacklist)}")
             print("Blacklisted connections:")
             for k, v in blacklist.items():
-                print(f"Tract {k} blocked from: {v}")
+                print(f"Area {k} blocked from: {v}")
     else:
         blacklist_zero = {}
 
@@ -72,8 +83,8 @@ def compute_custom_geometric_weights(
     blocked_connections = []
     
     for i in range(n):
-        tract = gdf.iloc[i]
-        buffered_geom = tract.geometry.buffer(buffer_dist)
+        area = gdf.iloc[i]
+        buffered_geom = area.geometry.buffer(buffer_dist)
         neighbors_query = gdf.geometry.intersects(buffered_geom)
         neighbors = gdf[neighbors_query].index
         
@@ -88,7 +99,7 @@ def compute_custom_geometric_weights(
                 if connection_blocked:
                     blocked_connections.append((i+1, j+1))  # Store 1-indexed for output
                     if debug:
-                        print(f"Blocking connection between tracts {i+1} and {j+1}")
+                        print(f"Blocking connection between areas {i+1} and {j+1}")
                 else:
                     W[i,j] = 1
     
@@ -105,31 +116,67 @@ def compute_custom_geometric_weights(
     
     return W
 
+
 def analyze_weights(W: np.ndarray) -> Tuple[int, List[int], float]:
     """Analyze a weights matrix for basic connectivity statistics."""
     G = nx.from_numpy_array(W)
     n_connections = int(W.sum() / 2)  # Divide by 2 for undirected graph
-    isolated_tracts = list(nx.isolates(G))
+    isolated_areas = list(nx.isolates(G))
     avg_connections = W.sum() / len(W)
-    return n_connections, isolated_tracts, avg_connections
+    return n_connections, isolated_areas, avg_connections
 
-class TractWeightsGenerator:
-    """Generate and analyze different types of spatial weights for census tracts."""
+
+class GeometryWeightsGenerator:
+    """
+    Generate and analyze different types of spatial weights for census geographies.
     
-    def __init__(self, shapefile_path: str):
+    Works with any census geography level: tracts, block groups, or blocks.
+    """
+    
+    def __init__(
+        self, 
+        shapefile_path: str,
+        id_column: str = "GEOID",
+        geometry_prefix: str = "geo"
+    ):
         """
         Initialize with shapefile path.
         
         Parameters:
         -----------
         shapefile_path : str
-            Path to census tract shapefile
+            Path to census geography shapefile/geojson
+        id_column : str, default="GEOID"
+            Column name containing the geography identifier
+        geometry_prefix : str, default="geo"
+            Prefix for output file names (e.g., "ct", "cbg", "cb")
         """
-        self.ct_nyc = gpd.read_file(shapefile_path)
-        self.ct_nyc['BoroCT2020'] = self.ct_nyc['BoroCT2020'].astype(int)
-        self.ct_state_plane = self.ct_nyc.to_crs('EPSG:2263')
+        self.gdf = gpd.read_file(shapefile_path)
+        self.id_column = id_column
+        self.geometry_prefix = geometry_prefix
+        
+        # Try to convert ID column to int if possible (for backward compatibility)
+        if id_column in self.gdf.columns:
+            try:
+                self.gdf[id_column] = self.gdf[id_column].astype(int)
+            except (ValueError, TypeError):
+                # Keep as string if conversion fails
+                pass
+        
+        # Also check for BoroCT2020 for backward compatibility with CT data
+        if 'BoroCT2020' in self.gdf.columns:
+            try:
+                self.gdf['BoroCT2020'] = self.gdf['BoroCT2020'].astype(int)
+            except (ValueError, TypeError):
+                pass
+        
+        self.gdf_state_plane = self.gdf.to_crs('EPSG:2263')
         self.weights_results = {}
-        self.blacklist = None  # Add this line
+        self.blacklist = None
+        
+        # Backward compatibility aliases
+        self.ct_nyc = self.gdf
+        self.ct_state_plane = self.gdf_state_plane
 
     def set_blacklist(self, blacklist: Dict[int, List[int]], validate: bool = True):
         """
@@ -138,19 +185,19 @@ class TractWeightsGenerator:
         Parameters:
         -----------
         blacklist : Dict[int, List[int]]
-            Dictionary mapping tract indices to lists of indices they shouldn't connect to
+            Dictionary mapping area indices to lists of indices they shouldn't connect to
         validate : bool
-            Whether to validate and show the actual tract IDs involved
+            Whether to validate and show the actual area IDs involved
         """
         if validate and blacklist:
             print("\nValidating blacklist entries:")
-            for tract_idx, blocked_indices in blacklist.items():
+            for area_idx, blocked_indices in blacklist.items():
                 try:
-                    tract_id = self.ct_nyc.iloc[tract_idx - 1]['BoroCT2020']
-                    blocked_tract_ids = [self.ct_nyc.iloc[i - 1]['BoroCT2020'] for i in blocked_indices]
-                    print(f"\nTract index {tract_idx} (ID: {tract_id}) will not connect to:")
-                    for idx, tract_id in zip(blocked_indices, blocked_tract_ids):
-                        print(f"  - Index {idx} (ID: {tract_id})")
+                    area_id = self.gdf.iloc[area_idx - 1][self.id_column]
+                    blocked_area_ids = [self.gdf.iloc[i - 1][self.id_column] for i in blocked_indices]
+                    print(f"\nArea index {area_idx} (ID: {area_id}) will not connect to:")
+                    for idx, blocked_id in zip(blocked_indices, blocked_area_ids):
+                        print(f"  - Index {idx} (ID: {blocked_id})")
                 except IndexError as e:
                     raise ValueError(f"Invalid index in blacklist: {e}")
         
@@ -159,18 +206,16 @@ class TractWeightsGenerator:
     def compute_all_weights(self) -> Dict[str, WeightsAnalysis]:
         """Compute all types of weights matrices."""
         # 1. Queen Contiguity
-        queen = libpysal.weights.Queen.from_dataframe(self.ct_nyc)
+        queen = libpysal.weights.Queen.from_dataframe(self.gdf)
         W_queen, _ = queen.full()
         n_conn, isolated, avg_conn = analyze_weights(W_queen)
         self.weights_results['queen'] = WeightsAnalysis(
             W_queen, n_conn, isolated, avg_conn,
             "Queen Contiguity from libpysal"
         )
-        
-
 
         # 2. Rook Contiguity
-        rook = libpysal.weights.Rook.from_dataframe(self.ct_nyc)
+        rook = libpysal.weights.Rook.from_dataframe(self.gdf)
         W_rook, _ = rook.full()
         n_conn, isolated, avg_conn = analyze_weights(W_rook)
         self.weights_results['rook'] = WeightsAnalysis(
@@ -180,7 +225,7 @@ class TractWeightsGenerator:
         
         # 3. Custom Geometric (buffered)
         W_custom = compute_custom_geometric_weights(
-                self.ct_state_plane,
+                self.gdf_state_plane,
                 blacklist=self.blacklist
             )
         n_conn, isolated, avg_conn = analyze_weights(W_custom)
@@ -191,7 +236,7 @@ class TractWeightsGenerator:
         )
         
         # 4. K-Nearest Neighbors (k=6 as typical default)
-        knn = libpysal.weights.KNN.from_dataframe(self.ct_nyc, k=6)
+        knn = libpysal.weights.KNN.from_dataframe(self.gdf, k=6)
         W_knn, _ = knn.full()
         n_conn, isolated, avg_conn = analyze_weights(W_knn)
         self.weights_results['knn'] = WeightsAnalysis(
@@ -203,8 +248,8 @@ class TractWeightsGenerator:
         from sklearn.neighbors import NearestNeighbors
         # Get centroids in state plane for accurate distances
         centroids = np.column_stack([
-            self.ct_state_plane.geometry.centroid.x,
-            self.ct_state_plane.geometry.centroid.y
+            self.gdf_state_plane.geometry.centroid.x,
+            self.gdf_state_plane.geometry.centroid.y
         ])
         nbrs = NearestNeighbors(n_neighbors=7, algorithm='ball_tree').fit(centroids)
         distances, _ = nbrs.kneighbors(centroids)
@@ -227,7 +272,7 @@ class TractWeightsGenerator:
     def compute_custom_geometric_weights(self, buffer_dist: float = 0.1, debug=False) -> Dict[str, WeightsAnalysis]:
         """Compute custom geometric weights."""
         W = compute_custom_geometric_weights(
-            self.ct_state_plane,
+            self.gdf_state_plane,
             buffer_dist=buffer_dist,
             blacklist=self.blacklist,
             debug=debug
@@ -242,38 +287,56 @@ class TractWeightsGenerator:
         return self.weights_results
 
     
-    def compare_specific_tract(self, tract_id: int) -> Dict[str, List[int]]:
+    def compare_specific_area(self, area_id) -> Dict[str, List]:
         """
-        Compare neighbors for a specific tract across all methods.
+        Compare neighbors for a specific area across all methods.
         
         Parameters:
         -----------
-        tract_id : int
-            BoroCT2020 tract ID to analyze
+        area_id : int or str
+            Area ID to analyze (value in id_column)
             
         Returns:
         --------
-        Dict[str, List[int]]
+        Dict[str, List]
             Dictionary of neighbors found by each method
         """
         if not self.weights_results:
             self.compute_all_weights()
             
-        tract_idx = self.ct_nyc[self.ct_nyc['BoroCT2020'] == tract_id].index[0]
+        area_idx = self.gdf[self.gdf[self.id_column] == area_id].index[0]
         neighbors = {}
         
         for method, analysis in self.weights_results.items():
             W = analysis.weights_matrix
-            neighbor_indices = np.where(W[tract_idx] == 1)[0]
-            neighbor_tracts = self.ct_nyc.iloc[neighbor_indices]['BoroCT2020'].tolist()
-            neighbors[method] = neighbor_tracts
+            neighbor_indices = np.where(W[area_idx] == 1)[0]
+            neighbor_ids = self.gdf.iloc[neighbor_indices][self.id_column].tolist()
+            neighbors[method] = neighbor_ids
             
         return neighbors
+    
+    # Backward compatibility alias
+    def compare_specific_tract(self, tract_id: int) -> Dict[str, List[int]]:
+        """Alias for compare_specific_area for backward compatibility."""
+        # Try BoroCT2020 first for CT data
+        if 'BoroCT2020' in self.gdf.columns:
+            area_idx = self.gdf[self.gdf['BoroCT2020'] == tract_id].index[0]
+            if not self.weights_results:
+                self.compute_all_weights()
+            neighbors = {}
+            for method, analysis in self.weights_results.items():
+                W = analysis.weights_matrix
+                neighbor_indices = np.where(W[area_idx] == 1)[0]
+                neighbor_ids = self.gdf.iloc[neighbor_indices]['BoroCT2020'].tolist()
+                neighbors[method] = neighbor_ids
+            return neighbors
+        return self.compare_specific_area(tract_id)
     
     def export_adjacency_lists(
         self,
         method: str,
-        output_dir: str
+        output_dir: str,
+        prefix: Optional[str] = None
     ) -> Tuple[str, str]:
         """
         Export adjacency lists for specified method.
@@ -284,6 +347,8 @@ class TractWeightsGenerator:
             Which weights method to export
         output_dir : str
             Directory for output files
+        prefix : str, optional
+            Prefix for output files. Defaults to self.geometry_prefix
             
         Returns:
         --------
@@ -292,6 +357,9 @@ class TractWeightsGenerator:
         """
         if method not in self.weights_results:
             raise ValueError(f"Method {method} not found. Run compute_all_weights() first.")
+        
+        if prefix is None:
+            prefix = self.geometry_prefix
             
         W = self.weights_results[method].weights_matrix
         output_dir = Path(output_dir)
@@ -305,8 +373,8 @@ class TractWeightsGenerator:
                     adj_list.append([i+1, j+1])
         
         # Write to files
-        node1_file = output_dir / f"ct_nyc_adj_list_{method}_node1.txt"
-        node2_file = output_dir / f"ct_nyc_adj_list_{method}_node2.txt"
+        node1_file = output_dir / f"{prefix}_nyc_adj_list_{method}_node1.txt"
+        node2_file = output_dir / f"{prefix}_nyc_adj_list_{method}_node2.txt"
         
         with open(node1_file, "w") as f1, open(node2_file, "w") as f2:
             for pair in adj_list:
@@ -314,3 +382,7 @@ class TractWeightsGenerator:
                 f2.write(f"{pair[1]}\n")
                 
         return str(node1_file), str(node2_file)
+
+
+# Backward compatibility alias
+TractWeightsGenerator = GeometryWeightsGenerator
