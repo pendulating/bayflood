@@ -65,9 +65,8 @@ def _get_default_dataset_path() -> str:
     if env_path:
         return env_path
     
-    # Fall back to geometry-specific context_df path
-    # Using a recent date - this should be updated as new data is generated
-    return str(_geometry_paths.base_dir / "aggregation" / f"context_df_{GEOMETRY_TYPE.value}_12012025.csv")
+    # Use geometry-specific flooding dataset path
+    return str(_geometry_paths.flooding_dataset_path)
 
 
 def _get_default_adj_node1_path() -> str:
