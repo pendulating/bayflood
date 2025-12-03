@@ -5,13 +5,28 @@ This module provides tools for generating adjacency matrices and spatial weights
 for census tracts, block groups, or other geographic units.
 """
 
+import sys
+from pathlib import Path
+
+# Add parent directories for geometry_config import
+_this_file = Path(__file__).resolve()
+_project_root = _this_file.parent.parent.parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
 import geopandas as gpd
 import numpy as np
 import libpysal
-from typing import Dict, Tuple, List, Optional
+from typing import Dict, Tuple, List, Optional, Union
 import networkx as nx
 from dataclasses import dataclass
-from pathlib import Path
+
+try:
+    from geometry_config import GeometryType, get_geometry_config, get_geometry_paths
+    GEOMETRY_CONFIG_AVAILABLE = True
+except ImportError:
+    GEOMETRY_CONFIG_AVAILABLE = False
+    GeometryType = None
 
 
 @dataclass
@@ -135,23 +150,44 @@ class GeometryWeightsGenerator:
     
     def __init__(
         self, 
-        shapefile_path: str,
-        id_column: str = "GEOID",
-        geometry_prefix: str = "geo"
+        shapefile_path_or_geometry_type: Union[str, Path, "GeometryType"],
+        id_column: str = None,
+        geometry_prefix: str = None
     ):
         """
-        Initialize with shapefile path.
+        Initialize with shapefile path or GeometryType.
         
         Parameters:
         -----------
-        shapefile_path : str
-            Path to census geography shapefile/geojson
-        id_column : str, default="GEOID"
-            Column name containing the geography identifier
-        geometry_prefix : str, default="geo"
-            Prefix for output file names (e.g., "ct", "cbg", "cb")
+        shapefile_path_or_geometry_type : str, Path, or GeometryType
+            Either a path to census geography shapefile/geojson, or a GeometryType
+            enum value (CT, CBG, CB) which will auto-resolve paths.
+        id_column : str, optional
+            Column name containing the geography identifier.
+            If None and GeometryType provided, uses config default.
+        geometry_prefix : str, optional
+            Prefix for output file names (e.g., "ct", "cbg", "cb").
+            If None and GeometryType provided, uses geometry type value.
         """
-        self.gdf = gpd.read_file(shapefile_path)
+        # Handle GeometryType input
+        if GEOMETRY_CONFIG_AVAILABLE and isinstance(shapefile_path_or_geometry_type, GeometryType):
+            geometry_type = shapefile_path_or_geometry_type
+            paths = get_geometry_paths(geometry_type, str(_project_root))
+            config = get_geometry_config(geometry_type)
+            
+            shapefile_path = paths.geojson_path
+            if id_column is None:
+                id_column = config.id_column
+            if geometry_prefix is None:
+                geometry_prefix = geometry_type.value
+        else:
+            shapefile_path = shapefile_path_or_geometry_type
+            if id_column is None:
+                id_column = "GEOID"
+            if geometry_prefix is None:
+                geometry_prefix = "geo"
+        
+        self.gdf = gpd.read_file(str(shapefile_path))
         self.id_column = id_column
         self.geometry_prefix = geometry_prefix
         
