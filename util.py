@@ -1,3 +1,10 @@
+"""
+Utility functions for bayflood pipeline data processing.
+
+This module provides functions for reading and processing flooding data,
+generating simulated data, and validating observed data for the ICAR model.
+"""
+
 import pandas as pd
 import numpy as np
 from scipy.special import expit
@@ -14,13 +21,21 @@ logger = setup_logger("util-subroutine")
 logger.setLevel("INFO")
 
 
-def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=False, adj=[], adj_matrix_storage=False, use_external_covariates=False, use_catch_basins=True):
+def read_real_data(
+    fpath="flooding_ct_dataset.csv",
+    annotations_have_locations=False,
+    adj=[],
+    adj_matrix_storage=False,
+    use_external_covariates=False,
+    use_catch_basins=True,
+    id_column="GEOID"
+):
     """
     Read and process real flooding data for ICAR model analysis.
     
-    Loads census tract-level flooding data and prepares it for Stan model fitting.
+    Loads census geography-level flooding data and prepares it for Stan model fitting.
     Handles adjacency matrix construction, external covariates processing, and
-    data validation.
+    data validation. Works with any census geography level (tracts, block groups, blocks).
     
     Parameters:
     -----------
@@ -39,6 +54,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     use_catch_basins : bool, default=True
         Whether to include catch basin covariates (n_catch_basins, catch_basin_density, cb_days_clogged,
         cb_avg_resolution_time, has_clogged_cb_complaint) when use_external_covariates is True
+    id_column : str, default="GEOID"
+        Name of the column containing the geography identifier (e.g., "GEOID", "GEOID20")
         
     Returns:
     --------
@@ -71,8 +88,13 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
     N = len(df)
     n_images_by_area = df["total_images"].values
     n_classified_positive_by_area = df["positive_images"].values
-    # store tract_id (the GEOID col of df) as an array of stan real numerics
-    tract_id = df["GEOID"].astype(float).values
+    
+    # Store geoid (the ID column of df) as an array of stan real numerics
+    # For backward compatibility, also check for GEOID if id_column not found
+    if id_column not in df.columns and "GEOID" in df.columns:
+        id_column = "GEOID"
+        logger.warning(f"id_column not found, falling back to 'GEOID'")
+    geoid = df[id_column].astype(float).values
 
 
     if len(adj) > 0:
@@ -165,8 +187,6 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
             .fillna(0)
         )
 
-        # (9/20) CHECK UNDERLYING DATASET HERE
-
         n_true_positive_classified_positive_by_area = df[
             "n_true_positive_classified_positive"
         ].values
@@ -186,13 +206,12 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
         ].values
         observed_data = {
                 "N": N,
-                #"W": adjm,
-                # W_n is the total number of neighbor pairs, so sum of adjm 
-                #"W_n": int(np.sum(adjm)),
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
-                "tract_id": tract_id,
+                "geoid": geoid,
+                # Backward compatibility: also include tract_id pointing to same data
+                "tract_id": geoid,
                 "n_images_by_area": n_images_by_area,
                 "n_classified_positive_by_area": n_classified_positive_by_area,
                 "n_classified_positive_annotated_positive_by_area": n_true_positive_classified_positive_by_area,
@@ -257,15 +276,6 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                     
                     df[f'{col}_log'] = np.log1p(df[col])
                 
-                # 2. Process categorical FSHRI (1-5)
-                #df['fshri'] = pd.to_numeric(df['fshri'], errors='coerce')
-                #fshri_dummies = pd.get_dummies(df['fshri'], prefix='fshri')
-                
-                #for col in fshri_dummies.columns:
-                #    prop = fshri_dummies[col].mean()
-                #    if prop < 0.05:
-                #        print(f"Warning: Rare category detected in {col} with proportion {prop:.4f}")
-                
                 # 3. Collect covariates
                 cols_to_use = [f'{col}_log' for col in skewed_cols]
                 cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
@@ -277,11 +287,8 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 
                 # Convert to numeric matrix
                 feature_matrix = df[cols_to_use].values.astype(float)
-                #fshri_matrix = fshri_dummies.values.astype(float)
-                # feature matrix columns is all column labels from feature matrix and fshri matrix 
-                feature_matrix_columns = cols_to_use #+ fshri_dummies.columns.tolist()
+                feature_matrix_columns = cols_to_use
                 print(feature_matrix_columns)
-                # write covariate columns to csv 
                 
                 external_covariate_matrix = np.hstack([feature_matrix])
                 
@@ -337,7 +344,9 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
                 "N_edges": len(node1),
                 "node1": node1,
                 "node2": node2,
-                "tract_id": tract_id,
+                "geoid": geoid,
+                # Backward compatibility: also include tract_id pointing to same data
+                "tract_id": geoid,
                 "n_images_by_area": n_images_by_area,
                 "n_classified_positive_by_area": n_classified_positive_by_area,
                 "total_annotated_classified_negative": TOTAL_ANNOTATED_CLASSIFIED_NEGATIVE,
@@ -350,8 +359,18 @@ def read_real_data(fpath="flooding_ct_dataset.csv", annotations_have_locations=F
 
 
 def validate_observed_data(observed_data, annotations_have_locations=False, downsample_frac=1):
-
-    # JAN 16 
+    """
+    Validate observed data dictionary for ICAR model fitting.
+    
+    Parameters
+    ----------
+    observed_data : dict
+        Dictionary containing observed data for the model
+    annotations_have_locations : bool, default=False
+        Whether annotations include location information
+    downsample_frac : float, default=1
+        Fraction of data used (validation skipped if != 1)
+    """
     # if downsample_frac != 1, return True. binomial sampling will mess up the counts.
     if downsample_frac != 1:
         return True
@@ -393,7 +412,7 @@ def validate_observed_data(observed_data, annotations_have_locations=False, down
             if col not in observed_data:
                 raise ValueError(f"Missing required column {col} in observed_data")
 
-        # n_images_by_area - n_not_annotaed_by_area should equal the sum of n_classified_positive_annotated_positive_by_area, n_classified_positive_annotated_negative_by_area, n_classified_negative_annotated_positive_by_area, n_classified_negative_annotated_negative_by_area
+        # n_images_by_area - n_not_annotated_by_area should equal the sum of annotated counts
         if not np.allclose(
             np.array(observed_data["n_images_by_area"])
             - np.array(observed_data["n_non_annotated_by_area"]),
@@ -409,7 +428,11 @@ def validate_observed_data(observed_data, annotations_have_locations=False, down
             ),
         ):
             raise ValueError(
-                "n_images_by_area - n_not_annotaed_by_area should equal the sum of n_classified_positive_annotated_positive_by_area, n_classified_positive_annotated_negative_by_area, n_classified_negative_annotated_positive_by_area, n_classified_negative_annotated_negative_by_area"
+                "n_images_by_area - n_not_annotated_by_area should equal the sum of "
+                "n_classified_positive_annotated_positive_by_area, "
+                "n_classified_positive_annotated_negative_by_area, "
+                "n_classified_negative_annotated_positive_by_area, "
+                "n_classified_negative_annotated_negative_by_area"
             )
 
         # sum of n_classified_positive_annotated_positive_by_area and n_classified_positive_annotated_negative_by_area should equal TOTAL_ANNOTATED_CLASSIFIED_POSITIVE
@@ -461,6 +484,26 @@ def generate_simulated_data(
 ):
     """
     Generate simulated data for the model.
+    
+    Parameters
+    ----------
+    N : int
+        Number of geographic areas
+    images_per_location : int
+        Expected number of images per area (Poisson parameter)
+    total_annotated_classified_negative : int
+        Total number of annotated negative classifications
+    total_annotated_classified_positive : int
+        Total number of annotated positive classifications
+    icar_prior_setting : str
+        ICAR prior setting ("none" or other)
+    annotations_have_locations : bool
+        Whether annotations include location information
+        
+    Returns
+    -------
+    dict
+        Dictionary containing observed_data and parameters
     """
     node1 = []
     node2 = []
