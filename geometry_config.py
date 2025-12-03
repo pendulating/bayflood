@@ -150,6 +150,14 @@ class GeometryPaths:
     def adjacency_dir(self) -> Path:
         """Directory for adjacency files."""
         buffer = int(self.config.default_adjacency_buffer)
+        
+        # For CT, check for legacy path structure first (cg_500 without ct_ prefix)
+        if self.geometry_type == GeometryType.CT:
+            legacy_dir = self.base_dir / "data" / "adjacency" / f"cg_{buffer}"
+            if legacy_dir.exists():
+                return legacy_dir
+        
+        # New consistent naming: {prefix}_cg_{buffer}
         return self.base_dir / "data" / "adjacency" / f"{self.prefix}_cg_{buffer}"
     
     def adjacency_node1_path(self, method: str = "custom_geometric") -> Path:
