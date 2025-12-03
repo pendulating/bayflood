@@ -4,6 +4,7 @@
 ## Module Imports 
 import util
 import config
+from geometry_config import GeometryType, get_geometry_config
 from IPython import embed
 
 
@@ -93,11 +94,19 @@ class ICAR_MODEL:
         adj=[],
         adj_matrix_storage=None,
         downsample_frac=1,
-        USE_CATCH_BASINS=True
+        USE_CATCH_BASINS=True,
+        geometry_type: str | GeometryType = "ct"
     ):
 
         refresh_cache()
         print(SIMULATED_DATA)
+        
+        # Handle geometry type
+        if isinstance(geometry_type, str):
+            geometry_type = GeometryType(geometry_type.lower())
+        self.geometry_type = geometry_type
+        self.geometry_config = get_geometry_config(geometry_type)
+        self.id_column = self.geometry_config.id_column
 
         # Sanity checks on user inputs 
         # EMPIRICAL_DATA_PATH should not be set if we are using simulated data
@@ -259,10 +268,14 @@ class ICAR_MODEL:
             self.logger.success("Successfully generated simulated data.")
         else:
             self.logger.info("Reading empirical data.")
-            self.data_to_use, external_covariates_info = util.read_real_data(fpath=self.EMPIRICAL_DATA_PATH,
-                annotations_have_locations=self.annotations_have_locations, adj=self.adj_path, adj_matrix_storage=self.adj_matrix_storage, 
-                                use_external_covariates = self.use_external_covariates,
-                                use_catch_basins = self.use_catch_basins
+            self.data_to_use, external_covariates_info = util.read_real_data(
+                fpath=self.EMPIRICAL_DATA_PATH,
+                annotations_have_locations=self.annotations_have_locations, 
+                adj=self.adj_path, 
+                adj_matrix_storage=self.adj_matrix_storage, 
+                use_external_covariates=self.use_external_covariates,
+                use_catch_basins=self.use_catch_basins,
+                id_column=self.id_column
             )
 
             if self.use_external_covariates:
@@ -865,12 +878,14 @@ class ICAR_MODEL:
             ]
 
             n_images_by_area = self.data_to_use["observed_data"]["n_images_by_area"]
-            tract_id = self.data_to_use["observed_data"]["tract_id"]
+            # Use geoid (with tract_id fallback for backward compatibility)
+            geoid = self.data_to_use["observed_data"].get("geoid", self.data_to_use["observed_data"].get("tract_id"))
 
-            # make df to write
+            # make df to write (include both geoid and tract_id for backward compatibility)
             results = pd.DataFrame(
                 {
-                    "tract_id": tract_id,
+                    "geoid": geoid,
+                    "tract_id": geoid,  # backward compatibility alias
                     "empirical_estimate": empirical_estimate,
                     p: estimate,
                     f"{p}_CI_lower": np.array(estimate_CIs)[:, 0],
@@ -980,7 +995,14 @@ if __name__ == "__main__":
         help='Path to adjacency matrix .npy file (mutually exclusive with node1/node2)'
     )
 
-
+    parser.add_argument(
+        '--geometry_type',
+        type=str,
+        required=False,
+        default='ct',
+        choices=['ct', 'cbg', 'cb'],
+        help='Census geometry type: ct (tract), cbg (block group), cb (block). Default: ct'
+    )
 
     # Parse the arguments
     args = parser.parse_args()
@@ -1015,7 +1037,8 @@ if __name__ == "__main__":
             adj=adj,
             adj_matrix_storage=adj_matrix_storage,
             downsample_frac=args.downsample_frac,
-            USE_CATCH_BASINS=not args.no_catch_basins
+            USE_CATCH_BASINS=not args.no_catch_basins,
+            geometry_type=args.geometry_type
         )
 
     if args.compare_to_baselines:
@@ -1032,7 +1055,12 @@ if __name__ == "__main__":
         generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
         
         model.logger.info(f"Generating NYC analysis dataframe for {model.RUNID}")
-        generate_nyc_analysis_df(run_dir=f"runs/{model.RUNID}", custom_prefix=args.prefix, logger=model.logger)
+        generate_nyc_analysis_df(
+            run_dir=f"runs/{model.RUNID}", 
+            custom_prefix=args.prefix, 
+            logger=model.logger,
+            geometry_type=model.geometry_type
+        )
 
         model.logger.success("All items in main program routine completed.")
 
