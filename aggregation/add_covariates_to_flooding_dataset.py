@@ -33,24 +33,27 @@ WGS = 'EPSG:4326'
 PROJ = 'EPSG:2263'
 
 
-def add_elevation_covariates(gdf: gpd.GeoDataFrame, base_dir: Path, geometry_type: GeometryType) -> gpd.GeoDataFrame:
+def add_elevation_covariates(gdf: pd.DataFrame, base_dir: Path, geometry_type: GeometryType, id_column: str) -> pd.DataFrame:
     """Add elevation/topology covariates."""
-    # For CT, we have pre-computed topology. For CBG/CB, we need to compute from raster.
-    # For now, check if pre-computed exists
     paths = get_geometry_paths(geometry_type, str(base_dir))
     topology_path = paths.topology_path
     
     if topology_path.exists():
         logger.info(f"Loading topology from {topology_path}")
         topology = pd.read_csv(topology_path)
-        id_col = paths.config.id_column
         
-        if id_col in topology.columns:
-            topology[id_col] = topology[id_col].astype(str)
-            topology = topology.set_index(id_col)
-            topology.columns = ['ft_elevation_' + c for c in topology.columns]
-            gdf = gdf.merge(topology, left_on=id_col, right_index=True, how='left')
-            logger.info(f"Added elevation columns: {list(topology.columns)}")
+        if id_column in topology.columns:
+            topology[id_column] = topology[id_column].astype(str)
+            # Rename columns to have ft_elevation_ prefix
+            rename_map = {c: f'ft_elevation_{c}' for c in ['min', 'max', 'mean'] if c in topology.columns}
+            topology = topology.rename(columns=rename_map)
+            
+            # Only keep id and elevation columns
+            cols_to_keep = [id_column] + [c for c in topology.columns if c.startswith('ft_elevation_')]
+            topology = topology[cols_to_keep]
+            
+            gdf = gdf.merge(topology, on=id_column, how='left')
+            logger.info(f"Added elevation columns: {[c for c in topology.columns if c.startswith('ft_elevation_')]}")
     else:
         # Set default values (city-wide means from CT data)
         logger.warning(f"Topology file not found at {topology_path}, using default values")
@@ -251,7 +254,7 @@ def add_covariates(geometry_type: GeometryType, base_dir: Path) -> Path:
     gdf['area'] = gdf[id_column].map(gdf_geo.set_index(id_column)['area'])
     
     # Add all covariates
-    gdf = add_elevation_covariates(gdf, base_dir, geometry_type)
+    gdf = add_elevation_covariates(gdf, base_dir, geometry_type, id_column)
     gdf = add_floodnet_covariates(gdf, gdf_geo, base_dir, id_column)
     gdf = add_catch_basin_covariates(gdf, gdf_geo, base_dir, id_column)
     gdf = add_clogged_cb_covariates(gdf, gdf_geo, base_dir, id_column)
