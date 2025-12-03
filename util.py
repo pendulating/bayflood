@@ -22,7 +22,7 @@ logger.setLevel("INFO")
 
 
 def read_real_data(
-    fpath="flooding_ct_dataset.csv",
+    fpath: str,
     annotations_have_locations=False,
     adj=[],
     adj_matrix_storage=False,
@@ -39,8 +39,8 @@ def read_real_data(
     
     Parameters:
     -----------
-    fpath : str, default="flooding_ct_dataset.csv"
-        Path to the CSV file containing flooding data
+    fpath : str
+        Path to the CSV file containing flooding data (required)
     annotations_have_locations : bool, default=False
         Whether the dataset includes annotation location information
     adj : list, default=[]
@@ -74,9 +74,10 @@ def read_real_data(
     Example:
     --------
     >>> observed_data, cov_info = read_real_data(
-    ...     fpath="data/flooding_ct_dataset.csv",
+    ...     fpath="data/processed/flooding_ct_dataset.csv",  # or flooding_cbg_dataset.csv
     ...     annotations_have_locations=True,
-    ...     use_external_covariates=True
+    ...     use_external_covariates=True,
+    ...     id_column="GEOID"  # use GEOID20 for census blocks
     ... )
     """
     single_compartment_for_debugging = False

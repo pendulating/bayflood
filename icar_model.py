@@ -76,7 +76,8 @@ class ICAR_MODEL:
         ...     ANNOTATIONS_HAVE_LOCATIONS=True,
         ...     EXTERNAL_COVARIATES=True,
         ...     ESTIMATE_PARAMS=['p_y', 'at_least_one_positive_image_by_area'],
-        ...     EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv"
+        ...     EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv",  # or flooding_cbg_dataset.csv
+        ...     geometry_type="ct"  # or "cbg", "cb"
         ... )
         >>> model.load_data()
         >>> fit = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1500)
