@@ -1,9 +1,16 @@
+"""
+Map generation module for bayflood pipeline.
+
+Generates visualization maps for flooding estimates and related data sources.
+Supports multiple census geometry types.
+"""
 
 import pandas as pd 
 import numpy as np 
 
 import os 
 import sys 
+from typing import Union
 
 import geopandas as gpd 
 import matplotlib.pyplot as plt 
@@ -17,6 +24,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from shapely import wkt
 
 from logger import setup_logger 
+from geometry_config import GeometryType, get_geometry_paths
 
 logger = setup_logger("map-generation-subroutine")
 logger.setLevel("INFO")
@@ -41,7 +49,35 @@ if LATEX:
     logger.info("LaTeX plotting enabled")
 
 
-def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_by_area'):
+def generate_maps(
+    run_id, 
+    estimate_path, 
+    estimate='at_least_one_positive_image_by_area',
+    geometry_type: Union[GeometryType, str] = GeometryType.CT
+):
+    """
+    Generate flood visualization maps.
+    
+    Parameters
+    ----------
+    run_id : str
+        Run identifier for output directory
+    estimate_path : str
+        Path to estimate CSV file
+    estimate : str
+        Estimate column name to visualize
+    geometry_type : GeometryType or str
+        Census geometry type (ct, cbg, cb)
+    """
+    # Handle geometry type
+    if isinstance(geometry_type, str):
+        geometry_type = GeometryType(geometry_type.lower())
+    
+    paths = get_geometry_paths(geometry_type)
+    config = paths.config
+    id_column = config.id_column
+    
+    logger.info(f"Generating maps for {config.display_name}s")
 
     if LIVE_LOAD_NEXAR_DATA:
 
@@ -91,30 +127,42 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     logger.info("Loaded and processed september 29 dashcam flooding data.")
 
+    # Load geometry-appropriate analysis set
+    flooding_dataset_path = paths.flooding_dataset_path
+    if flooding_dataset_path.exists():
+        analysis_set = pd.read_csv(flooding_dataset_path)
+    else:
+        # Fallback to CT dataset for backward compatibility
+        analysis_set = pd.read_csv("data/processed/flooding_ct_dataset.csv")
+        logger.warning(f"Using fallback CT dataset, {flooding_dataset_path} not found")
 
-    analysis_set = pd.read_csv("data/processed/flooding_ct_dataset.csv")
-
-    logger.success("Completed merge of inspection set annotations with september 29 dashcam flooding data.")
+    logger.success("Loaded analysis set.")
 
 
 
     estimate_df = pd.read_csv(estimate_path, engine='pyarrow')
-    estimate_df['tract_id'] = estimate_df['tract_id'].astype(int)
+    # Handle both geoid and tract_id columns
+    id_col = 'geoid' if 'geoid' in estimate_df.columns else 'tract_id'
+    estimate_df[id_col] = estimate_df[id_col].astype(int)
 
     logger.info("Loaded estimates from ICAR model.")
 
 
-    analysis_set = analysis_set.merge(estimate_df, left_on='GEOID', right_on='tract_id', how='left').drop_duplicates(subset='GEOID')
+    analysis_set = analysis_set.merge(estimate_df, left_on=id_column, right_on=id_col, how='left').drop_duplicates(subset=id_column)
     analysis_set = gpd.GeoDataFrame(analysis_set, geometry=analysis_set.geometry.apply(lambda x: wkt.loads(x)), crs=PROJ)
 
     logger.success("Merged model estimates with analysis set.")
 
 
+    # Load geometry-appropriate geojson
+    geojson_path = paths.aggregation_geojson_path
+    if not geojson_path.exists():
+        geojson_path = paths.geojson_path
+    
+    geo_df = gpd.read_file(str(geojson_path))
+    geo_df = geo_df.to_crs(PROJ)
 
-    ct_nyc = gpd.read_file('aggregation/geo/data/ct-nyc-2020.geojson')
-    ct_nyc = ct_nyc.to_crs(PROJ)
-
-    logger.info("Loaded NYC census tract data.")
+    logger.info(f"Loaded NYC {config.display_name} data ({len(geo_df)} areas).")
 
     nyc_311 = pd.read_csv('aggregation/flooding/data/nyc311_flooding_sep29.csv').dropna(subset=['latitude', 'longitude'])
     nyc_311 = gpd.GeoDataFrame(nyc_311, geometry=gpd.points_from_xy(nyc_311.longitude, nyc_311.latitude), crs=WGS).to_crs(PROJ)
@@ -132,65 +180,71 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
 
     # DEP STORMWATER 
-    moderate_current_conditions = gpd.read_file('aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb').to_crs(PROJ)
+    moderate_current_conditions = gpd.read_file('aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb').to_crs(PROJ)
     moderate_current_conditions.describe()
 
     logger.info("Loaded and processed DEP stormwater moderate current conditions data.")
 
 
-    ct_enriched = ct_nyc.copy() 
+    geo_enriched = geo_df.copy() 
 
-    # get nearest 311 complaint to each tract 
-    ct_enriched = gpd.sjoin_nearest(ct_enriched, nyc_311, distance_col='nearest_report_to_ct')
+    # get nearest 311 complaint to each area 
+    geo_enriched = gpd.sjoin_nearest(geo_enriched, nyc_311, distance_col='nearest_report_to_area')
     # drop index_left, index_right, dont fail if they dont exist
-    ct_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
+    geo_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
 
 
-    # get nearest floodnet sensor to each tract
-    ct_enriched = gpd.sjoin_nearest(ct_enriched, all_floodnet_sensor_geo, distance_col='nearest_sensor_to_ct')
+    # get nearest floodnet sensor to each area
+    geo_enriched = gpd.sjoin_nearest(geo_enriched, all_floodnet_sensor_geo, distance_col='nearest_sensor_to_area')
     # drop index_left, index_right, dont fail if they dont exist
-    ct_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
+    geo_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
 
-    # get nearest '1' flooding area to each tract
+    # get nearest '1' flooding area to each area
     stormwater_filter = moderate_current_conditions['Flooding_Category'] == 1
-    ct_enriched = gpd.sjoin_nearest(ct_enriched, moderate_current_conditions[stormwater_filter], distance_col='nearest_nuisance_flooding_area_to_ct')
+    geo_enriched = gpd.sjoin_nearest(geo_enriched, moderate_current_conditions[stormwater_filter], distance_col='nearest_nuisance_flooding_area')
     # drop index_left, index_right, dont fail if they dont exist
-    ct_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
+    geo_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
 
-    # get nearest '2' flooding area to each tract
+    # get nearest '2' flooding area to each area
     stormwater_filter = moderate_current_conditions['Flooding_Category'] == 2
-    ct_enriched = gpd.sjoin_nearest(ct_enriched, moderate_current_conditions[stormwater_filter], distance_col='nearest_deep_flooding_area_to_ct')
+    geo_enriched = gpd.sjoin_nearest(geo_enriched, moderate_current_conditions[stormwater_filter], distance_col='nearest_deep_flooding_area')
     # drop index_left, index_right, dont fail if they dont exist
-    ct_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
+    geo_enriched.drop(columns=['index_right'], errors='ignore', inplace=True)
 
-    nyc_311 = gpd.sjoin_nearest(nyc_311, ct_nyc, distance_col='nearest_complaint_to_ct')
+    # Find label column for grouping
+    label_col = 'CTLabel' if 'CTLabel' in geo_df.columns else id_column
+    
+    nyc_311 = gpd.sjoin_nearest(nyc_311, geo_df, distance_col='nearest_complaint_to_area')
     # drop index_right 
     nyc_311.drop(columns=['index_right'], inplace=True)
 
-    # drop duplicate rows on CTLabel
-    ct_enriched = ct_enriched.drop_duplicates(subset='GEOID')
+    # drop duplicate rows on id column
+    geo_enriched = geo_enriched.drop_duplicates(subset=id_column)
 
-    # count complaints per ct
-    ct_enriched['n_complaints'] = ct_enriched['CTLabel'].map(nyc_311.groupby('CTLabel').size()).fillna(0)
-
-
-    estimate_by_ct = analysis_set.groupby('GEOID')[estimate].mean().reset_index()
-    estimate_by_ct['GEOID'] = estimate_by_ct['GEOID'].astype(int)
-    ct_enriched['GEOID'] = ct_enriched['GEOID'].astype(int)
-    # merge with ct_enriched
-    ct_enriched = ct_enriched.merge(estimate_by_ct, left_on='GEOID', right_on='GEOID', how='left')
+    # count complaints per area
+    if label_col in nyc_311.columns:
+        geo_enriched['n_complaints'] = geo_enriched[label_col].map(nyc_311.groupby(label_col).size()).fillna(0)
+    else:
+        geo_enriched['n_complaints'] = geo_enriched[id_column].map(nyc_311.groupby(id_column).size()).fillna(0)
 
 
+    estimate_by_geo = analysis_set.groupby(id_column)[estimate].mean().reset_index()
+    estimate_by_geo[id_column] = estimate_by_geo[id_column].astype(int)
+    geo_enriched[id_column] = geo_enriched[id_column].astype(int)
+    # merge with geo_enriched
+    geo_enriched = geo_enriched.merge(estimate_by_geo, on=id_column, how='left')
 
-    # count frames per ct 
+
+
+    # count frames per area 
     if SELECT_TOP_N:
     # if inferred_p_y is in the top N, then mark classified_positive as 1. else 0 
-        ct_enriched['classified_positive'] = ct_enriched[estimate].rank(ascending=False, method='first') <= TOP_N_TO_SELECT
+        geo_enriched['classified_positive'] = geo_enriched[estimate].rank(ascending=False, method='first') <= TOP_N_TO_SELECT
     else:
-        ct_enriched['classified_positive'] = ct_enriched[estimate]
+        geo_enriched['classified_positive'] = geo_enriched[estimate]
 
-    ct_enriched['classified_postiive'] = ct_enriched['classified_positive'].astype(float)
-    logger.success("Enriched census tract data with model estimates and other flooding data sources.")
+    geo_enriched['classified_postiive'] = geo_enriched['classified_positive'].astype(float)
+    logger.success(f"Enriched {config.display_name} data with model estimates and other flooding data sources.")
 
 
     # Define opacity levels
@@ -209,9 +263,13 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
     for BORO in BOROUGHS:
         if BORO == '':
-            ct_enriched_for_plot = ct_enriched
+            geo_enriched_for_plot = geo_enriched
         else:
-            ct_enriched_for_plot = ct_enriched[ct_enriched['BoroName'] == BORO]
+            boro_col = 'BoroName' if 'BoroName' in geo_enriched.columns else None
+            if boro_col:
+                geo_enriched_for_plot = geo_enriched[geo_enriched[boro_col] == BORO]
+            else:
+                geo_enriched_for_plot = geo_enriched
 
         for i in range(1, 5):  # Iterating through layers to plot
             fig, ax = plt.subplots(figsize=(25, 25))
@@ -221,9 +279,9 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
                 logger.info("Using lognorm for p_y")
                 # use lognorm for p_y 
                 from matplotlib.colors import LogNorm
-                norm = LogNorm(vmin=ct_enriched_for_plot['classified_positive'].quantile(0.003), vmax=ct_enriched_for_plot['classified_positive'].quantile(0.997))
-                # plot layer with census tracts, colored by classified_positive 
-                ct_enriched_for_plot.plot(
+                norm = LogNorm(vmin=geo_enriched_for_plot['classified_positive'].quantile(0.003), vmax=geo_enriched_for_plot['classified_positive'].quantile(0.997))
+                # plot layer with areas, colored by classified_positive 
+                geo_enriched_for_plot.plot(
                     ax=ax, 
                     column='classified_positive', 
                     cmap='coolwarm', 
@@ -244,8 +302,8 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
                     }
                 )
             else: 
-                # plot layer with census tracts, colored by classified_positive 
-                ct_enriched_for_plot.plot(
+                # plot layer with areas, colored by classified_positive 
+                geo_enriched_for_plot.plot(
                     ax=ax, 
                     column='classified_positive', 
                     cmap='coolwarm', 
@@ -298,7 +356,7 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
                 legend = ax.legend(loc='upper left', fontsize=28, framealpha=1, scatterpoints=1).set_zorder(7)
             
             # Setting bounds
-            bounds = ct_enriched_for_plot.total_bounds
+            bounds = geo_enriched_for_plot.total_bounds
             ax.set_xlim([bounds[0], bounds[2]])
             ax.set_ylim([bounds[1], bounds[3]])
 
@@ -307,7 +365,8 @@ def generate_maps(run_id, estimate_path, estimate='at_least_one_positive_image_b
 
             # Saving figures
             os.makedirs(f'runs/{run_id}/maps', exist_ok=True)
-            path = f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{BORO}_{i}_noagg_zoomin.pdf' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_paired_{estimate}_{PAIRED}_{i}_noagg.pdf'
+            geo_prefix = geometry_type.value
+            path = f'runs/{run_id}/maps/nyc_flooding_map_{geo_prefix}_{estimate}_{PAIRED}_{BORO}_{i}_noagg_zoomin.pdf' if BORO != '' else f'runs/{run_id}/maps/nyc_flooding_map_{geo_prefix}_{estimate}_{PAIRED}_{i}_noagg.pdf'
             plt.savefig(path, dpi=300, bbox_inches='tight', pad_inches=0.0)
             plt.close()
 
@@ -319,8 +378,8 @@ if __name__ == '__main__':
     run_id = sys.argv[1]
     estimate_path = sys.argv[2]
     estimate = sys.argv[3]
+    geometry_type = sys.argv[4] if len(sys.argv) > 4 else 'ct'
 
-    generate_maps(run_id, estimate_path, estimate=estimate)
-
+    generate_maps(run_id, estimate_path, estimate=estimate, geometry_type=geometry_type)
 
 

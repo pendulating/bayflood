@@ -1051,8 +1051,8 @@ if __name__ == "__main__":
         model.plot_results(fit, df)
         model.write_estimate(fit, df)
         model.logger.info(f"Generating maps for {model.RUNID}")
-        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area')
-        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y')
+        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_at_least_one_positive_image_by_area.csv", estimate='at_least_one_positive_image_by_area', geometry_type=model.geometry_type)
+        generate_maps(model.RUNID, f"runs/{model.RUNID}/estimate_p_y.csv", estimate='p_y', geometry_type=model.geometry_type)
         
         model.logger.info(f"Generating NYC analysis dataframe for {model.RUNID}")
         generate_nyc_analysis_df(
