@@ -10,6 +10,7 @@ arviz>=0.16.0
 
 # Geospatial analysis
 geopandas>=0.13.0
+libpysal>=4.7.0
 shapely>=2.0.0
 pyproj>=3.6.0
 fiona>=1.9.0
