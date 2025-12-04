@@ -1,5 +1,12 @@
 # In this script, we house a class that fits various Stan models to a processed dataset of urban street flooding conditions in New York City. 
 
+# Set cache directory BEFORE importing stan/httpstan
+# This avoids disk quota issues on home directory
+import os
+from pathlib import Path
+_project_root = Path(__file__).parent.resolve()
+_cache_dir = _project_root / ".cache"
+os.environ["XDG_CACHE_HOME"] = str(_cache_dir)
 
 ## Module Imports 
 import util
@@ -14,7 +21,6 @@ from sklearn.metrics import roc_auc_score
 from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 import datetime
-import os
 import logger
 import multiprocessing
 if multiprocessing.get_start_method(allow_none=True) is None:
