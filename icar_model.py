@@ -20,6 +20,17 @@ import multiprocessing
 if multiprocessing.get_start_method(allow_none=True) is None:
     multiprocessing.set_start_method("fork")
 
+# Patch aiohttp timeout for large models (CBG has ~6800 areas)
+# Default timeout is too short to transfer large fit results
+import aiohttp
+_original_client_session_init = aiohttp.ClientSession.__init__
+def _patched_client_session_init(self, *args, **kwargs):
+    if 'timeout' not in kwargs:
+        # 30 minute total timeout for large models
+        kwargs['timeout'] = aiohttp.ClientTimeout(total=1800)
+    _original_client_session_init(self, *args, **kwargs)
+aiohttp.ClientSession.__init__ = _patched_client_session_init
+
 import pandas as pd
 import stan as stan
 import numpy as np
@@ -1051,7 +1062,7 @@ if __name__ == "__main__":
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=6000, SAMPLES=6000)
+        fit, df = model.fit(CYCLES=1, WARMUP=12000, SAMPLES=12000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)
