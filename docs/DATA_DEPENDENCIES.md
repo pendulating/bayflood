@@ -1,78 +1,120 @@
-## Data Dependencies (ICAR Artifact Scope)
+## Data Dependencies
 
-This document enumerates the datasets used by the ICAR pipeline and their expected locations and formats, so reviewers can understand scope and reproduce results.
+This document enumerates the datasets used by the BayFlood pipeline and their expected locations and formats.
 
-### Directory Layout (expected)
+### Directory Layout
 
 ```
 aggregation/
-  context_df_*.csv                    # Main tract-level dataset (e.g., context_df_02102025.csv)
   geo/
+    pull-data.sh                       # Script to download GeoJSON boundary files
     data/
-      ct-nyc-2020.geojson            # NYC census tracts
+      ct-nyc-2020.geojson             # NYC Census Tracts (downloaded via script)
+      cbg-nyc-2020.geojson            # NYC Census Block Groups (downloaded via script)
+      cb-nyc-2020.geojson             # NYC Census Blocks (downloaded via script)
+      ct-nyc-wi-2020.geojson          # Tracts including water (downloaded via script)
     data/processed/
-      ct_nyc_topology.csv            # Topographic summaries per tract
+      ct_nyc_topology.csv             # Topographic summaries per tract
+      cbg_nyc_topology.csv            # Topographic summaries per block group
   flooding/
     data/
-      nyc311_flooding_sep29.csv      # 311 flooding complaints
+      nyc311_flooding_sep29.csv       # 311 flooding complaints
     static/
-      current_floodnet_sensors.csv   # FloodNet sensors (current)
+      current_floodnet_sensors.csv    # FloodNet sensors (current)
       floodnet-flood-sensor-sep-2023.csv
       dep_stormwater_moderate_current/
-        data.gdb                     # DEP stormwater polygons (GDB)
+        data.gdb                      # DEP stormwater polygons (GDB)
   demo/
     data/
-      acs2023_dp05.json              # ACS: demographics
-      acs2023_s2801.json             # ACS: internet access
-      acs2023_s1901.json             # ACS: income
-      acs2023_s1501.json             # ACS: education
-      acs2023_s1602.json             # ACS: language
+      acs2023_dp05.json               # ACS: demographics
+      acs2023_s2801.json              # ACS: internet access
+      acs2023_s1901.json              # ACS: income
+      acs2023_s1501.json              # ACS: education
+      acs2023_s1602.json              # ACS: language
 
 data/
   processed/
-    sep29_positives.csv              # Positive dashcam frames (processed)
-    sep29_gt.csv                     # Ground-truth annotations (processed)
+    flooding_ct_dataset.csv           # Processed flooding dataset (Census Tracts)
+    sep29_positives.csv               # Positive dashcam frames (processed)
+    sep29_gt.csv                      # Ground-truth annotations (processed)
+    inspection_set.csv                # Human inspection/annotation set
   adjacency/
-    cg_500/
+    cg_500/                           # Census Tract adjacency (500ft buffer)
       ct_nyc_adj_list_custom_geometric_node1.txt
       ct_nyc_adj_list_custom_geometric_node2.txt
+    cbg_cg_300/                       # Block Group adjacency (300ft buffer)
+      cbg_nyc_adj_list_custom_geometric_node1.txt
+      cbg_nyc_adj_list_custom_geometric_node2.txt
+  revisions/                          # Data for revision analyses
+    irr/
+      bayflood_irr.csv                # Inter-rater reliability data
+    nearby_floodnet/
+      floodnet_depth_*.csv            # FloodNet sensor depth data
+    prompt_baseline_annotations/
+      *.csv                           # VLM prompt baseline annotation results
+    04_image_sensor_proximity.json    # Sensor proximity analysis data
+
+runs/
+  icar_icar/simulated_False/ahl_True/
+    covariates_True/FINAL_20260206-1100/    # Final run (with covariates)
+    covariates_False/FINAL_20260206-1205/   # Final run (without covariates)
 ```
 
-### Main tract-level dataset: `context_df_*.csv`
+### Downloading GeoJSON boundary files
 
-- Typical path: `aggregation/context_df_YYYYMMDD.csv` (e.g., `aggregation/context_df_02102025.csv`)
+Census boundary files are not checked into the repository. Download them using the provided script:
+
+```bash
+cd aggregation/geo && bash pull-data.sh && cd ../..
+```
+
+This downloads Census Tract (CT), Census Block Group (CBG), and Census Block (CB) GeoJSON files from the U.S. Census Bureau TIGER/Line program for NYC (2020).
+
+### Main flooding dataset: `flooding_ct_dataset.csv`
+
+- Default path: `data/processed/flooding_ct_dataset.csv`
+- For other geometries: `data/processed/flooding_{prefix}_dataset.csv` (e.g., `flooding_cbg_dataset.csv`)
 - Required columns (subset used by the ICAR pipeline):
-  - `GEOID` (string): Census tract identifier
-  - `n_total` (int): Total number of images per tract
+  - `GEOID` (string): Census geometry identifier
+  - `n_total` (int): Total number of images per geometry unit
   - `n_classified_positive` (int): Number of images classified positive for flooding
   - (optional) When using annotation locations: `n_tp`, `n_fn`, `n_fp`, `n_tn`, `total_not_annotated`, `positives_not_annotated`
 
-This file is the output of the broader data pipeline (dashcam VLM inference + manual annotation integration). That pipeline is out of scope here; reviewers use this processed CSV as input to the ICAR model.
+This file is the output of the data processing pipeline (dashcam VLM inference + manual annotation integration). The processing scripts are in `aggregation/`.
 
 ### Spatial adjacency
 
-- Edge lists: `node1.txt` and `node2.txt` represent one-indexed adjacent tract pairs, de-duplicated with `node1[i] < node2[i]`.
-- Provided in `data/adjacency/cg_500/` by default. Use `--adj_node1_path`/`--adj_node2_path` to override, or `--adj_npy_path` for a `.npy` adjacency matrix.
+- Edge lists: `node1.txt` and `node2.txt` represent one-indexed adjacent geometry pairs, de-duplicated with `node1[i] < node2[i]`.
+- Defaults per geometry:
+  - Census Tracts: `data/adjacency/cg_500/` (500 ft buffer)
+  - Block Groups: `data/adjacency/cbg_cg_300/` (300 ft buffer)
+  - Census Blocks: `data/adjacency/cb_cg_100/` (100 ft buffer)
+- Use `--adj_node1_path`/`--adj_node2_path` to override, or `--adj_npy_path` for a `.npy` adjacency matrix.
+- Adjacency networks are generated by `GeometryWeightsGenerator` in `notebooks/for_paper/adjacency/tract_weights.py`.
 
 ### External covariates (when enabled)
 
-Used by `ICAR_prior_annotations_have_locations.stan` via `external_covariates` matrix. Constructed inside `util.read_real_data` from tract-level features, including:
-- Topography summaries (`aggregation/geo/data/processed/ct_nyc_topology.csv`)
+Used by `ICAR_prior_annotations_have_locations.stan` via the `external_covariates` matrix. Constructed inside `util.read_real_data` from geometry-level features, including:
+- Topography summaries (`aggregation/geo/data/processed/{prefix}_nyc_topology.csv`)
 - DEP stormwater coverage fractions
-- FloodNet sensor counts per tract
-- 311 complaint counts per tract
+- FloodNet sensor counts per geometry
+- 311 complaint counts per geometry
  
 #### ACS demographic features (used in analysis)
 - Location: `aggregation/demo/data/`
 - Files (2023): `acs2023_dp05.json`, `acs2023_s2801.json`, `acs2023_s1901.json`, `acs2023_s1501.json`, `acs2023_s1602.json`
 
-### Mapping and analysis inputs
+### Multi-geometry support
 
-- `aggregation/geo/data/ct-nyc-2020.geojson`: Census tract geometries
-- `aggregation/flooding/data/nyc311_flooding_sep29.csv`: 311 complaints
-- `aggregation/flooding/static/current_floodnet_sensors.csv`: FloodNet sensors
-- `aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb`: DEP stormwater polygons (moderate, current sea levels)
-- `data/processed/sep29_positives.csv`, `data/processed/sep29_gt.csv`: Processed image-level positives and ground truth
+The pipeline supports three census geography levels:
+
+| Geometry | Prefix | ID Column | Default Buffer | GeoJSON |
+|----------|--------|-----------|----------------|---------|
+| Census Tract | `ct` | `GEOID` | 500 ft | `ct-nyc-2020.geojson` |
+| Block Group | `cbg` | `GEOID` | 300 ft | `cbg-nyc-2020.geojson` |
+| Census Block | `cb` | `GEOID20` | 100 ft | `cb-nyc-2020.geojson` |
+
+All path resolution is handled by `geometry_config.py`, which provides a `GeometryPaths` factory class.
 
 ### Environment configuration
 
@@ -81,5 +123,6 @@ You can override defaults via environment variables or CLI flags:
 - `ADJ_NODE1_PATH`, `ADJ_NODE2_PATH` → `--adj_node1_path`, `--adj_node2_path`
 - `ADJ_NPY_PATH` → `--adj_npy_path`
 - `EXTERNAL_COVARIATES` (true/false)
+- `BAYFLOOD_GEOMETRY_TYPE` → `--geometry_type` (default: `ct`)
 
 See `config.py` and `icar_model.py --help`.

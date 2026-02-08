@@ -20,93 +20,138 @@ This repository contains tools and analyses for understanding urban street flood
 - **ICAR (Intrinsic Conditional Autoregressive) models** for spatial analysis
 - **Bayesian inference** using Stan probabilistic programming
 - **External sources of flooding**: 311 complaints, FloodNet sensors, census data, topographic data
-- **Geospatial analysis** with NYC census tracts as the primary unit
+- **Geospatial analysis** at multiple census geography levels (Census Tracts, Block Groups, Blocks)
 
 ## Scope and Key Features
 
-- **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, and tract-level analysis CSVs via `analysis_df.py`.
+- **Core focus (artifact scope)**: Bayesian spatial modeling (ICAR/CAR) via Stan with `icar_model.py`, tract-level analysis CSVs via `analysis_df.py`, and end-to-end pipeline orchestration via `pipeline.py`.
+- **Multi-geometry support**: The pipeline supports Census Tracts (CT), Census Block Groups (CBG), and Census Blocks (CB), configurable via `geometry_config.py`.
 - **Out of scope for this artifact**: Submodules `cambrian`, `Janus`, and other external paper repositories (kept as references only).
 - **Optional visualization**: `generate_maps.py` can render geospatial maps but is not required for reproducing model outputs.
 
-## Project Structure (relevant to ICAR pipeline)
+## Project Structure
 
 ```
 bayflood/
+├── pipeline.py                # End-to-end pipeline (data → model → analysis)
 ├── icar_model.py              # Main ICAR modeling class
+├── geometry_config.py         # Multi-geometry configuration (CT, CBG, CB)
 ├── util.py                    # Utility functions for data processing
 ├── generate_maps.py           # Map generation and visualization
 ├── analysis_df.py             # Analysis DataFrame generation
+├── config.py                  # Centralized defaults; env overrides supported
 ├── logger.py                  # Logging utilities
 ├── refresh_cache.py           # Cache management
-├── config.py                  # Centralized defaults; env overrides supported
-├── observed_data.csv          # Processed flooding observations
 ├── stan_models/               # Stan model specifications
 │   ├── weighted_ICAR_prior.stan
-│   ├── ICAR_prior_annotations_have_locations.stan
-├── notebooks/                 # Jupyter notebooks for analysis
-│   ├── for_paper/            # Paper-specific analyses
-│   └── visual_assets
-├── data/                      # Data storage
-│   ├── processed/            # Processed datasets
-│   └── adjacency/            # Pre-computed adjacency matrix of NYC census tracts, in Stan-compatible format
-├── aggregation/              # Aggregated data sources
-│   ├── flooding/            # Flooding-related data
-│   ├── demo/                # Demographic data
-│   └── geo/                 # Geographic data
-└── runs/                     # Model run outputs (two replication runs included in Repo)
+│   └── ICAR_prior_annotations_have_locations.stan
+├── aggregation/               # Data aggregation and processing
+│   ├── generate_flooding_dataset.py      # Generate flooding dataset by geometry
+│   ├── add_covariates_to_flooding_dataset.py  # Add external covariates
+│   ├── aggregate_by_geometry.py          # Parameterized geometry aggregation
+│   ├── flooding/              # Flooding data sources (311, FloodNet, DEP)
+│   ├── demo/                  # Demographic data (ACS)
+│   └── geo/                   # Geographic data and topology processing
+├── notebooks/
+│   ├── for_paper/             # Original paper analyses
+│   ├── for_revisions/         # Revision analyses (see below)
+│   └── for_site/              # Website visualizations
+├── data/
+│   ├── processed/             # Processed datasets
+│   ├── revisions/             # Data for revision analyses
+│   │   ├── irr/               # Inter-rater reliability data
+│   │   ├── nearby_floodnet/   # FloodNet sensor proximity data
+│   │   └── prompt_baseline_annotations/  # VLM prompt baseline annotations
+│   └── adjacency/             # Adjacency matrices (Stan-compatible format)
+├── runs/                      # Model run outputs (FINAL runs included)
+└── jobs/                      # SLURM job scripts
 ```
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - Stan (PyStan)
-- A computer with a powerful processor (at least 8 cores), and 64GB of system RAM to run icar_model.py at default behavior. RAM requirements increase with the number of model samples.
-- The pipeline has only been tested on the Linux Ubuntu 20.04 operating system.
+- A computer with a powerful processor (at least 8 cores), and 64GB of system RAM to run `icar_model.py` at default behavior. RAM requirements increase with the number of model samples.
+- The pipeline has been tested on Linux Ubuntu 20.04.
 
 ### Environment Setup
 
-1. **Clone the repository** (should take < 30 seconds on a fast internet connection):
+1. **Clone the repository:**
    ```bash
    git clone <repository-url>
    cd bayflood
    ```
 
-2. **Create a virtual environment:** (use mamba or conda interchangeablely)
+2. **Download geospatial data:**
+   ```bash
+   cd aggregation/geo && bash pull-data.sh && cd ../..
+   ```
+
+3. **Create a virtual environment** (use mamba or conda interchangeably):
    ```bash
    mamba create -n bayflood python=3.10
    mamba activate bayflood
    ```
 
-3. **Install dependencies (Python 3.10):**
+4. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
-4. **Stan backend**: We use `pystan` for Stan.
+
+5. **Stan backend**: We use `pystan` for Stan.
 
 ## Data Requirements
 
 ### Required Data Files
 
-BayFlood utilizes several data sources, all uploaded to the repo:
+BayFlood utilizes several data sources. GeoJSON boundary files are downloaded via the provided `aggregation/geo/pull-data.sh` script. Other data sources are included in the repository:
 
-1. **Dashcam imagery data** (processed)
-2. **Census tract boundaries** (GeoJSON format)
+1. **Dashcam imagery data** (processed counts per geometry)
+2. **Census boundary files** (GeoJSON, downloaded via script)
 3. **Demographic data** (ACS 2023)
 4. **311 complaint data**
 5. **FloodNet sensor data**
 6. **Topographic data**
 
+See [docs/DATA_DEPENDENCIES.md](docs/DATA_DEPENDENCIES.md) for a complete listing of required files and their locations.
 
 ## Functionality
 
-### 1. Basic ICAR Model Usage
+### End-to-End Pipeline
+
+The `pipeline.py` script runs the complete workflow for any census geometry:
+
+```bash
+# Full pipeline for Census Tracts (default)
+python pipeline.py --geometry-type ct --prefix my_ct_run --external-covariates
+
+# Full pipeline for Census Block Groups
+python pipeline.py --geometry-type cbg --prefix my_cbg_run --external-covariates
+
+# Data generation only (no model fitting)
+python pipeline.py --geometry-type cbg --data-only
+
+# Skip data generation (reuse existing processed data)
+python pipeline.py --geometry-type ct --prefix rerun --skip-data-generation --external-covariates
+```
+
+The pipeline performs these steps:
+1. Generate adjacency network (if not exists)
+2. Generate topology statistics (if not exists)
+3. Generate flooding dataset (image counts per geometry)
+4. Add external covariates to the flooding dataset
+5. Fit ICAR model
+6. Generate maps and analysis
+
+### Individual Components
+
+#### 1. ICAR Model
 
 ```python
 from icar_model import ICAR_MODEL
 
-# Initialize model
 model = ICAR_MODEL(
     PREFIX='test_run',
     ICAR_PRIOR_SETTING="icar",
@@ -117,22 +162,16 @@ model = ICAR_MODEL(
     EMPIRICAL_DATA_PATH="data/processed/flooding_ct_dataset.csv"
 )
 
-# Load data
 model.load_data()
-
-# Fit model
 fit = model.fit(CYCLES=1, WARMUP=1000, SAMPLES=1500)
-
-# Generate results
 model.plot_results(fit, model.data_to_use)
 ```
 
-### 2. Generate Maps
+#### 2. Generate Maps
 
 ```python
 from generate_maps import generate_maps
 
-# Generate flooding maps
 generate_maps(
     run_id='test_run',
     estimate_path='runs/test_run/estimate_at_least_one_positive_image_by_area.csv',
@@ -140,12 +179,11 @@ generate_maps(
 )
 ```
 
-### 3. Analysis DataFrame
+#### 3. Analysis DataFrame
 
 ```python
 from analysis_df import generate_nyc_analysis_df
 
-# Generate comprehensive analysis
 df = generate_nyc_analysis_df(
     run_dir='runs/test_run',
     custom_prefix='analysis',
@@ -153,92 +191,52 @@ df = generate_nyc_analysis_df(
 )
 ```
 
-## Usage Examples
+## Precomputed Runs
 
-### Running a Complete Analysis
+Two FINAL model runs are included in the repository for reproducibility:
 
-1. **Prepare your data** according to the data requirements, or use pre-downloaded & pre-processed datasets in this repo. 
-2. **Configure model parameters** via CLI flags or environment variables in `config.py`
-3. **Run the ICAR model** to get flooding estimates. Takes about 20 minutes on our compute node of 8 CPUs and 64GB system RAM.
-4. **Generate visualizations** using `generate_maps.py`
-5. **Perform additional analysis** using the notebooks
+- **With covariates**: `runs/icar_icar/simulated_False/ahl_True/covariates_True/FINAL_20260206-1100/`
+- **Without covariates**: `runs/icar_icar/simulated_False/ahl_True/covariates_False/FINAL_20260206-1205/`
 
-## End-to-end usage example (conda env → train → maps → analysis)
+Each run directory contains:
+- `analysis_df_FINAL_02062026.csv` — Full tract-level analysis DataFrame
+- `analysis_df_describe_FINAL_02062026.csv` — Descriptive statistics
+- `metadata.json` — Run configuration and parameters
+- `summary.txt` — Stan sampling summary
 
-- Create and activate a fresh conda environment (Python 3.10, use mamba or conda commands interchangeably)
-```bash
-mamba create -n bayflood-icar python=3.10 -y
-mamba activate bayflood-icar
-```
+## Notebooks
 
-- Install dependencies (recommended: conda for geo libs, pip for the rest)
-```bash
-# Core + geospatial via conda-forge
-mamba install -c conda-forge numpy scipy pandas scikit-learn matplotlib seaborn jupyter -y
-mamba install -c conda-forge geopandas shapely pyproj fiona rasterio pyarrow -y
+### Paper Analyses (`notebooks/for_paper/`)
 
-# Stan http backend + utils via pip
-mamba install pystan arviz nest-asyncio rasterstats tqdm python-json-logger termcolor
-```
+Analyses from the original paper submission, including coverage maps, bias analyses, downsampled performance, FloodNet placement optimization, and VLM baseline comparisons.
 
+### Revision Analyses (`notebooks/for_revisions/`)
 
-- Verify required data are present (adjust paths as needed)
-```bash
-ls aggregation/context_df_02102025.csv
-ls aggregation/geo/data/ct-nyc-2020.geojson
-ls aggregation/flooding/data/nyc311_flooding_sep29.csv
-ls aggregation/flooding/static/current_floodnet_sensors.csv
-# DEP stormwater polygons (moderate, current sea levels)
-ls aggregation/flooding/static/dep_stormwater_moderate_current/data.gdb
-```
+Analyses added during the revision process:
 
-- Train a new ICAR model on the provided dataset (with covariates)
-```bash
-EMPIRICAL="aggregation/context_df_02102025.csv"
+| Notebook | Description |
+|----------|-------------|
+| `00_hyperlocal_coverage_*.ipynb` | Road-level dashcam coverage analysis |
+| `01_power_analysis.ipynb` | Statistical power analysis for flood detection |
+| `01a_analysis_external_corrs.ipynb` | Extended external dataset correlations |
+| `01b_compare_revisions_vs_paper.ipynb` | Comparison of revision vs. original model outputs |
+| `01c_311_biases.ipynb` | 311 complaint reporting bias analysis |
+| `01d_analysis_added_coverage.ipynb` | Added coverage analysis |
+| `02_downsampled_all_performance.ipynb` | Downsampled annotation performance (all fractions) |
+| `03_allexpdays_moremetrics.ipynb` | Multi-day multi-metric evaluation |
+| `04_image_sensor_proximity.ipynb` | Dashcam image proximity to FloodNet sensors |
+| `05_nearby_sensors_flood_data.ipynb` | FloodNet sensor depth data comparison |
+| `06_other_thresholds_coverage_maps.ipynb` | Coverage maps at alternative thresholds |
+| `08_prompt_baselines*.ipynb` | VLM prompt engineering baseline comparisons |
+| `09_interrater_agreement.ipynb` | Inter-rater reliability (Cohen's kappa) |
+| `10_characterizing_misclassified_samples.ipynb` | False positive/negative characterization |
+| `adjacency/cbg_geometric_buffer_adjacency.ipynb` | CBG-level adjacency network construction |
 
-python icar_model.py icar \
-  --annotations_have_locations \
-  --external_covariates \
-  --prefix VALIDATION_WITH_COVS \
-  --empirical_data_path "$EMPIRICAL"
-```
+Shared utilities: `constants.py`, `helpers.py`, `logger.py`
 
-- (Optional) Train without covariates for comparison
-```bash
-python icar_model.py icar \
-  --annotations_have_locations \
-  --prefix VALIDATION_NO_COVS \
-  --empirical_data_path "$EMPIRICAL"
-```
+### External Data Dependencies
 
-- Locate the latest run ID (with covariates)
-```bash
-RUN_DIR=$(ls -td runs/icar_icar/simulated_False/ahl_True/covariates_True/* | head -1)
-RUN_ID=${RUN_DIR#runs/}
-echo "$RUN_ID"
-```
-
-- Generate maps from the new run (optional)
-```bash
-python generate_maps.py "$RUN_ID" "runs/$RUN_ID/estimate_p_y.csv" p_y
-python generate_maps.py "$RUN_ID" "runs/$RUN_ID/estimate_at_least_one_positive_image_by_area.csv" at_least_one_positive_image_by_area
-```
-
-- Generate the tract-level analysis CSVs (core output)
-```bash
-python -c "from analysis_df import generate_nyc_analysis_df as g; g(run_dir='runs/$RUN_ID', custom_prefix='validation', use_smoothing=True)"
-```
-
-- Validate outputs exist
-```bash
-ls runs/$RUN_ID/estimate_p_y.csv
-ls runs/$RUN_ID/analysis_df_validation_*.csv
-ls runs/$RUN_ID/analysis_df_describe_validation_*.csv
-```
-
-### Notebooks
-
-Paper notebooks live in submodules and are out of scope for this artifact.
+A small number of revision notebooks reference external dashcam imagery paths (`/share/ju/nexar_data/`) that are not included in this repository. These notebooks will partially run without the external data but image-level analyses require access to the original imagery.
 
 ## Model Specifications
 
@@ -246,7 +244,7 @@ Paper notebooks live in submodules and are out of scope for this artifact.
 
 The ICAR (Intrinsic Conditional Autoregressive) model accounts for spatial dependencies in flooding patterns:
 
-- **Spatial prior**: ICAR prior on tract-level flooding probabilities
+- **Spatial prior**: ICAR prior on geometry-level flooding probabilities
 - **Observation model**: Binomial likelihood for flood detection
 - **Covariates**: Optional external covariates (demographics, topography)
 - **Inference**: Hamiltonian Monte Carlo via Stan
@@ -254,8 +252,8 @@ The ICAR (Intrinsic Conditional Autoregressive) model accounts for spatial depen
 ### Stan Models
 
 Located in `stan_models/`:
-- `ICAR_prior_annotations_have_locations.stan`: ICAR model with annotation locations (only model used in paper)
-- `weighted_ICAR_prior.stan`: ICAR model, but doesn't use annotation locations data. 
+- `ICAR_prior_annotations_have_locations.stan`: ICAR model with annotation locations (primary model used in paper)
+- `weighted_ICAR_prior.stan`: ICAR model without annotation location data
 
 ## Outputs
 
@@ -267,9 +265,9 @@ Located in `stan_models/`:
 
 ### Analysis Outputs
 
-- **DataFrames**: Combined analysis with all covariates, as well as output DataFrame of per-column descriptive statistics. 
+- **DataFrames**: Combined analysis with all covariates, plus descriptive statistics
 - **Statistical summaries**: Correlation analyses, bias assessments
-- **Visualizations**: Maps & plots
+- **Visualizations**: Maps and plots
 
 ## Citation
 
@@ -277,7 +275,7 @@ If you use or build off of this work, please cite:
 
 - Bayesian Modeling of Zero-Shot Classifications for Urban Flood Detection. arXiv:2503.14754v2, 26 Mar 2025. [arXiv](https://arxiv.org/abs/2503.14754v2)
 
-This repository includes a `CITATION.cff` (use GitHub’s “Cite this repository” for formatted citations).
+This repository includes a `CITATION.cff` (use GitHub's "Cite this repository" for formatted citations).
 
 
 ## Contact
