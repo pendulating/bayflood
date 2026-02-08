@@ -138,6 +138,16 @@ def analyze_weights(W: np.ndarray) -> Tuple[int, List[int], float]:
     n_connections = int(W.sum() / 2)  # Divide by 2 for undirected graph
     isolated_areas = list(nx.isolates(G))
     avg_connections = W.sum() / len(W)
+    
+    # Check for connected components
+    n_components = nx.number_connected_components(G)
+    if n_components > 1:
+        print(f"Warning: Adjacency graph has {n_components} connected components.")
+        component_sizes = sorted([len(c) for c in nx.connected_components(G)], reverse=True)
+        print(f"  Component sizes: {component_sizes}")
+        if len(isolated_areas) > 0:
+            print(f"  Found {len(isolated_areas)} isolated areas.")
+            
     return n_connections, isolated_areas, avg_connections
 
 

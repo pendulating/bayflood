@@ -88,7 +88,16 @@ def generate_nyc_analysis_df(
         return md
 
     def parse_acs(acs: pd.DataFrame, cols: Dict[str, str]) -> pd.DataFrame:
-        """Parse ACS data."""
+        """Parse ACS data.
+        
+        Handles Census Bureau sentinel values:
+            -666666666: estimate not available (too few sample observations)
+            -888888888: not applicable
+            -999999999: suppressed
+        These are replaced with NaN so they don't contaminate statistics.
+        """
+        ACS_SENTINEL_VALUES = [-666666666, -888888888, -999999999]
+
         acs.columns = acs.iloc[0]
         acs = acs[1:]
         # Use generic geoid column name
@@ -96,7 +105,9 @@ def generate_nyc_analysis_df(
         acs = acs.set_index('geoid')
         acs = acs[list(cols.keys())]
         acs.columns = acs.columns.map(lambda x: cols[x])
-        return acs.astype(int)
+        acs = acs.apply(pd.to_numeric, errors='coerce')
+        acs = acs.replace(ACS_SENTINEL_VALUES, np.nan)
+        return acs
 
     # Load ICAR estimates
     icar_files = glob(f"{run_dir}/estimate*.csv")
@@ -173,10 +184,10 @@ def generate_nyc_analysis_df(
         # Race data
         race_cols = {
             'DP05_0001E': 'total_population',
-            'DP05_0079E': 'nhl_white_alone', 
-            'DP05_0080E': 'nhl_black_alone', 
-            'DP05_0073E': 'hispanic_alone', 
-            'DP05_0082E': 'nhl_asian_alone',
+            'DP05_0082E': 'nhl_white_alone', 
+            'DP05_0083E': 'nhl_black_alone', 
+            'DP05_0076E': 'hispanic_alone', 
+            'DP05_0085E': 'nhl_asian_alone',
             'DP05_0019E': 'n_children', 
             'DP05_0024E': 'n_elderly',
         }

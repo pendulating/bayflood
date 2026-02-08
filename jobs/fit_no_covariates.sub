@@ -1,7 +1,7 @@
 #!/bin/bash 
 #SBATCH -J fit
-#SBATCH -o /share/ju/matt/street-flooding/log/fit/%j.out 
-#SBATCH -e /share/ju/matt/street-flooding/log/fit/%j.err
+#SBATCH -o /share/ju/matt/bayflood/.slurm_jobs/fit/%j.out 
+#SBATCH -e /share/ju/matt/bayflood/.slurm_jobs/fit/%j.err
 #SBATCH --mail-type=ALL 
 #SBATCH --mail-user=mwf62@cornell.edu 
 #SBATCH -N 1
@@ -17,7 +17,7 @@ source /home/mwf62/.bashrc
  
 source activate /share/ju/conda_virtualenvs/stan
 
-cd /share/ju/matt/street-flooding
+cd /share/ju/matt/bayflood
 
 # args: icar_prior_setting, annotations_have_locations, use_simulated_data
 python icar_model.py icar --annotations_have_locations --prefix $1

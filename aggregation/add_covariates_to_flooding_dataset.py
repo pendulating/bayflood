@@ -103,12 +103,10 @@ def add_catch_basin_covariates(gdf: gpd.GeoDataFrame, gdf_geo: gpd.GeoDataFrame,
         # Count catch basins per area
         joined = gpd.sjoin(gdf_geo, catch_basins, how='left', predicate='contains')
         cb_counts = joined.groupby(id_column).size()
-        gdf['n_catch_basins'] = gdf[id_column].map(cb_counts).fillna(0).astype(int)
-        gdf['catch_basin_density'] = gdf['n_catch_basins'] / gdf['area']
-        logger.info(f"Added catch basin covariates: {gdf['n_catch_basins'].sum()} total")
+        gdf['catch_basin_density'] = gdf[id_column].map(cb_counts).fillna(0).astype(int) / gdf['area']
+        logger.info(f"Added catch basin covariates: {gdf['catch_basin_density'].sum()} total")
     else:
-        logger.warning(f"Catch basins file not found, setting n_catch_basins=0")
-        gdf['n_catch_basins'] = 0
+        logger.warning(f"Catch basins file not found, setting catch_basin_density=0")
         gdf['catch_basin_density'] = 0
     
     return gdf
@@ -143,14 +141,14 @@ def add_clogged_cb_covariates(gdf: gpd.GeoDataFrame, gdf_geo: gpd.GeoDataFrame,
         avg_resolution = joined.groupby(id_column)['days_clogged'].mean()
         city_median = clogged['days_clogged'].median()
         
-        gdf['cb_days_clogged'] = gdf[id_column].map(cb_days).fillna(0)
+        #gdf['cb_days_clogged'] = gdf[id_column].map(cb_days).fillna(0)
         gdf['has_clogged_cb_complaint'] = gdf[id_column].map(avg_resolution).notna().astype(int)
         gdf['cb_avg_resolution_time'] = gdf[id_column].map(avg_resolution).fillna(city_median)
         
-        logger.info(f"Added clogged CB covariates: {gdf['cb_days_clogged'].sum():.0f} total days")
+        #logger.info(f"Added clogged CB covariates: {gdf['cb_days_clogged'].sum():.0f} total days")
     else:
         logger.warning(f"Clogged CB file not found, setting defaults")
-        gdf['cb_days_clogged'] = 0
+        #gdf['cb_days_clogged'] = 0
         gdf['has_clogged_cb_complaint'] = 0
         gdf['cb_avg_resolution_time'] = 0
     
@@ -177,19 +175,28 @@ def add_dep_stormwater_covariates(gdf: gpd.GeoDataFrame, gdf_geo: gpd.GeoDataFra
         dep_flat.crs = dep.crs
         dep_flat['Flooding_Category'] = dep_flat.index.str.split('_').str[0].astype(int)
         
-        for category in [1, 2]:
-            dep_cat = dep_flat[dep_flat['Flooding_Category'] <= category]
-            area_col = f'dep_moderate_{category}_area'
-            frac_col = f'dep_moderate_{category}_frac'
-            
-            overlay = gpd.overlay(gdf_geo, dep_cat, how='intersection')
-            area_by_geo = overlay.groupby(id_column)['geometry'].apply(
-                lambda geom: geom.area.sum()
-            )
-            gdf[area_col] = gdf[id_column].map(area_by_geo).fillna(0)
-            gdf[frac_col] = gdf[area_col] / gdf['area']
+        # Calculate areas for each category independently (matching context_df.ipynb)
+        dep_cat_1 = dep_flat[dep_flat['Flooding_Category'] == 1]
+        dep_cat_2 = dep_flat[dep_flat['Flooding_Category'] == 2]
         
-        logger.info(f"Added DEP stormwater covariates")
+        # Category 1 area
+        overlay_1 = gpd.overlay(gdf_geo, dep_cat_1, how='intersection')
+        area_1 = overlay_1.groupby(id_column)['geometry'].apply(lambda geom: geom.area.sum())
+        gdf['dep_moderate_1_area'] = gdf[id_column].map(area_1).fillna(0)
+        
+        # Category 2 area (independent calculation)
+        overlay_2 = gpd.overlay(gdf_geo, dep_cat_2, how='intersection')
+        area_2 = overlay_2.groupby(id_column)['geometry'].apply(lambda geom: geom.area.sum())
+        gdf['dep_moderate_2_area'] = gdf[id_column].map(area_2).fillna(0)
+        
+        # area of 2 should also include area of 1, since two is more severe than 1
+        gdf['dep_moderate_2_area'] += gdf['dep_moderate_1_area']
+        
+        # Calculate fractions
+        gdf['dep_moderate_1_frac'] = gdf['dep_moderate_1_area'] / gdf['area']
+        gdf['dep_moderate_2_frac'] = gdf['dep_moderate_2_area'] / gdf['area']
+        
+        logger.info(f"Added DEP stormwater covariates (notebook approach)")
     else:
         logger.warning(f"DEP stormwater file not found, setting defaults")
         gdf['dep_moderate_1_area'] = 0
@@ -267,8 +274,10 @@ def add_covariates(geometry_type: GeometryType, base_dir: Path) -> Path:
     logger.success(f"Saved updated dataset to {output_path}")
     
     # Print summary
+    # dec9 - removed cb_days_clogged
+    # jan 25 - removed n_catch_basins
     covariate_cols = ['ft_elevation_min', 'ft_elevation_mean', 'n_floodnet_sensors',
-                      'n_catch_basins', 'catch_basin_density', 'cb_days_clogged',
+                      'catch_basin_density',
                       'cb_avg_resolution_time', 'has_clogged_cb_complaint',
                       'dep_moderate_1_frac', 'dep_moderate_2_frac', 'n_311_reports']
     

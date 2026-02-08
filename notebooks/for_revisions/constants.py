@@ -12,17 +12,19 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from geometry_config import GeometryType, get_geometry_paths, get_geometry_config
 
+BASE_DIR = Path(__file__).parent.parent.parent
+
 # -----------------------------------------------------------------------------
 # Current Run Paths (Census Tract by default)
 # -----------------------------------------------------------------------------
 
-CURRENT_DF="/share/ju/matt/bayflood/runs/icar_icar/simulated_False/ahl_True/covariates_True/dec1_catch_basins_allvariants_20251201-1300/analysis_df_dec1_catch_basins_allvariants_12012025.csv"
+CURRENT_DF = str(BASE_DIR / "runs/icar_icar/simulated_False/ahl_True/covariates_True/FINAL_20260206-1100/analysis_df_FINAL_02062026.csv")
 
-CURRENT_NO_COVARIATES_DF="/share/ju/matt/bayflood/runs/icar_icar/simulated_False/ahl_True/covariates_False/dec1_catch_basins_allvariants_nocov_20251201-1300/analysis_df_dec1_catch_basins_allvariants_nocov_12012025.csv"
+CURRENT_NO_COVARIATES_DF = str(BASE_DIR / "runs/icar_icar/simulated_False/ahl_True/covariates_False/FINAL_20260206-1205/analysis_df_FINAL_02062026.csv")
 
 # Output paths
-PAPER_PATH='/share/ju/matt/bayflood/papers/natcities_bayflood_2025'
-DELIVERABLES_PATH='/share/ju/matt/bayflood/deliverables'
+PAPER_PATH = str(BASE_DIR / 'papers/natcities_bayflood_2025')
+DELIVERABLES_PATH = str(BASE_DIR / 'deliverables')
 
 # Coordinate reference systems
 WGS='EPSG:4326'
@@ -33,16 +35,14 @@ GEO_PATH='../../aggregation/geo/data'
 
 CURRENT_PP_BASELINES_GLOB=""
 
-CURRENT_ADJ_1="/share/ju/matt/street-flooding/data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt"
-CURRENT_ADJ_2="/share/ju/matt/street-flooding/data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"
+CURRENT_ADJ_1 = str(BASE_DIR / "data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt")
+CURRENT_ADJ_2 = str(BASE_DIR / "data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt")
 
 ESTIMATE_TO_USE='confirmed_or_above_thres'
 
 # -----------------------------------------------------------------------------
 # Geometry-Aware Path Functions
 # -----------------------------------------------------------------------------
-
-BASE_DIR = Path(__file__).parent.parent.parent
 
 
 def get_geojson_path(geometry_type: GeometryType | str = GeometryType.CT) -> Path:

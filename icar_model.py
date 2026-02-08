@@ -40,7 +40,7 @@ aiohttp.ClientSession.__init__ = _patched_client_session_init
 import pandas as pd
 import stan as stan
 import numpy as np
-from scipy.stats import pearsonr, spearmanr
+from scipy.stats import pearsonr, spearmanr, wasserstein_distance
 import arviz as az
 from scipy.special import expit
 from sklearn.linear_model import LinearRegression
@@ -112,8 +112,11 @@ class ICAR_MODEL:
         adj=[],
         adj_matrix_storage=None,
         downsample_frac=1,
-        USE_CATCH_BASINS=True,
-        geometry_type: str | GeometryType = "ct"
+        DOWNSAMPLE_ALL_IMAGES=False,
+        trim_to_median: bool = False,
+        trim_remove_frac: float | None = None,
+        USE_CATCH_BASINS=False,
+        geometry_type: str | GeometryType = "ct",
     ):
 
         refresh_cache()
@@ -173,6 +176,10 @@ class ICAR_MODEL:
         self.use_external_covariates = EXTERNAL_COVARIATES
         self.use_catch_basins = USE_CATCH_BASINS
         self.downsample_frac = downsample_frac
+        self.downsample_all_images = DOWNSAMPLE_ALL_IMAGES
+        self.trim_to_median = trim_to_median
+        self.trim_remove_frac = trim_remove_frac
+        self.trim_history = []
         self.EMPIRICAL_DATA_PATH = EMPIRICAL_DATA_PATH
 
         self.icar_prior_setting = ICAR_PRIOR_SETTING
@@ -280,8 +287,13 @@ class ICAR_MODEL:
             )
 
             if self.downsample_frac < 1:
-                self.logger.info("Downsampling data.")
-                self.data_to_use = self.downsample_data(self.data_to_use, downsample_frac=self.downsample_frac)
+                mode = "all images" if self.downsample_all_images else "annotated images"
+                self.logger.info(f"Downsampling {mode} with downsample_frac={self.downsample_frac}.")
+                self.data_to_use = self.downsample_data(
+                    self.data_to_use,
+                    downsample_frac=self.downsample_frac,
+                    downsample_all_images=self.downsample_all_images,
+                )
 
             self.logger.success("Successfully generated simulated data.")
         else:
@@ -305,17 +317,37 @@ class ICAR_MODEL:
                     
             self.logger.success("Successfully read empirical data.")
 
-            if self.downsample_frac < 1:
-                self.logger.info("Downsampling data.")
-                self.data_to_use = self.downsample_data(self.data_to_use, downsample_frac=self.downsample_frac)
+            if self.trim_to_median:
+                self.logger.info(
+                    "Applying trim_to_median (remove_frac=%s)."
+                    % (self.trim_remove_frac if self.trim_remove_frac is not None else (1.0 - float(self.downsample_frac)))
+                )
+                self.data_to_use = self.iterative_trim_to_median(
+                    self.data_to_use,
+                    remove_frac=self.trim_remove_frac,
+                )
+                self.logger.success("Successfully applied trim_to_median.")
+
+            if (not self.trim_to_median) and (self.downsample_frac < 1):
+                mode = "all images" if self.downsample_all_images else "annotated images"
+                self.logger.info(f"Downsampling {mode} with downsample_frac={self.downsample_frac}.")
+                self.data_to_use = self.downsample_data(
+                    self.data_to_use,
+                    downsample_frac=self.downsample_frac,
+                    downsample_all_images=self.downsample_all_images,
+                )
 
             # validate observed data
-            observed_data_copy = self.parse_data_for_validation()
-            util.validate_observed_data(
-                observed_data_copy, self.annotations_have_locations, self.downsample_frac
-            )
-            self.logger.success("Successfully validated the observed data.")
-            del observed_data_copy
+            if self.trim_to_median:
+                # trim_to_median intentionally changes annotated totals, which breaks the strict validation
+                self.logger.info("Skipping strict validate_observed_data (trim_to_median enabled).")
+            else:
+                observed_data_copy = self.parse_data_for_validation()
+                util.validate_observed_data(
+                    observed_data_copy, self.annotations_have_locations, self.downsample_frac
+                )
+                self.logger.success("Successfully validated the observed data.")
+                del observed_data_copy
 
 
 
@@ -342,8 +374,12 @@ class ICAR_MODEL:
                         "Building model with annotations have locations."
                     )
                     self.logger.info("Building model with use_external_covariates = %s" % self.use_external_covariates)
+                    
+                    model_name = "ICAR_prior_annotations_have_locations"
+                    self.logger.info(f"Using model specification: {model_name}")
+
                     model = stan.build(
-                        self.models["ICAR_prior_annotations_have_locations"],
+                        self.models[model_name],
                         data=self.data_to_use["observed_data"],
                     )
                     self.ADDITIONAL_PARAMS_TO_SAVE += ['spatial_sigma', 'external_covariate_beta']
@@ -374,6 +410,11 @@ class ICAR_MODEL:
                 "CYCLES": CYCLES,
                 "WARMUP": WARMUP,
                 "SAMPLES": SAMPLES,
+                "DOWNSAMPLE_ALL_IMAGES": self.downsample_all_images,
+                "downsample_frac": self.downsample_frac,
+                "trim_to_median": self.trim_to_median,
+                "trim_remove_frac": None if self.trim_remove_frac is None else float(self.trim_remove_frac),
+                "trim_history": self.trim_history,
                 "use_icar_prior": self.data_to_use["observed_data"]["use_ICAR_prior"],
                 "icar_prior_setting": self.icar_prior_setting,
                 "N_ANNOTATED_CLASSIFIED_NEGATIVE": self.N_ANNOTATED_CLASSIFIED_NEGATIVE,
@@ -411,7 +452,7 @@ class ICAR_MODEL:
         # add a convenience field because it makes the rest of the code easier to write succinctly. 
         full_dataset['observed_data']['n_non_annotated_by_area_classified_negative'] = full_dataset['observed_data']['n_non_annotated_by_area'] - full_dataset['observed_data']['n_non_annotated_by_area_classified_positive']
         for k in full_dataset['observed_data']:
-            if k in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
+            if k in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'geoid', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
                 train_data[k] = deepcopy(full_dataset['observed_data'][k])
                 test_data[k] = deepcopy(full_dataset['observed_data'][k])
         for k in ['n_classified_positive_annotated_positive_by_area', 
@@ -432,95 +473,400 @@ class ICAR_MODEL:
         test_data['n_classified_positive_by_area'] = test_data['n_classified_positive_annotated_positive_by_area'] + test_data['n_classified_positive_annotated_negative_by_area'] + test_data['n_non_annotated_by_area_classified_positive']
 
         for k in full_dataset['observed_data'].keys():
-            if k not in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
+            if k not in ['N', 'N_edges', 'node1', 'node2', 'tract_id', 'geoid', 'center_of_phi_offset_prior', 'external_covariates', 'n_external_covariates']:
                 assert (train_data[k] + test_data[k] == full_dataset['observed_data'][k]).all()
         print("With a train frac of %2.3f, train set has %i total images; test set has %i" % 
                 (train_frac, train_data['n_images_by_area'].sum(), test_data['n_images_by_area'].sum()))
         return train_data, test_data
 
-    def downsample_data(self, full_dataset, downsample_frac=0.1):
+    def downsample_data(self, full_dataset, downsample_frac=0.1, downsample_all_images=False):
         """
-        Downsamples only the annotated images in the dataset by downsample_frac.
-        Non-annotated images are left unchanged.
-        
-        Parameters:
-        -----------
-        full_dataset : dict
-            Input dataset containing observed data
-        downsample_frac : float
-            Fraction of annotated images to keep (default: 0.1)
-            
-        Returns:
-        --------
-        dict : Modified dataset with downsampled annotated images
+        Downsample the dataset by downsample_frac.
+        If downsample_all_images is False, only annotated images are downsampled.
+        If True, all base count fields (annotated and non-annotated) are downsampled
+        before recomputing derived totals.
         """
         downsampled_data = deepcopy(full_dataset)
+        observed = downsampled_data['observed_data']
+        original_observed = full_dataset['observed_data']
 
-        # add a convenience field with the total number of annotated images
-        full_dataset['observed_data']['n_annotated_by_area'] = (
-            full_dataset['observed_data']['n_classified_positive_annotated_positive_by_area'] +
-            full_dataset['observed_data']['n_classified_positive_annotated_negative_by_area'] +
-            full_dataset['observed_data']['n_classified_negative_annotated_negative_by_area'] +
-            full_dataset['observed_data']['n_classified_negative_annotated_positive_by_area']
-        )
-        
-        # Annotated image fields that we'll downsample
-        annotated_fields = [
-            'n_classified_positive_annotated_positive_by_area',
-            'n_classified_positive_annotated_negative_by_area',
-            'n_classified_negative_annotated_negative_by_area',
-            'n_classified_negative_annotated_positive_by_area'
-        ]
-        
-        # Downsample annotated images
-        for k in annotated_fields:
-            downsampled_data['observed_data'][k] = np.random.binomial(
-                full_dataset['observed_data'][k], 
-                downsample_frac
+        if downsample_all_images:
+            # Ensure we have both positive and negative non-annotated counts
+            if 'n_non_annotated_by_area_classified_negative' not in original_observed:
+                inferred_negative = (
+                    original_observed['n_non_annotated_by_area']
+                    - original_observed['n_non_annotated_by_area_classified_positive']
+                )
+                assert (inferred_negative >= 0).all()
+                original_observed['n_non_annotated_by_area_classified_negative'] = inferred_negative
+
+            base_fields = [
+                'n_classified_positive_annotated_positive_by_area',
+                'n_classified_positive_annotated_negative_by_area',
+                'n_classified_negative_annotated_negative_by_area',
+                'n_classified_negative_annotated_positive_by_area',
+                'n_non_annotated_by_area_classified_positive',
+                'n_non_annotated_by_area_classified_negative',
+            ]
+
+            for k in base_fields:
+                observed[k] = np.random.binomial(original_observed[k], downsample_frac)
+                assert (observed[k] >= 0).all()
+
+            observed['n_annotated_by_area'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] +
+                observed['n_classified_positive_annotated_negative_by_area'] +
+                observed['n_classified_negative_annotated_negative_by_area'] +
+                observed['n_classified_negative_annotated_positive_by_area']
             )
-            assert (downsampled_data['observed_data'][k] >= 0).all()
-        
-        # Update derived fields
-        downsampled_data['observed_data']['n_annotated_by_area'] = (
-            downsampled_data['observed_data']['n_classified_positive_annotated_positive_by_area'] + 
-            downsampled_data['observed_data']['n_classified_positive_annotated_negative_by_area'] + 
-            downsampled_data['observed_data']['n_classified_negative_annotated_negative_by_area'] + 
-            downsampled_data['observed_data']['n_classified_negative_annotated_positive_by_area']
-        )
-        
-        # Total images count (non-annotated + downsampled annotated)
-        downsampled_data['observed_data']['n_images_by_area'] = (
-            downsampled_data['observed_data']['n_non_annotated_by_area'] +
-            downsampled_data['observed_data']['n_annotated_by_area']
-        )
-        
-        # Update positive classifications count
-        downsampled_data['observed_data']['n_classified_positive_by_area'] = (
-            downsampled_data['observed_data']['n_classified_positive_annotated_positive_by_area'] +
-            downsampled_data['observed_data']['n_classified_positive_annotated_negative_by_area'] +
-            downsampled_data['observed_data']['n_non_annotated_by_area_classified_positive']
-        )
+            observed['n_non_annotated_by_area'] = (
+                observed['n_non_annotated_by_area_classified_positive'] +
+                observed['n_non_annotated_by_area_classified_negative']
+            )
+            observed['n_images_by_area'] = observed['n_non_annotated_by_area'] + observed['n_annotated_by_area']
+            observed['n_classified_positive_by_area'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] +
+                observed['n_classified_positive_annotated_negative_by_area'] +
+                observed['n_non_annotated_by_area_classified_positive']
+            )
+            observed['total_annotated_classified_positive'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] +
+                observed['n_classified_positive_annotated_negative_by_area']
+            )
+            observed['total_annotated_classified_negative'] = (
+                observed['n_classified_negative_annotated_positive_by_area'] +
+                observed['n_classified_negative_annotated_negative_by_area']
+            )
 
-        # update total_annotated_classified_positive and total_annotated_classified_negative
-        downsampled_data['observed_data']['total_annotated_classified_positive'] = (
-            downsampled_data['observed_data']['n_classified_positive_annotated_positive_by_area'] +
-            downsampled_data['observed_data']['n_classified_positive_annotated_negative_by_area']
-        )
+            self.logger.info(
+                f"Original total images sum: {original_observed['n_images_by_area'].sum()}; "
+                f"downsampled total images sum: {observed['n_images_by_area'].sum()}"
+            )
+        else:
+            original_observed['n_annotated_by_area'] = (
+                original_observed['n_classified_positive_annotated_positive_by_area'] +
+                original_observed['n_classified_positive_annotated_negative_by_area'] +
+                original_observed['n_classified_negative_annotated_negative_by_area'] +
+                original_observed['n_classified_negative_annotated_positive_by_area']
+            )
+            
+            annotated_fields = [
+                'n_classified_positive_annotated_positive_by_area',
+                'n_classified_positive_annotated_negative_by_area',
+                'n_classified_negative_annotated_negative_by_area',
+                'n_classified_negative_annotated_positive_by_area'
+            ]
+            
+            for k in annotated_fields:
+                observed[k] = np.random.binomial(
+                    original_observed[k], 
+                    downsample_frac
+                )
+                assert (observed[k] >= 0).all()
+            
+            observed['n_annotated_by_area'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] + 
+                observed['n_classified_positive_annotated_negative_by_area'] + 
+                observed['n_classified_negative_annotated_negative_by_area'] + 
+                observed['n_classified_negative_annotated_positive_by_area']
+            )
+            
+            observed['n_images_by_area'] = (
+                observed['n_non_annotated_by_area'] +
+                observed['n_annotated_by_area']
+            )
+            
+            observed['n_classified_positive_by_area'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] +
+                observed['n_classified_positive_annotated_negative_by_area'] +
+                observed['n_non_annotated_by_area_classified_positive']
+            )
 
-        downsampled_data['observed_data']['total_annotated_classified_negative'] = (
-            downsampled_data['observed_data']['n_classified_negative_annotated_positive_by_area'] +
-            downsampled_data['observed_data']['n_classified_negative_annotated_negative_by_area']
-        )
+            observed['total_annotated_classified_positive'] = (
+                observed['n_classified_positive_annotated_positive_by_area'] +
+                observed['n_classified_positive_annotated_negative_by_area']
+            )
 
+            observed['total_annotated_classified_negative'] = (
+                observed['n_classified_negative_annotated_positive_by_area'] +
+                observed['n_classified_negative_annotated_negative_by_area']
+            )
 
-        
-        
-        # Print summary statistics
-        self.logger.info(f"Original annotated images: {full_dataset['observed_data']['n_annotated_by_area'].sum()}")
-        self.logger.info(f"Downsampled annotated images: {downsampled_data['observed_data']['n_annotated_by_area'].sum()}")
-        self.logger.info(f"Total images after downsampling: {downsampled_data['observed_data']['n_images_by_area'].sum()}")
+            self.logger.info(f"Original annotated images: {original_observed['n_annotated_by_area'].sum()}")
+            self.logger.info(f"Downsampled annotated images: {observed['n_annotated_by_area'].sum()}")
+            self.logger.info(f"Total images after downsampling: {observed['n_images_by_area'].sum()}")
         
         return downsampled_data
+
+    def iterative_trim_to_median(
+        self,
+        full_dataset,
+        remove_frac: float | None = None,
+    ):
+        """
+        Trim high-count tracts toward the current median count to fill a global removal budget.
+
+        This operates purely on per-tract count fields (no per-image sampling available).
+        We compute a global removal budget (\"moat\") as remove_frac * total_images,
+        and iteratively remove counts from high-count tracts until the budget is filled.
+
+        Each pass:
+        - Compute median_i (integer floor) from current n_images_by_area (pre-trim)
+        - Consider tracts with Ci > median_i, with per-tract capacity cap_i = Ci - median_i
+        - Allocate the pass removal target across high tracts proportionally to cap_i,
+          respecting cap_i (so we don't drop below the current median within a pass)
+        - For each tract, allocate removals across 6 base fields (without replacement):
+            - 4 annotated fields
+            - non-annotated classified positive
+            - non-annotated classified negative (inferred as n_non_annotated - n_non_annotated_pos)
+        - Recompute derived totals and record Wasserstein/EMD vs constant-at-median_i target.
+        """
+        if not self.annotations_have_locations:
+            raise ValueError("iterative_trim_to_median requires annotations_have_locations=True.")
+
+        # Default: if remove_frac not provided, use trim_remove_frac, else fall back to (1 - downsample_frac)
+        if remove_frac is None:
+            if self.trim_remove_frac is not None:
+                remove_frac = self.trim_remove_frac
+            else:
+                remove_frac = 1.0 - float(self.downsample_frac)
+
+        if remove_frac <= 0 or remove_frac >= 1:
+            raise ValueError(f"remove_frac must be in (0, 1); got {remove_frac}.")
+
+        trimmed = deepcopy(full_dataset)
+        observed = trimmed["observed_data"]
+
+        required = [
+            "n_images_by_area",
+            "n_classified_positive_by_area",
+            "n_classified_positive_annotated_positive_by_area",
+            "n_classified_positive_annotated_negative_by_area",
+            "n_classified_negative_annotated_negative_by_area",
+            "n_classified_negative_annotated_positive_by_area",
+            "n_non_annotated_by_area",
+            "n_non_annotated_by_area_classified_positive",
+        ]
+        missing = [k for k in required if k not in observed]
+        if missing:
+            raise ValueError(f"Missing required observed_data keys for trim_to_median: {missing}")
+
+        def _as_int_array(x):
+            arr = np.asarray(x)
+            if np.any(arr < 0):
+                raise ValueError("Negative counts encountered in observed_data before trimming.")
+            return arr.astype(np.int64, copy=True)
+
+        # Pull out base fields as int arrays we will mutate.
+        ann_pp = _as_int_array(observed["n_classified_positive_annotated_positive_by_area"])
+        ann_pn = _as_int_array(observed["n_classified_positive_annotated_negative_by_area"])
+        ann_nn = _as_int_array(observed["n_classified_negative_annotated_negative_by_area"])
+        ann_np = _as_int_array(observed["n_classified_negative_annotated_positive_by_area"])
+        non_total = _as_int_array(observed["n_non_annotated_by_area"])
+        non_pos = _as_int_array(observed["n_non_annotated_by_area_classified_positive"])
+
+        if np.any(non_pos > non_total):
+            raise ValueError("Found n_non_annotated_by_area_classified_positive > n_non_annotated_by_area.")
+
+        def _recompute_derived_fields():
+            observed["n_classified_positive_annotated_positive_by_area"] = ann_pp
+            observed["n_classified_positive_annotated_negative_by_area"] = ann_pn
+            observed["n_classified_negative_annotated_negative_by_area"] = ann_nn
+            observed["n_classified_negative_annotated_positive_by_area"] = ann_np
+            observed["n_non_annotated_by_area"] = non_total
+            observed["n_non_annotated_by_area_classified_positive"] = non_pos
+
+            observed["n_annotated_by_area"] = ann_pp + ann_pn + ann_nn + ann_np
+            observed["n_images_by_area"] = observed["n_annotated_by_area"] + non_total
+            observed["n_classified_positive_by_area"] = ann_pp + ann_pn + non_pos
+
+            # Keep parity with existing downsampling code, even though names are confusing.
+            observed["total_annotated_classified_positive"] = ann_pp + ann_pn
+            observed["total_annotated_classified_negative"] = ann_np + ann_nn
+
+            # Lightweight consistency checks
+            if np.any(observed["n_images_by_area"] < 0):
+                raise ValueError("Negative n_images_by_area after trimming.")
+            if np.any(observed["n_classified_positive_by_area"] < 0):
+                raise ValueError("Negative n_classified_positive_by_area after trimming.")
+            if np.any(non_total < 0) or np.any(non_pos < 0):
+                raise ValueError("Negative non-annotated counts after trimming.")
+            if np.any(non_pos > non_total):
+                raise ValueError("non_pos exceeded non_total after trimming.")
+
+        def _sample_multivariate_hypergeometric(counts6: np.ndarray, nremove: int) -> np.ndarray:
+            """
+            Sample removal counts across categories *without replacement*.
+            Uses sequential hypergeometric draws (exact for multivariate hypergeometric).
+            """
+            counts6 = counts6.astype(np.int64, copy=False)
+            if nremove <= 0:
+                return np.zeros_like(counts6)
+            total = int(counts6.sum())
+            nremove = min(int(nremove), total)
+            removed = np.zeros_like(counts6)
+            remaining_total = total
+            remaining_to_remove = nremove
+
+            for j in range(len(counts6) - 1):
+                if remaining_to_remove <= 0:
+                    break
+                ngood = int(counts6[j])
+                if ngood <= 0:
+                    remaining_total -= ngood
+                    continue
+                nbad = remaining_total - ngood
+                draw = int(np.random.hypergeometric(ngood, nbad, remaining_to_remove))
+                draw = min(draw, ngood, remaining_to_remove)
+                removed[j] = draw
+                remaining_to_remove -= draw
+                remaining_total -= ngood
+
+            removed[-1] = remaining_to_remove
+            if removed[-1] > counts6[-1]:
+                raise ValueError("Internal sampling error: removal exceeded available count in last category.")
+            return removed
+
+        self.trim_history = []
+        _recompute_derived_fields()
+
+        total_images_start = int(_as_int_array(observed["n_images_by_area"]).sum())
+        removal_budget_target = int(np.ceil(float(remove_frac) * total_images_start))
+        remaining_budget = removal_budget_target
+
+        self.logger.info(
+            "trim_to_median: starting moat fill remove_frac=%.4f total_images=%d budget=%d"
+            % (float(remove_frac), total_images_start, removal_budget_target)
+        )
+
+        p = 0
+        safety_cap = 10_000  # hard safety cap to prevent infinite loops in case of unexpected data/pathology
+        while remaining_budget > 0:
+            if p >= safety_cap:
+                raise ValueError(f"trim_to_median: exceeded safety cap of {safety_cap} passes.")
+            if remaining_budget <= 0:
+                break
+
+            C_before = _as_int_array(observed["n_images_by_area"])
+            mean_before = float(C_before.mean())
+            median_target = int(np.median(C_before))  # integer floor if even N
+
+            cap = C_before - median_target
+            cap[cap < 0] = 0
+            sum_cap = int(cap.sum())
+            if sum_cap <= 0:
+                # Degenerate case: no tracts above median (e.g., uniform counts). To still fill the moat,
+                # allow removal from all tracts proportionally to their current counts.
+                cap = C_before.copy()
+                cap[cap < 0] = 0
+                sum_cap = int(cap.sum())
+                if sum_cap <= 0:
+                    raise ValueError("trim_to_median: cannot fill moat (no images left to remove).")
+
+            pass_target = min(int(remaining_budget), sum_cap)
+            if pass_target <= 0:
+                break
+
+            # Allocate removals across tracts proportionally to cap, respecting per-tract caps.
+            desired = pass_target * (cap.astype(float) / float(sum_cap))
+            tract_remove = np.floor(desired).astype(np.int64)
+            tract_remove = np.minimum(tract_remove, cap.astype(np.int64))
+
+            remainder = int(pass_target - int(tract_remove.sum()))
+            if remainder > 0:
+                frac = desired - tract_remove.astype(float)
+                # distribute leftover 1s to largest fractional parts first, respecting cap
+                order = np.argsort(-frac)
+                for t in order:
+                    if remainder <= 0:
+                        break
+                    if cap[t] <= tract_remove[t]:
+                        continue
+                    tract_remove[t] += 1
+                    remainder -= 1
+                # if still remainder (due to caps), distribute to any tract with remaining cap
+                if remainder > 0:
+                    avail = np.where(cap > tract_remove)[0]
+                    for t in avail:
+                        if remainder <= 0:
+                            break
+                        add = int(min(remainder, int(cap[t] - tract_remove[t])))
+                        tract_remove[t] += add
+                        remainder -= add
+            if int(tract_remove.sum()) != pass_target:
+                raise ValueError("Failed to allocate pass removal target across tracts.")
+
+            total_removed = 0
+            n_high = int((cap > 0).sum())
+            idxs = np.where(tract_remove > 0)[0]
+            for t in idxs:
+                nremove = int(tract_remove[t])
+
+                non_neg_t = int(non_total[t] - non_pos[t])
+                if non_neg_t < 0:
+                    raise ValueError("Negative inferred non-annotated classified negative count.")
+
+                counts6 = np.array(
+                    [
+                        int(ann_pp[t]),
+                        int(ann_pn[t]),
+                        int(ann_nn[t]),
+                        int(ann_np[t]),
+                        int(non_pos[t]),
+                        int(non_neg_t),
+                    ],
+                    dtype=np.int64,
+                )
+                tract_total = int(counts6.sum())
+                if tract_total <= 0:
+                    continue
+                nremove = min(nremove, tract_total)
+
+                removed6 = _sample_multivariate_hypergeometric(counts6, nremove)
+                if removed6.sum() != nremove:
+                    raise ValueError("Removal allocation did not sum to requested nremove.")
+
+                ann_pp[t] -= removed6[0]
+                ann_pn[t] -= removed6[1]
+                ann_nn[t] -= removed6[2]
+                ann_np[t] -= removed6[3]
+                non_pos[t] -= removed6[4]
+                non_total[t] -= (removed6[4] + removed6[5])
+
+                total_removed += int(nremove)
+
+            _recompute_derived_fields()
+
+            C_after = np.asarray(observed["n_images_by_area"], dtype=float)
+            mean_after = float(C_after.mean())
+            emd = float(wasserstein_distance(C_after, np.full_like(C_after, median_target)))
+
+            self.trim_history.append(
+                {
+                    "pass": int(p),
+                    "mean_before": float(mean_before),
+                    "median_target": float(median_target),
+                    "mean_after": float(mean_after),
+                    "n_high": int(n_high),
+                    "total_removed": int(total_removed),
+                    "remaining_budget_after": int(max(0, remaining_budget - total_removed)),
+                    "emd_to_median_target": float(emd),
+                }
+            )
+
+            self.logger.info(
+                "trim_to_median pass=%d median_target=%d mean_before=%.3f mean_after=%.3f "
+                "n_high=%d removed=%d remaining_budget=%d emd=%.6f"
+                % (p, median_target, mean_before, mean_after, n_high, total_removed, max(0, remaining_budget - total_removed), emd)
+            )
+
+            if total_removed == 0:
+                self.logger.info("trim_to_median: stopping (no removals this iteration).")
+                break
+            remaining_budget -= int(total_removed)
+            p += 1
+
+        return trimmed
         
     def construct_graph_laplacian_baseline(self, N, N_edges, node1, node2, y, alpha=0.01, iterations=1):
         # https://www.math.fsu.edu/~bertram/lectures/Diffusion.pdf and ChatGPT seem to agree on this. 
@@ -616,7 +962,7 @@ class ICAR_MODEL:
         ground_truth = self.extract_baselines(test_data)
 
         self.data_to_use = {'observed_data':train_data}
-        fit, df = self.fit(CYCLES=1, WARMUP=25000, SAMPLES=25000, data_already_loaded=True)
+        fit, df = self.fit(CYCLES=1, WARMUP=12000, SAMPLES=12000, data_already_loaded=True)
 
         self.plot_results(fit, df)
 
@@ -959,6 +1305,13 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        '--no-catch-basins',
+        action='store_true',
+        dest='no_catch_basins_alias',
+        help="Alias for --no_catch_basins"
+    )
+
+    parser.add_argument(
         '--compare_to_baselines',
         action='store_true',
         default=False,
@@ -980,6 +1333,29 @@ if __name__ == "__main__":
         type=float,
         default=1,
         help='Fraction of annotated images to keep in the dataset'
+    )
+
+    parser.add_argument(
+        '--downsample_all_images',
+        action='store_true',
+        default=False,
+        help='If set, apply downsample_frac to all images (annotated and non-annotated)'
+    )
+
+    # Iterative trim-to-median downsampling variant
+    parser.add_argument(
+        '--trim_to_median',
+        action='store_true',
+        default=False,
+        help='If set, iteratively trim high-count tracts toward the current median (counts-based).'
+    )
+    parser.add_argument(
+        '--trim_remove_frac',
+        action='store',
+        type=float,
+        default=None,
+        help='Global fraction of total images to remove when --trim_to_median is set (e.g. 0.25 removes 25%%). '
+             'If not provided, falls back to (1 - --downsample_frac).'
     )
 
     # Data/config path overrides
@@ -1025,6 +1401,10 @@ if __name__ == "__main__":
     # Parse the arguments
     args = parser.parse_args()
 
+    # Handle alias
+    if hasattr(args, 'no_catch_basins_alias') and args.no_catch_basins_alias:
+        args.no_catch_basins = True
+
     # Get geometry-specific paths based on --geometry_type argument
     from geometry_config import get_geometry_paths
     geo_paths = get_geometry_paths(GeometryType(args.geometry_type))
@@ -1060,15 +1440,18 @@ if __name__ == "__main__":
             adj=adj,
             adj_matrix_storage=adj_matrix_storage,
             downsample_frac=args.downsample_frac,
+            DOWNSAMPLE_ALL_IMAGES=args.downsample_all_images,
+            trim_to_median=args.trim_to_median,
+            trim_remove_frac=args.trim_remove_frac,
             USE_CATCH_BASINS=not args.no_catch_basins,
-            geometry_type=args.geometry_type
+            geometry_type=args.geometry_type,
         )
 
-    if args.compare_to_baselines:
+    if args.compare_to_baselines:   
         model.logger.info("Running comparisons to baselines.")
         model.compare_to_baselines(train_frac=0.3)
     else:   
-        fit, df = model.fit(CYCLES=1, WARMUP=12000, SAMPLES=12000)
+        fit, df = model.fit(CYCLES=1, WARMUP=10000, SAMPLES=10000)
         model.plot_histogram(fit, df)
         model.plot_scatter(fit, df)
         model.plot_results(fit, df)

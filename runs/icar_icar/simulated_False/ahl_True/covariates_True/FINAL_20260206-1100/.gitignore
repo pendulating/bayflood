@@ -1,0 +1,4 @@
+*.png
+maps/
+flooding_ct_dataset.csv
+estimate_*.csv

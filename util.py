@@ -262,9 +262,12 @@ def read_real_data(
                     skewed_cols.append('n_catch_basins')
                     skewed_cols.append('cb_days_clogged')
                     skewed_cols.append('cb_avg_resolution_time')
-                
+
+                available_skewed = []
                 for col in skewed_cols:
-                    # Ensure numeric
+                    if col not in df.columns:
+                        print(f"Warning: Missing covariate column {col}; skipping.")
+                        continue
                     df[col] = pd.to_numeric(df[col], errors='coerce')
                     
                     # Check for outliers
@@ -276,18 +279,38 @@ def read_real_data(
                         print(f"Warning: {np.sum(outlier_mask)} outliers detected in {col}")
                     
                     df[f'{col}_log'] = np.log1p(df[col])
+                    available_skewed.append(col)
                 
                 # 3. Collect covariates
-                cols_to_use = [f'{col}_log' for col in skewed_cols]
-                cols_to_use += ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
+                cols_to_use = [f'{col}_log' for col in available_skewed]
+
+                base_cols = ['ft_elevation_mean', 'dep_moderate_1_frac', 'dep_moderate_2_frac']
+                available_base = []
+                for col in base_cols:
+                    if col not in df.columns:
+                        print(f"Warning: Missing covariate column {col}; skipping.")
+                        continue
+                    available_base.append(col)
+
+                cols_to_use += available_base
                 
                 # Conditionally add catch basin density and binary indicator
                 if use_catch_basins:
-                    cols_to_use.append('catch_basin_density')
-                    cols_to_use.append('has_clogged_cb_complaint')
+                    catch_cols = ['catch_basin_density', 'has_clogged_cb_complaint']
+                    for col in catch_cols:
+                        if col not in df.columns:
+                            print(f"Warning: Missing covariate column {col}; skipping.")
+                            continue
+                        cols_to_use.append(col)
                 
+                if len(cols_to_use) == 0:
+                    print("Warning: No external covariate columns available; using intercept only.")
+                    observed_data['external_covariates'] = np.ones((N, 1))
+                    observed_data['n_external_covariates'] = 1
+                    return {"observed_data": observed_data}, { "external_covariates": {}}
+
                 # Convert to numeric matrix
-                feature_matrix = df[cols_to_use].values.astype(float)
+                feature_matrix = df[cols_to_use].apply(pd.to_numeric, errors='coerce').values.astype(float)
                 feature_matrix_columns = cols_to_use
                 print(feature_matrix_columns)
                 

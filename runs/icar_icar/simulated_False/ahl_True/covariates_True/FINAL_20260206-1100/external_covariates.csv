@@ -1,0 +1,10 @@
+,covariate,mean,std
+0,ft_elevation_min_log,-3.9118051689158204e-16,1.0
+1,n_311_reports_log,5.5009760187878724e-17,1.0
+2,n_floodnet_sensors_log,-4.859195483262621e-16,1.0
+3,cb_avg_resolution_time_log,-1.2835610710505037e-16,1.0
+4,ft_elevation_mean,-9.779512922289551e-17,1.0
+5,dep_moderate_1_frac,1.1001952037575745e-16,1.0000000000000002
+6,dep_moderate_2_frac,-3.6673173458585816e-17,1.0
+7,catch_basin_density,7.334634691717163e-17,1.0
+8,has_clogged_cb_complaint,-1.3446830268148133e-16,1.0

@@ -28,13 +28,14 @@ Usage:
 """
 
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent))
-from geometry_config import GeometryType, get_geometry_paths, get_geometry_config
+from geometry_config import GeometryType, get_geometry_paths
 from logger import setup_logger
 
 logger = setup_logger("bayflood-pipeline")
@@ -138,8 +139,14 @@ def fit_model(
     base_dir: Path,
     prefix: str,
     external_covariates: bool = False,
+    no_catch_basins: bool = False,
     warmup: int = 6000,
-    samples: int = 6000
+    samples: int = 6000,
+    downsample_frac: float = 1.0,
+    downsample_all_images: bool = False,
+    trim_to_median: bool = False,
+    trim_remove_frac: float | None = None,
+    compare_to_baselines: bool = False,
 ) -> bool:
     """Fit ICAR model."""
     cmd = [
@@ -154,7 +161,65 @@ def fit_model(
     if external_covariates:
         cmd.append("--external_covariates")
     
+    if no_catch_basins:
+        cmd.append("--no_catch_basins")
+
+    # Downsampling controls
+    cmd.extend(["--downsample_frac", str(downsample_frac)])
+    if downsample_all_images:
+        cmd.append("--downsample_all_images")
+
+    # Trim-to-median controls (moat-fill variant)
+    if trim_to_median:
+        cmd.append("--trim_to_median")
+        if trim_remove_frac is not None:
+            cmd.extend(["--trim_remove_frac", str(trim_remove_frac)])
+    
+    # Baseline comparison mode
+    if compare_to_baselines:
+        cmd.append("--compare_to_baselines")
+    
     return run_command(cmd, f"Fit ICAR model for {geometry_type.value}")
+
+
+def find_latest_run_dir(prefix: str, external_covariates: bool, base_dir: Path) -> Path | None:
+    """
+    Locate the most recent run directory for a given prefix/covariate setting.
+    
+    Mirrors the directory structure created by icar_model.py:
+    runs/icar_icar/simulated_False/ahl_True/covariates_<bool>/<prefix>_<timestamp>
+    """
+    runs_root = (
+        base_dir
+        / "runs"
+        / "icar_icar"
+        / "simulated_False"
+        / "ahl_True"
+        / f"covariates_{external_covariates}"
+    )
+    
+    if not runs_root.exists():
+        logger.warning(f"Runs root not found at {runs_root}")
+        return None
+    
+    candidates = [
+        d for d in runs_root.iterdir()
+        if d.is_dir() and (not prefix or d.name.startswith(prefix))
+    ]
+    
+    if not candidates:
+        logger.warning(f"No run directories found under {runs_root}")
+        return None
+    
+    return max(candidates, key=lambda d: d.stat().st_mtime)
+
+
+def copy_context_dataframe_to_run_dir(context_path: Path, run_dir: Path):
+    """Copy the regenerated context dataframe into the given run directory."""
+    run_dir.mkdir(parents=True, exist_ok=True)
+    destination = run_dir / context_path.name
+    shutil.copy2(context_path, destination)
+    logger.success(f"Saved context dataframe to {destination}")
 
 
 def run_pipeline(
@@ -162,12 +227,19 @@ def run_pipeline(
     base_dir: Path,
     prefix: str,
     external_covariates: bool = False,
+    no_catch_basins: bool = False,
     skip_data_generation: bool = False,
     data_only: bool = False,
-    force_regenerate: bool = False
+    force_regenerate: bool = False,
+    downsample_frac: float = 1.0,
+    downsample_all_images: bool = False,
+    trim_to_median: bool = False,
+    trim_remove_frac: float | None = None,
+    compare_to_baselines: bool = False,
 ):
     """Run the complete pipeline."""
-    config = get_geometry_config(geometry_type)
+    paths = get_geometry_paths(geometry_type, str(base_dir))
+    config = paths.config
     logger.info(f"="*60)
     logger.info(f"BayFlood Pipeline: {config.display_name}s")
     logger.info(f"="*60)
@@ -208,8 +280,30 @@ def run_pipeline(
         return True
     
     # Step 5: Fit model
-    if not fit_model(geometry_type, base_dir, prefix, external_covariates):
+    if not fit_model(
+        geometry_type,
+        base_dir,
+        prefix,
+        external_covariates,
+        no_catch_basins=no_catch_basins,
+        downsample_frac=downsample_frac,
+        downsample_all_images=downsample_all_images,
+        trim_to_median=trim_to_median,
+        trim_remove_frac=trim_remove_frac,
+        compare_to_baselines=compare_to_baselines,
+    ):
         return False
+    
+    if not skip_data_generation:
+        context_path = paths.flooding_dataset_path
+        if context_path.exists():
+            run_dir = find_latest_run_dir(prefix, external_covariates, base_dir)
+            if run_dir:
+                copy_context_dataframe_to_run_dir(context_path, run_dir)
+            else:
+                logger.warning("Unable to locate run directory to save context dataframe")
+        else:
+            logger.warning(f"Context dataframe not found at {context_path}, skipping copy")
     
     logger.success(f"Pipeline complete for {config.display_name}s!")
     return True
@@ -244,6 +338,12 @@ def main():
     )
     
     parser.add_argument(
+        '--no-catch-basins',
+        action='store_true',
+        help='Exclude catch basin covariates from external covariates'
+    )
+    
+    parser.add_argument(
         '--skip-data-generation',
         action='store_true',
         help='Skip data generation steps (use existing data)'
@@ -259,6 +359,38 @@ def main():
         '--force-regenerate',
         action='store_true',
         help='Force regeneration of all data files'
+    )
+    parser.add_argument(
+        '--downsample-frac',
+        type=float,
+        default=1.0,
+        help='Fraction of images to keep when downsampling (applied to ICAR fit)'
+    )
+    parser.add_argument(
+        '--downsample-all-images',
+        action='store_true',
+        help='If set, downsampling applies to all images (annotated and non-annotated)'
+    )
+
+    # Trim-to-median downsampling variant (moat-fill)
+    parser.add_argument(
+        '--trim-to-median',
+        action='store_true',
+        help='If set, use trim-to-median moat-fill downsampling instead of binomial downsampling.'
+    )
+    parser.add_argument(
+        '--trim-remove-frac',
+        type=float,
+        default=None,
+        help='Fraction of total images to remove when --trim-to-median is set (e.g. 0.25 removes 25%%). '
+             'If not provided, ICAR fit falls back to (1 - --downsample-frac).'
+    )
+
+    # Baseline comparison mode
+    parser.add_argument(
+        '--compare-to-baselines',
+        action='store_true',
+        help='Run baseline comparison mode instead of standard model fitting'
     )
     
     parser.add_argument(
@@ -278,9 +410,15 @@ def main():
         base_dir=base_dir,
         prefix=args.prefix,
         external_covariates=args.external_covariates,
+        no_catch_basins=args.no_catch_basins,
         skip_data_generation=args.skip_data_generation,
         data_only=args.data_only,
-        force_regenerate=args.force_regenerate
+        force_regenerate=args.force_regenerate,
+        downsample_frac=args.downsample_frac,
+        downsample_all_images=args.downsample_all_images,
+        trim_to_median=args.trim_to_median,
+        trim_remove_frac=args.trim_remove_frac,
+        compare_to_baselines=args.compare_to_baselines,
     )
     
     sys.exit(0 if success else 1)

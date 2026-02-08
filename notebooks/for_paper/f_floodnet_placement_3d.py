@@ -163,10 +163,10 @@ ct_nyc.loc[ct_nyc['selected'] == 1, 'n_added_sensors'] = 1
 
 # %%
 # load floodnet geo 
-floodnet_sensors_sep23 = pd.read_csv("/share/ju/matt/street-flooding/aggregation/flooding/static/sep23_floodnet_sensor_coordinates.csv")
+floodnet_sensors_sep23 = pd.read_csv("../../aggregation/flooding/static/sep23_floodnet_sensor_coordinates.csv")
 floodnet_sensors_sep23 = gpd.GeoDataFrame(floodnet_sensors_sep23, geometry=gpd.points_from_xy(floodnet_sensors_sep23['lon'], floodnet_sensors_sep23['lat']), crs=c.WGS).to_crs(c.PROJ)
 
-floodnet_sensors_current = pd.read_csv("/share/ju/matt/street-flooding/aggregation/flooding/static/current_floodnet_sensors.csv")
+floodnet_sensors_current = pd.read_csv("../../aggregation/flooding/static/current_floodnet_sensors.csv")
 floodnet_sensors_current = gpd.GeoDataFrame(floodnet_sensors_current, geometry=gpd.points_from_xy(floodnet_sensors_current['longitude'], floodnet_sensors_current['latitude']), crs=c.WGS).to_crs(c.PROJ)
 
 # drop a sensor from floodnet_sensors_current if it is within THRES Ft of another 

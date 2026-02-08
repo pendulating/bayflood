@@ -2,8 +2,46 @@
 */logs/
 */data/
 */static/
-runs/
 */runs/
+
+# Allow specific aggregation data needed for reproducibility
+!aggregation/flooding/static/
+!aggregation/flooding/data/
+
+# Large raw data and generated files
+*.tif
+*.tfw
+*.tif.aux.xml
+*.tif.xml
+*.jpg
+*.geojson
+data/md.csv
+data/processed/entire_sep29_all.csv
+data/processed/md.csv
+data/processed/fn_images/
+data/processed/fp_images/
+data/processed/new_inference_samples/
+data/adjacency/
+data/processed/geo_nyc_adj_list_*.txt
+aggregation/flooding/static/entire_sep29_all.csv
+aggregation/geo/data/processed/
+aggregation/context_df_*.csv
+aggregation/context_df_describe_*.csv
+observed_data.csv
+
+# Raw images and cache in notebooks
+notebooks/for_revisions/sensor_proximity_images/
+notebooks/for_revisions/cache/
+notebooks/for_paper/analysis_df_*.csv
+
+# Large generated/tool artifacts
+.serena/
+.slurm_jobs/
+vqa_output/
+scripts/
+
+# VLM inference outputs (3.5GB, not needed for paper)
+notebooks/cambrian/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

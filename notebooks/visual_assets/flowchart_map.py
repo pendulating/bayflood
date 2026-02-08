@@ -44,21 +44,21 @@ logger.info(f"Loaded the new york city boroughs from geopandas.")
 
 # %%
 logger.info("Loading inspection set data...")
-inspection_set = pd.read_csv("/share/ju/matt/street-flooding/notebooks/cambrian/inspection_set_annotated.csv")
+inspection_set = pd.read_csv("../../data/processed/inspection_set.csv")
 inspection_set['frame_id'] = inspection_set['image'].str.replace('/data/local-files/?d=', '')
 inspection_set['frame_id'] = inspection_set['frame_id'].apply(lambda x: str(x.split('/')[-1].split('_')[1].split('.')[0]))
 logger.info(f"Loaded {len(inspection_set)} inspection records")
 
 # %%
 logger.info("Loading September 29 classification data...")
-sep29_cls = pd.read_csv("/share/ju/matt/street-flooding/notebooks/cambrian/entire_sep29_all.csv", engine='pyarrow')
+sep29_cls = pd.read_csv("../../notebooks/cambrian/entire_sep29_all.csv", engine='pyarrow')
 sep29_cls['frame_id'] = sep29_cls['image_path'].apply(lambda x: str(x.split('/')[-1].split('_')[1].split('.')[0]))
 logger.info(f"Loaded {len(sep29_cls)} classification records")
 logger.info(f"Value counts of sentiment_1: {sep29_cls['sentiment_1'].value_counts()}")
 
 # %%
 logger.info("Loading September 29 DSI data...")
-sep29_dsi = pd.read_csv("/share/ju/matt/street-flooding/data/md.csv", engine='pyarrow')
+sep29_dsi = pd.read_csv("../../data/md.csv", engine='pyarrow')
 sep29_dsi = gpd.GeoDataFrame(sep29_dsi, geometry=gpd.points_from_xy(sep29_dsi['gps_info.longitude'], sep29_dsi['gps_info.latitude']), crs='EPSG:4326')
 logger.info(f"Loaded {len(sep29_dsi)} DSI records")
 
@@ -79,19 +79,19 @@ logger.info(f"Inspection set GT value counts: {inspection_set['choice'].value_co
 
 # %% 
 logger.info("Loading BayFlood flood risk data...")
-bayflood = pd.read_csv("/share/ju/matt/street-flooding/runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732/analysis_df_FEB7_FINAL_KDD_MODEL_02072025.csv")
+bayflood = pd.read_csv("../../runs/icar_icar/simulated_False/ahl_True/covariates_True/FEB7_FINAL_KDD_MODEL_20250207-1732/analysis_df_FEB7_FINAL_KDD_MODEL_02072025.csv")
 ct_nyc['p_y'] = bayflood['p_y']
 logger.info(f"Loaded {len(ct_nyc)} census tracts with BayFlood flood risk data")
 
 # %%
 logger.info("Loading FloodNet sensor data...")
-floodnet_current = pd.read_csv("/share/ju/matt/street-flooding/aggregation/flooding/static/current_floodnet_sensors.csv")
+floodnet_current = pd.read_csv("../../aggregation/flooding/static/current_floodnet_sensors.csv")
 floodnet_current = gpd.GeoDataFrame(floodnet_current, geometry=gpd.points_from_xy(floodnet_current.longitude, floodnet_current.latitude), crs="EPSG:4326")
 logger.info(f"Loaded {len(floodnet_current)} FloodNet sensors")
 
 # %%
 logger.info("Loading September 29 311 data...")
-sep29_311 = pd.read_csv("/share/ju/matt/street-flooding/aggregation/flooding/data/nyc311_flooding_sep29.csv")
+sep29_311 = pd.read_csv("../../aggregation/flooding/data/nyc311_flooding_sep29.csv")
 sep29_311 = gpd.GeoDataFrame(sep29_311, geometry=gpd.points_from_xy(sep29_311.longitude, sep29_311.latitude), crs="EPSG:4326")
 # drop na geometry
 sep29_311 = sep29_311.dropna(subset=['geometry', 'latitude', 'longitude'])
@@ -99,7 +99,7 @@ logger.info(f"Loaded {len(sep29_311)} 311 records after dropping NA geometries")
 
 # %%
 logger.info("Loading moderate depth flood map data...")
-moderate_dep = gpd.read_file("/share/ju/matt/street-flooding/aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb")
+moderate_dep = gpd.read_file("../../aggregation/flooding/data/NYCFloodStormwaterFloodMaps/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels/NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels.gdb")
 moderate_dep = moderate_dep.to_crs("EPSG:4326")
 
 # Explode MultiPolygons into individual Polygons and buffer them

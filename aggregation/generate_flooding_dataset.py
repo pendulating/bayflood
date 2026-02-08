@@ -49,10 +49,7 @@ def load_predictions(base_dir: Path) -> pd.DataFrame:
     Looks for entire_sep29_all.csv which contains sentiment_1 predictions.
     """
     pred_paths = [
-        base_dir / "aggregation" / "flooding" / "static" / "entire_sep29_all.csv",
-        base_dir / "notebooks" / "entire_sep29_all.csv",
         base_dir / "data" / "processed" / "entire_sep29_all.csv",
-        base_dir / "data" / "entire_sep29_all.csv",
     ]
     
     for pred_path in pred_paths:
@@ -80,9 +77,7 @@ def load_image_metadata(base_dir: Path) -> pd.DataFrame:
     Looks for md.csv which contains GPS coordinates for each frame.
     """
     md_paths = [
-        Path("/share/ju/urban-fingerprinting/output/default/df/2023-09-29/md.csv"),  # Original location
         base_dir / "data" / "processed" / "md.csv",
-        base_dir / "data" / "md.csv",
     ]
     
     for md_path in md_paths:
@@ -99,12 +94,10 @@ def load_annotations(base_dir: Path) -> pd.DataFrame:
     """
     Load human annotations for images.
     
-    Looks for inspection_set_annotated.csv which contains ground truth labels.
+    Looks for inspection_set.csv which contains ground truth labels.
     """
     annot_paths = [
-        base_dir / "notebooks" / "inspection_set_annotated.csv",
-        base_dir / "data" / "inspection_set_annotated.csv",
-        base_dir / "data" / "processed" / "inspection_set_annotated.csv",
+        base_dir / "data" / "processed" / "inspection_set.csv",
     ]
     
     for annot_path in annot_paths:
@@ -211,6 +204,34 @@ def generate_flooding_dataset(
     logger.info("Merging predictions with metadata...")
     entire_set = md.merge(preds, on='frame_id', how='left')
     logger.info(f"Merged dataset has {len(entire_set)} records")
+
+    # Step 4.5: Only include images between 6AM and 7PM local time (NY Eastern)
+    # captured_at is stored as Unix timestamp in milliseconds, needs UTC -> America/New_York conversion
+    if 'captured_at' in entire_set.columns:
+        # Parse as milliseconds, localize to UTC, convert to NY Eastern time
+        entire_set['local_time'] = (
+            pd.to_datetime(entire_set['captured_at'], unit='ms', errors='coerce')
+            .dt.tz_localize('UTC')
+            .dt.tz_convert('America/New_York')
+        )
+        time_col = 'local_time'
+    elif 'time' in entire_set.columns:
+        entire_set['time'] = pd.to_datetime(entire_set['time'], errors='coerce')
+        time_col = 'time'
+    else:
+        logger.warning("No time column found (tried 'captured_at', 'time'). Skipping time filtering.")
+        time_col = None
+    
+    if time_col is not None:
+        len_before = len(entire_set)
+        # Filter to 6AM-7PM local time
+        entire_set = entire_set[
+            (entire_set[time_col].dt.hour >= 6) & 
+            (entire_set[time_col].dt.hour <= 19)
+        ]
+        logger.info(f"Removed {len_before - len(entire_set)} records outside 6AM-7PM local time")
+        # log a in-terminal histogram of the time column
+        logger.info(f"Time histogram: {entire_set[time_col].dt.hour.value_counts().sort_index()}")
     
     # Step 5: Create GeoDataFrame from coordinates
     logger.info("Creating point geometries from coordinates...")
