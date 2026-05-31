@@ -1,0 +1,23 @@
+#!/bin/bash 
+#SBATCH -J labelling
+#SBATCH -o $REPO_ROOT/.slurm_jobs/labelling-server/%j.out
+#SBATCH -e $REPO_ROOT/.slurm_jobs/labelling-server/%j.err
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=${USER}@example.com 
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH --get-user-env 
+#SBATCH --mem=32gb
+#SBATCH -t 240:00:00
+#SBATCH --partition=ju
+
+pwd
+source $HOME/.bashrc
+ 
+cd $REPO_ROOT
+source .venv/bin/activate
+
+# add label-studio to python path
+#export PYTHONPATH=$PYTHONPATH:$URBAN_FP_ROOT/src/utils/labelling/label-studio
+
+label-studio --port 8925

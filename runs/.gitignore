@@ -1,0 +1,25 @@
+# Ignore all runs except the published outputs needed to reproduce the paper.
+*
+!.gitignore
+!icar_icar/
+!icar_icar/simulated_False/
+!icar_icar/simulated_False/ahl_True/
+!icar_icar/simulated_False/ahl_True/covariates_True/
+!icar_icar/simulated_False/ahl_True/covariates_False/
+
+# Primary CT models, re-fit after the adjacency-alignment fix (see
+# docs/CODE_REVIEW_FINDINGS.md C1). Full run dirs, as in the original release.
+!icar_icar/simulated_False/ahl_True/covariates_True/MAY30_COV_20260530-2312/
+!icar_icar/simulated_False/ahl_True/covariates_True/MAY30_COV_20260530-2312/**
+!icar_icar/simulated_False/ahl_True/covariates_False/MAY30_NOCOV_20260530-2309/
+!icar_icar/simulated_False/ahl_True/covariates_False/MAY30_NOCOV_20260530-2309/**
+
+# Minimal CSVs to reproduce tab:baselines (f_postprocessing_baselines.ipynb),
+# post-fix baseline batch.
+!icar_icar/simulated_False/ahl_True/covariates_True/FINAL_COMMS_BASELINES_MAY31_*/
+!icar_icar/simulated_False/ahl_True/covariates_True/FINAL_COMMS_BASELINES_MAY31_*/performance_on_baselines.csv
+
+# Minimal CSVs to reproduce the downsampling robustness analysis
+# (02_downsampled_all_performance.ipynb), post-fix sweep.
+!icar_icar/simulated_False/ahl_True/covariates_True/DOWNSAMPLE_JUN03_*/
+!icar_icar/simulated_False/ahl_True/covariates_True/DOWNSAMPLE_JUN03_*/analysis_df_*.csv

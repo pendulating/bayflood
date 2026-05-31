@@ -1,0 +1,29 @@
+{
+    "RUNID": "icar_icar/simulated_False/ahl_True/covariates_True/MAY30_COV_20260530-2312",
+    "ANNOTATIONS_HAVE_LOCATIONS": true,
+    "SIMULATED_DATA": false,
+    "EXTERNAL_COVARIATES": true,
+    "USE_CATCH_BASINS": true,
+    "CYCLES": 1,
+    "WARMUP": 10000,
+    "SAMPLES": 10000,
+    "DOWNSAMPLE_ALL_IMAGES": false,
+    "downsample_frac": 1.0,
+    "trim_to_median": false,
+    "trim_remove_frac": null,
+    "trim_history": [],
+    "use_icar_prior": 1,
+    "icar_prior_setting": "icar",
+    "N_ANNOTATED_CLASSIFIED_NEGATIVE": 500,
+    "N_ANNOTATED_CLASSIFIED_POSITIVE": 500,
+    "N_ANNOTATED_CLASSIFIED_NEGATIVE_TRUE_POSITIVE": 3,
+    "N_ANNOTATED_CLASSIFIED_POSITIVE_TRUE_POSITIVE": 329,
+    "TOTAL_PRED_POSITIVE": 1465,
+    "TOTAL_PRED_NEGATIVE": 924747,
+    "N_SIMULATED_TRACTS": 1000,
+    "adj": [
+        "/share/ju/matt/bayflood/data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node1.txt",
+        "/share/ju/matt/bayflood/data/adjacency/cg_500/ct_nyc_adj_list_custom_geometric_node2.txt"
+    ],
+    "adj_matrix_storage": false
+}

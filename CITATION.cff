@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: If you use this software, please cite our paper.
+title: Bayesian Modeling of Zero-Shot Classifications for Urban Flood Detection 
+license: MIT
+authors:
+  - family-names: Franchi
+    given-names: Matt
+    email: mattfranchi@cs.cornell.edu
+    affiliation: Cornell University; Cornell Tech, New York, NY, USA
+  - family-names: Garg
+    given-names: Nikhil
+    email: ngarg@cornell.edu
+    affiliation: Cornell Tech, New York, NY, USA
+  - family-names: Ju
+    given-names: Wendy
+    email: wendyju@cornell.edu
+    affiliation: Jacobs Technion-Cornell Institute; Cornell Tech, New York, NY, USA
+  - family-names: Pierson
+    given-names: Emma
+    email: emmapierson@berkeley.edu
+    affiliation: University of California, Berkeley, Berkeley, CA, USA
+preferred-citation:
+  type: article
+  title: Bayesian Modeling of Zero-Shot Classifications for Urban Flood Detection
+  authors:
+    - family-names: Franchi
+      given-names: Matt
+      email: mattfranchi@cs.cornell.edu
+      affiliation: Cornell University; Cornell Tech, New York, NY, USA
+    - family-names: Garg
+      given-names: Nikhil
+      email: ngarg@cornell.edu
+      affiliation: Cornell Tech, New York, NY, USA
+    - family-names: Ju
+      given-names: Wendy
+      email: wendyju@cornell.edu
+      affiliation: Jacobs Technion-Cornell Institute; Cornell Tech, New York, NY, USA
+    - family-names: Pierson
+      given-names: Emma
+      email: emmapierson@berkeley.edu
+      affiliation: University of California, Berkeley, Berkeley, CA, USA
+  journal: arXiv
+  date-published: 2025-03-26
+  identifiers:
+    - type: url
+      value: https://arxiv.org/abs/2503.14754v2

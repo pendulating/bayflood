@@ -1,0 +1,21 @@
+#!/bin/bash 
+#SBATCH -J trim
+#SBATCH -o $REPO_ROOT/.slurm_jobs/trim/%j.out 
+#SBATCH -e $REPO_ROOT/.slurm_jobs/trim/%j.err
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=${USER}@example.com 
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH --get-user-env 
+#SBATCH --mem=400gb
+#SBATCH -t 400:00:00 
+#SBATCH --partition=pierson
+
+
+pwd
+source $HOME/.bashrc
+ 
+
+cd $REPO_ROOT
+source .venv/bin/activate
+python pipeline.py --prefix $1 --geometry-type $2 --external-covariates --trim-to-median --trim-remove-frac $3

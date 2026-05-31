@@ -1,0 +1,2004 @@
+{
+  "variables": {
+    "S2801_C02_031M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_031E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_030M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_030E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_029E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_029M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_028E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_028M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_023M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_023E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_022M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_022E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_021M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_021E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_020M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_020E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_027E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_027M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_026M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_026E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_025M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_025E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_024M": {
+      "label": "Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_024E": {
+      "label": "Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_019E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_019M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_018E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_018M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_017E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_017M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_016E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_016M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_011M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_011E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_010M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_010E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_015M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_015E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_014M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_014E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_013M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_013E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_012M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_012E": {
+      "label": "Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_007E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_007M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_006E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_006M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_005E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_005M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_004M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_004E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_009E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_009M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_008E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_008M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_003M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_003E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_002M": {
+      "label": "Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_002E": {
+      "label": "Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "float",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_001M": {
+      "label": "Margin of Error!!Percent!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_001E": {
+      "label": "Estimate!!Percent!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_030EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "NAME": {
+      "label": "Geographic Area Name",
+      "concept": "Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupancy Characteristics;Demographic Characteristics for Occupied Housing Units;Financial Characteristics;Physical Housing Characteristics for Occupied Housing Units;Financial Characteristics for Housing Units With a Mortgage;Financial Characteristics for Housing Units Without a Mortgage;Characteristics of the Group Quarters Population in the United States;Characteristics of the Group Quarters Population in Puerto Rico;Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (5 Types);Selected Characteristics of Health Insurance Coverage in the United States;Selected Characteristics of the Uninsured in the United States;Selected Characteristics of the Uninsured in Puerto Rico;Private Health Insurance Coverage by Type and Selected Characteristics;Public Health Insurance Coverage by Type and Selected Characteristics;Types of Computers and Internet Subscriptions;Types of Internet Subscriptions by Selected Characteristics;Citizen, Voting-Age Population by Selected Characteristics;Quality Standards Metrics;Age and Sex;Population 60 Years and Over in the United States;Population 60 Years and Over in Puerto Rico;Population 65 Years and Over in the United States;Population 65 Years and Over in Puerto Rico;Selected Characteristics of the Native and Foreign-Born Populations;Selected Characteristics of the Foreign-Born Population by Period of Entry Into the United States;Selected Characteristics of the Foreign-Born Population by Period of Entry Into Puerto Rico;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Europe;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Africa, Northern America, and Oceania;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Asia;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Latin America;Marital Status;Characteristics of People With a Marital Event in the Last 12 Months;Fertility;School Enrollment;Educational Attainment;Field of Bachelor's Degree for First Major;Language Spoken at Home;Limited English Speaking Households;Characteristics of People by Language Spoken at Home;Poverty Status in the Past 12 Months;Poverty Status in the Past 12 Months of Families;Selected Characteristics of People at Specified Levels of Poverty in the Past 12 Months;Disability Characteristics;Selected Economic Characteristics for the Civilian Noninstitutionalized Population by Disability Status;Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Mean Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) of Workers by Sex and Women's Earnings as a Percentage of Men's Earnings by Selected Characteristics;Veteran Status;Food Stamps/Supplemental Nutrition Assistance Program (SNAP);Employment Status;Employment Characteristics of Families;Work Status in the Past 12 Months;Occupation by Sex for the Civilian Employed Population 16 Years and Over;Occupation by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex for the Civilian Employed Population 16 Years and Over;Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Occupation for the Civilian Employed Population 16 Years and Over;Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over;Industry by Class of Worker for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Children Characteristics;Characteristics of Teenagers 15 to 19 Years Old;Grandchildren Characteristics;Grandparents;Households and Families;Selected Characteristics of the Total and Native Populations in the United States;Selected Characteristics of the Total and Native Populations in Puerto Rico;Geographic Mobility by Selected Characteristics in the United States;Geographic Mobility by Selected Characteristics in Puerto Rico;Movers Between Regions;Commuting Characteristics by Sex;Means of Transportation to Work by Selected Characteristics;Means of Transportation to Work by Selected Characteristics for Workplace Geography",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_030MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_031EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_031MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_001EA": {
+      "label": "Annotation of Estimate!!Total!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_002EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_002MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_001EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_001MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_004EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_004MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_006MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_006EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_003EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_003MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_007MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_007EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_008EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_006MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_008MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_006EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_005MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_009EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_005EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_009MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_008MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_001MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_002EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_008EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_007MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_002MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_003EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_007EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_003MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_004MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_004EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_009EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_005MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_009MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_005EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_010MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_010EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_011MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_011EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_012EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_011EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_012MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_010MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_013EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_010EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_013MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_014EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_013EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_013MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_012MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_012EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_011MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_015EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_015MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_014EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_014MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_017MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_019MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_019EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_017EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_016EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_016MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_019MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_019EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_018MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_018EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_014MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_015EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_015MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_016MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_016EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_017MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_017EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_018MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_018EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_009M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_009E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_018M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_018E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Satellite Internet service",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_017M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_017E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Broadband such as cable, fiber optic or DSL",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_019M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_019E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_014M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_014E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_013M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_013E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Dial-up with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_016M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_016E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan!!Cellular data plan with no other type of Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_015M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_015E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:!!Broadband of any type!!Cellular data plan",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_010M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_010E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Other computer!!Other computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_012M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_012E": {
+      "label": "Estimate!!Total!!Total households!!TYPE OF INTERNET SUBSCRIPTIONS!!With an Internet subscription:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_011M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_011E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!No computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_006M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_006E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone!!Smartphone with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_005M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_005E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Smartphone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_008M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_008E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer!!Tablet or other portable wireless computer with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_007M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_007E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Tablet or other portable wireless computer",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_002M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_002E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_001M": {
+      "label": "Margin of Error!!Total!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_001E": {
+      "label": "Estimate!!Total!!Total households",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_004M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_004E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop!!Desktop or laptop with no other type of computing device",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_003M": {
+      "label": "Margin of Error!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_003E": {
+      "label": "Estimate!!Total!!Total households!!TYPES OF COMPUTER!!Has one or more types of computing devices:!!Desktop or laptop",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_030E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_031M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_031E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_030M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_029M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_029E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_026M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_026E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_025M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_025E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_028M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_028E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_027M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_027E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_022M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_022E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_021M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_021E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_024M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_024E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_023M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_023E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_020M": {
+      "label": "Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_020E": {
+      "label": "Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "int",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_022EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_023MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_021MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_024EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_021EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_024MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_025EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_020MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_024EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_025MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_024MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_023MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_026EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_023EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_026MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_022MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_027MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_027EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_026EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_026MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_025EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_020MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_025MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_020EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_021MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_028MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_021EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_028EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_027EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_022MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_027MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$20,000 to $74,999:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_022EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_023EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_029MA": {
+      "label": "Annotation of Margin of Error!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_029EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_028MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_028EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_029MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_029EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With dial-up Internet subscription alone",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "GEO_ID": {
+      "label": "Geography",
+      "concept": "Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupancy Characteristics;Demographic Characteristics for Occupied Housing Units;Financial Characteristics;Physical Housing Characteristics for Occupied Housing Units;Financial Characteristics for Housing Units With a Mortgage;Financial Characteristics for Housing Units Without a Mortgage;Characteristics of the Group Quarters Population in the United States;Characteristics of the Group Quarters Population in Puerto Rico;Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (5 Types);Selected Characteristics of Health Insurance Coverage in the United States;Selected Characteristics of the Uninsured in the United States;Selected Characteristics of the Uninsured in Puerto Rico;Private Health Insurance Coverage by Type and Selected Characteristics;Public Health Insurance Coverage by Type and Selected Characteristics;Types of Computers and Internet Subscriptions;Types of Internet Subscriptions by Selected Characteristics;Citizen, Voting-Age Population by Selected Characteristics;Quality Standards Metrics;Age and Sex;Population 60 Years and Over in the United States;Population 60 Years and Over in Puerto Rico;Population 65 Years and Over in the United States;Population 65 Years and Over in Puerto Rico;Selected Characteristics of the Native and Foreign-Born Populations;Selected Characteristics of the Foreign-Born Population by Period of Entry Into the United States;Selected Characteristics of the Foreign-Born Population by Period of Entry Into Puerto Rico;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Europe;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Africa, Northern America, and Oceania;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Asia;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Latin America;Marital Status;Characteristics of People With a Marital Event in the Last 12 Months;Fertility;School Enrollment;Educational Attainment;Field of Bachelor's Degree for First Major;Language Spoken at Home;Limited English Speaking Households;Characteristics of People by Language Spoken at Home;Poverty Status in the Past 12 Months;Poverty Status in the Past 12 Months of Families;Selected Characteristics of People at Specified Levels of Poverty in the Past 12 Months;Disability Characteristics;Selected Economic Characteristics for the Civilian Noninstitutionalized Population by Disability Status;Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Mean Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) of Workers by Sex and Women's Earnings as a Percentage of Men's Earnings by Selected Characteristics;Veteran Status;Food Stamps/Supplemental Nutrition Assistance Program (SNAP);Employment Status;Employment Characteristics of Families;Work Status in the Past 12 Months;Occupation by Sex for the Civilian Employed Population 16 Years and Over;Occupation by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex for the Civilian Employed Population 16 Years and Over;Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Occupation for the Civilian Employed Population 16 Years and Over;Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over;Industry by Class of Worker for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Children Characteristics;Characteristics of Teenagers 15 to 19 Years Old;Grandchildren Characteristics;Grandparents;Households and Families;Selected Characteristics of the Total and Native Populations in the United States;Selected Characteristics of the Total and Native Populations in Puerto Rico;Geographic Mobility by Selected Characteristics in the United States;Geographic Mobility by Selected Characteristics in Puerto Rico;Movers Between Regions;Commuting Characteristics by Sex;Means of Transportation to Work by Selected Characteristics;Means of Transportation to Work by Selected Characteristics for Workplace Geography",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_030EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_030MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!With a broadband Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_031MA": {
+      "label": "Annotation of Margin of Error!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C01_031EA": {
+      "label": "Annotation of Estimate!!Total!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!$75,000 or more:!!Without an Internet subscription",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S2801_C02_020EA": {
+      "label": "Annotation of Estimate!!Percent!!Total households!!HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 2023 INFLATION-ADJUSTED DOLLARS)!!Less than $20,000:",
+      "concept": "Types of Computers and Internet Subscriptions",
+      "predicateType": "string",
+      "group": "S2801",
+      "limit": 0,
+      "predicateOnly": true
+    }
+  }
+}

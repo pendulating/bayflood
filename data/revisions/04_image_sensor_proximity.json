@@ -1,0 +1,227 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Image Proximity to FloodNet Sensors\n",
+    "\n",
+    "This notebook analyzes the spatial proximity of dashcam images to FloodNet sensors reported in `aggregation/flooding/static/current_floodnet_sensors.csv`.\n",
+    "\n",
+    "We use different spatial distance thresholds to count how many images are 'very close' to the sensors."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import geopandas as gpd\n",
+    "from shapely.geometry import Point\n",
+    "from scipy.spatial import cKDTree\n",
+    "import numpy as np\n",
+    "import os\n",
+    "import sys\n",
+    "from pathlib import Path\n",
+    "\n",
+    "# Add root to path for constants and helpers\n",
+    "root_dir = Path(\"../../\")\n",
+    "sys.path.append(str(root_dir))\n",
+    "\n",
+    "from notebooks.for_revisions.constants import WGS, PROJ"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Load Data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Load FloodNet sensors\n",
+    "sensors_path = root_dir / \"aggregation/flooding/static/current_floodnet_sensors.csv\"\n",
+    "sensors_df = pd.read_csv(sensors_path)\n",
+    "print(f\"Loaded {len(sensors_df)} sensors.\")\n",
+    "\n",
+    "# Optional: Filter for active sensors if needed\n",
+    "# sensors_df = sensors_df[sensors_df['sensor_status'] == 'good']\n",
+    "\n",
+    "# Create GeoDataFrame for sensors\n",
+    "sensors_gdf = gpd.GeoDataFrame(\n",
+    "    sensors_df, \n",
+    "    geometry=gpd.points_from_xy(sensors_df.longitude, sensors_df.latitude),\n",
+    "    crs=WGS\n",
+    ")\n",
+    "# Project to NYC state plane (feet)\n",
+    "sensors_gdf = sensors_gdf.to_crs(PROJ)\n",
+    "sensors_gdf.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Load image metadata\n",
+    "# Note: md.csv is large, so we only load necessary columns\n",
+    "images_path = root_dir / \"data/processed/md.csv\"\n",
+    "images_metadata = pd.read_csv(images_path, usecols=['frame_id', 'gps_info.longitude', 'gps_info.latitude'])\n",
+    "print(f\"Loaded {len(images_metadata)} image metadata rows.\")\n",
+    "\n",
+    "# Drop rows with missing GPS info\n",
+    "images_metadata = images_metadata.dropna(subset=['gps_info.latitude', 'gps_info.longitude'])\n",
+    "print(f\"Remaining images with GPS: {len(images_metadata)}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Create GeoDataFrame for images\n",
+    "images_gdf = gpd.GeoDataFrame(\n",
+    "    images_metadata, \n",
+    "    geometry=gpd.points_from_xy(images_metadata['gps_info.longitude'], images_metadata['gps_info.latitude']),\n",
+    "    crs=WGS\n",
+    ")\n",
+    "# Project to NYC state plane (feet)\n",
+    "images_gdf = images_gdf.to_crs(PROJ)\n",
+    "images_gdf.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Proximity Analysis\n",
+    "\n",
+    "We use a cKDTree for efficient spatial lookups."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Build tree from images\n",
+    "image_coords = np.array(list(zip(images_gdf.geometry.x, images_gdf.geometry.y)))\n",
+    "image_tree = cKDTree(image_coords)\n",
+    "\n",
+    "# Define distance thresholds (in meters)\n",
+    "thresholds_m = [5, 10, 20, 50, 100, 250, 500]\n",
+    "meters_to_feet = 3.28084\n",
+    "\n",
+    "results = []\n",
+    "\n",
+    "for dist_m in thresholds_m:\n",
+    "    dist_ft = dist_m * meters_to_feet\n",
+    "    \n",
+    "    # query_ball_point returns indices of points within distance\n",
+    "    sensor_coords = np.array(list(zip(sensors_gdf.geometry.x, sensors_gdf.geometry.y)))\n",
+    "    indices = image_tree.query_ball_point(sensor_coords, dist_ft)\n",
+    "    \n",
+    "    # Unique images close to ANY sensor\n",
+    "    unique_image_indices = set()\n",
+    "    for idx_list in indices:\n",
+    "        unique_image_indices.update(idx_list)\n",
+    "    \n",
+    "    num_images = len(unique_image_indices)\n",
+    "    \n",
+    "    results.append({\n",
+    "        'threshold_meters': dist_m,\n",
+    "        'threshold_feet': dist_ft,\n",
+    "        'num_images_close': num_images,\n",
+    "        'pct_of_total': (num_images / len(images_gdf)) * 100\n",
+    "    })\n",
+    "\n",
+    "results_df = pd.DataFrame(results)\n",
+    "results_df"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Per-Sensor Stats\n",
+    "\n",
+    "Let's see which sensors have the most images nearby at a 50m threshold."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "target_dist_m = 50\n",
+    "target_dist_ft = target_dist_m * meters_to_feet\n",
+    "\n",
+    "sensor_coords = np.array(list(zip(sensors_gdf.geometry.x, sensors_gdf.geometry.y)))\n",
+    "indices = image_tree.query_ball_point(sensor_coords, target_dist_ft)\n",
+    "\n",
+    "sensors_gdf['nearby_images_50m'] = [len(idx_list) for idx_list in indices]\n",
+    "top_sensors = sensors_gdf.sort_values('nearby_images_50m', ascending=False)[['name', 'sensor_address_neighborhood', 'sensor_address_borough', 'nearby_images_50m']]\n",
+    "top_sensors.head(20)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(f\"Total sensors with at least one image within 50m: {(sensors_gdf['nearby_images_50m'] > 0).sum()} / {len(sensors_gdf)}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+#!/bin/bash 
+#SBATCH -J janus_inferencer
+#SBATCH -o $VLM_REPO_ROOT/notebooks/janus/logs/worker/%j.out 
+#SBATCH -e $VLM_REPO_ROOT/notebooks/janus/logs/worker/%j.err 
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=${USER}@example.com 
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH --get-user-env 
+#SBATCH --mem=48gb
+#SBATCH -t 400:00:00 
+#SBATCH --gpus=1
+#SBATCH --partition=pierson
+
+pwd
+source $HOME/.bashrc
+ 
+source activate $CONDA_ENV_ROOT/janus
+
+cd $VLM_REPO_ROOT/notebooks/janus
+
+echo "Starting inference"
+
+python inferencer.py $1

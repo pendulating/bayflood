@@ -1,0 +1,23 @@
+#!/bin/bash 
+#SBATCH -J fit
+#SBATCH -o $REPO_ROOT/.slurm_jobs/fit/%j.out 
+#SBATCH -e $REPO_ROOT/.slurm_jobs/fit/%j.err
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=${USER}@example.com 
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH --get-user-env 
+#SBATCH --mem=64gb
+#SBATCH -t 400:00:00 
+#SBATCH --partition=pierson
+
+
+pwd
+source $HOME/.bashrc
+ 
+source activate $CONDA_ENV_ROOT/stan
+
+cd $REPO_ROOT
+
+# args: icar_prior_setting, annotations_have_locations, use_simulated_data
+python icar_model.py icar --annotations_have_locations --prefix $1

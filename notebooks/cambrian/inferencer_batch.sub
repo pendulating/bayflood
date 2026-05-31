@@ -1,0 +1,12 @@
+pwd
+source $HOME/.bashrc
+
+cd $VLM_REPO_ROOT/notebooks/cambrian
+
+sbatch inferencer_worker.sub 0
+sbatch inferencer_worker.sub 1
+sbatch inferencer_worker.sub 2
+sbatch inferencer_worker.sub 3
+sbatch inferencer_worker.sub 4
+sbatch inferencer_worker.sub 5
+

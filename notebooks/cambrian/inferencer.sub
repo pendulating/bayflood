@@ -1,0 +1,22 @@
+#!/bin/bash 
+#SBATCH -J inferencer
+#SBATCH -o $VLM_REPO_ROOT/notebooks/cambrian/logs/%j.out 
+#SBATCH -e $VLM_REPO_ROOT/notebooks/cambrian/logs/%j.err 
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=${USER}@example.com 
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH --get-user-env 
+#SBATCH --mem=64gb
+#SBATCH -t 400:00:00 
+#SBATCH --gpus=1
+#SBATCH --partition=pierson
+
+pwd
+source $HOME/.bashrc
+ 
+source activate $CONDA_ENV_ROOT/cambrian
+
+cd $VLM_REPO_ROOT/notebooks/cambrian
+
+python inferencer.py

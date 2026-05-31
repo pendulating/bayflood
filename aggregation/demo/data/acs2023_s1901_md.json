@@ -1,0 +1,2068 @@
+{
+  "variables": {
+    "S1901_C04_009EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_009MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_008EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_008MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_007EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_007MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_006EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_006MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_005EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_005MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_004EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_004MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_003E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_003M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_004E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_004M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_005E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_005M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_006E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_006M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_007E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_007M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_008E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_008M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_009E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_009M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_003EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_003MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_010E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_010M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_011E": {
+      "label": "Estimate!!Nonfamily households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_011M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_012E": {
+      "label": "Estimate!!Nonfamily households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_012M": {
+      "label": "Margin of Error!!Nonfamily households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_013E": {
+      "label": "Estimate!!Nonfamily households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_013M": {
+      "label": "Margin of Error!!Nonfamily households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_014E": {
+      "label": "Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_014M": {
+      "label": "Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_002EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_001E": {
+      "label": "Estimate!!Nonfamily households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_001M": {
+      "label": "Margin of Error!!Nonfamily households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_002MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_002E": {
+      "label": "Estimate!!Nonfamily households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_002M": {
+      "label": "Margin of Error!!Nonfamily households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_001EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_001MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_015E": {
+      "label": "Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_015M": {
+      "label": "Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_016E": {
+      "label": "Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_016M": {
+      "label": "Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_011EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_015EA": {
+      "label": "Annotation of Estimate!!Households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_014EA": {
+      "label": "Annotation of Estimate!!Households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_010EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_014MA": {
+      "label": "Annotation of Margin of Error!!Households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_010MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_010MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_010EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_001EA": {
+      "label": "Annotation of Estimate!!Families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_013EA": {
+      "label": "Annotation of Estimate!!Households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_013MA": {
+      "label": "Annotation of Margin of Error!!Households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_013MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_002EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_013EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_012EA": {
+      "label": "Annotation of Estimate!!Households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_012MA": {
+      "label": "Annotation of Margin of Error!!Households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_001MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_012MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_003EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_012EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_011EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_002MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_011MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_011MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_010MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_015MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_015EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_010EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_014MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_014EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_016MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_016EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_008MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_008EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_009MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_009EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_004EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "NAME": {
+      "label": "Geographic Area Name",
+      "concept": "Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupancy Characteristics;Demographic Characteristics for Occupied Housing Units;Financial Characteristics;Physical Housing Characteristics for Occupied Housing Units;Financial Characteristics for Housing Units With a Mortgage;Financial Characteristics for Housing Units Without a Mortgage;Characteristics of the Group Quarters Population in the United States;Characteristics of the Group Quarters Population in Puerto Rico;Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (5 Types);Selected Characteristics of Health Insurance Coverage in the United States;Selected Characteristics of the Uninsured in the United States;Selected Characteristics of the Uninsured in Puerto Rico;Private Health Insurance Coverage by Type and Selected Characteristics;Public Health Insurance Coverage by Type and Selected Characteristics;Types of Computers and Internet Subscriptions;Types of Internet Subscriptions by Selected Characteristics;Citizen, Voting-Age Population by Selected Characteristics;Quality Standards Metrics;Age and Sex;Population 60 Years and Over in the United States;Population 60 Years and Over in Puerto Rico;Population 65 Years and Over in the United States;Population 65 Years and Over in Puerto Rico;Selected Characteristics of the Native and Foreign-Born Populations;Selected Characteristics of the Foreign-Born Population by Period of Entry Into the United States;Selected Characteristics of the Foreign-Born Population by Period of Entry Into Puerto Rico;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Europe;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Africa, Northern America, and Oceania;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Asia;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Latin America;Marital Status;Characteristics of People With a Marital Event in the Last 12 Months;Fertility;School Enrollment;Educational Attainment;Field of Bachelor's Degree for First Major;Language Spoken at Home;Limited English Speaking Households;Characteristics of People by Language Spoken at Home;Poverty Status in the Past 12 Months;Poverty Status in the Past 12 Months of Families;Selected Characteristics of People at Specified Levels of Poverty in the Past 12 Months;Disability Characteristics;Selected Economic Characteristics for the Civilian Noninstitutionalized Population by Disability Status;Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Mean Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) of Workers by Sex and Women's Earnings as a Percentage of Men's Earnings by Selected Characteristics;Veteran Status;Food Stamps/Supplemental Nutrition Assistance Program (SNAP);Employment Status;Employment Characteristics of Families;Work Status in the Past 12 Months;Occupation by Sex for the Civilian Employed Population 16 Years and Over;Occupation by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex for the Civilian Employed Population 16 Years and Over;Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Occupation for the Civilian Employed Population 16 Years and Over;Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over;Industry by Class of Worker for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Children Characteristics;Characteristics of Teenagers 15 to 19 Years Old;Grandchildren Characteristics;Grandparents;Households and Families;Selected Characteristics of the Total and Native Populations in the United States;Selected Characteristics of the Total and Native Populations in Puerto Rico;Geographic Mobility by Selected Characteristics in the United States;Geographic Mobility by Selected Characteristics in Puerto Rico;Movers Between Regions;Commuting Characteristics by Sex;Means of Transportation to Work by Selected Characteristics;Means of Transportation to Work by Selected Characteristics for Workplace Geography",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_003MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_005MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_005EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_004MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_006MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_006EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_016MA": {
+      "label": "Annotation of Margin of Error!!Households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_007MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_007EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_016EA": {
+      "label": "Annotation of Estimate!!Households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_015MA": {
+      "label": "Annotation of Margin of Error!!Households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_013EA": {
+      "label": "Annotation of Estimate!!Families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_012MA": {
+      "label": "Annotation of Margin of Error!!Families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_014EA": {
+      "label": "Annotation of Estimate!!Families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_013MA": {
+      "label": "Annotation of Margin of Error!!Families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_015EA": {
+      "label": "Annotation of Estimate!!Families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_014MA": {
+      "label": "Annotation of Margin of Error!!Families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_016MA": {
+      "label": "Annotation of Margin of Error!!Families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_016EA": {
+      "label": "Annotation of Estimate!!Families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_015MA": {
+      "label": "Annotation of Margin of Error!!Families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_002MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_002M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_002E": {
+      "label": "Estimate!!Married-couple families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_002EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_003M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_003E": {
+      "label": "Estimate!!Married-couple families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_001E": {
+      "label": "Estimate!!Married-couple families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_001M": {
+      "label": "Margin of Error!!Married-couple families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_006M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_006E": {
+      "label": "Estimate!!Married-couple families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_007M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_007E": {
+      "label": "Estimate!!Married-couple families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_004M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_004E": {
+      "label": "Estimate!!Married-couple families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_005M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_005E": {
+      "label": "Estimate!!Married-couple families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_001MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_010E": {
+      "label": "Estimate!!Married-couple families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_010M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_011E": {
+      "label": "Estimate!!Married-couple families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_011M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_001EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_014M": {
+      "label": "Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_014E": {
+      "label": "Estimate!!Married-couple families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_015M": {
+      "label": "Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_015E": {
+      "label": "Estimate!!Married-couple families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_012E": {
+      "label": "Estimate!!Married-couple families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_012M": {
+      "label": "Margin of Error!!Married-couple families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_013M": {
+      "label": "Margin of Error!!Married-couple families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_013E": {
+      "label": "Estimate!!Married-couple families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_016M": {
+      "label": "Margin of Error!!Married-couple families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_016E": {
+      "label": "Estimate!!Married-couple families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_008M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_008E": {
+      "label": "Estimate!!Married-couple families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_009M": {
+      "label": "Margin of Error!!Married-couple families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_009E": {
+      "label": "Estimate!!Married-couple families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_016E": {
+      "label": "Estimate!!Households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_004MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_016M": {
+      "label": "Margin of Error!!Households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_015E": {
+      "label": "Estimate!!Households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_015M": {
+      "label": "Margin of Error!!Households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_014M": {
+      "label": "Margin of Error!!Households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_014E": {
+      "label": "Estimate!!Households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_004EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_010MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_013M": {
+      "label": "Margin of Error!!Households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_013E": {
+      "label": "Estimate!!Households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_012M": {
+      "label": "Margin of Error!!Households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_012E": {
+      "label": "Estimate!!Households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_011M": {
+      "label": "Margin of Error!!Households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_011E": {
+      "label": "Estimate!!Households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_010EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_010M": {
+      "label": "Margin of Error!!Households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_010E": {
+      "label": "Estimate!!Households!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_009E": {
+      "label": "Estimate!!Households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_009M": {
+      "label": "Margin of Error!!Households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_008E": {
+      "label": "Estimate!!Households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_008M": {
+      "label": "Margin of Error!!Households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_007E": {
+      "label": "Estimate!!Households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_007M": {
+      "label": "Margin of Error!!Households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_006E": {
+      "label": "Estimate!!Households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_003MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_006M": {
+      "label": "Margin of Error!!Households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_005E": {
+      "label": "Estimate!!Households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_005M": {
+      "label": "Margin of Error!!Households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_004E": {
+      "label": "Estimate!!Households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_004M": {
+      "label": "Margin of Error!!Households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_003M": {
+      "label": "Margin of Error!!Households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_003E": {
+      "label": "Estimate!!Households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_002M": {
+      "label": "Margin of Error!!Households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_002E": {
+      "label": "Estimate!!Households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_012EA": {
+      "label": "Annotation of Estimate!!Families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_003EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_011MA": {
+      "label": "Annotation of Margin of Error!!Families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_001M": {
+      "label": "Margin of Error!!Households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_001E": {
+      "label": "Estimate!!Households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_011EA": {
+      "label": "Annotation of Estimate!!Families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_006MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_006EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_005MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_005EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_008MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_008EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_007MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_007EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_009MA": {
+      "label": "Annotation of Margin of Error!!Married-couple families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C03_009EA": {
+      "label": "Annotation of Estimate!!Married-couple families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_016EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_016MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_015EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_015MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_014EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_014MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_013EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_013MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_012EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_012MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "GEO_ID": {
+      "label": "Geography",
+      "concept": "Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupancy Characteristics;Demographic Characteristics for Occupied Housing Units;Financial Characteristics;Physical Housing Characteristics for Occupied Housing Units;Financial Characteristics for Housing Units With a Mortgage;Financial Characteristics for Housing Units Without a Mortgage;Characteristics of the Group Quarters Population in the United States;Characteristics of the Group Quarters Population in Puerto Rico;Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (3 Types);Characteristics of the Group Quarters Population by Group Quarters Type (5 Types);Selected Characteristics of Health Insurance Coverage in the United States;Selected Characteristics of the Uninsured in the United States;Selected Characteristics of the Uninsured in Puerto Rico;Private Health Insurance Coverage by Type and Selected Characteristics;Public Health Insurance Coverage by Type and Selected Characteristics;Types of Computers and Internet Subscriptions;Types of Internet Subscriptions by Selected Characteristics;Citizen, Voting-Age Population by Selected Characteristics;Quality Standards Metrics;Age and Sex;Population 60 Years and Over in the United States;Population 60 Years and Over in Puerto Rico;Population 65 Years and Over in the United States;Population 65 Years and Over in Puerto Rico;Selected Characteristics of the Native and Foreign-Born Populations;Selected Characteristics of the Foreign-Born Population by Period of Entry Into the United States;Selected Characteristics of the Foreign-Born Population by Period of Entry Into Puerto Rico;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Europe;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Africa, Northern America, and Oceania;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Asia;Selected Characteristics of the Foreign-Born Population by Region of Birth:  Latin America;Marital Status;Characteristics of People With a Marital Event in the Last 12 Months;Fertility;School Enrollment;Educational Attainment;Field of Bachelor's Degree for First Major;Language Spoken at Home;Limited English Speaking Households;Characteristics of People by Language Spoken at Home;Poverty Status in the Past 12 Months;Poverty Status in the Past 12 Months of Families;Selected Characteristics of People at Specified Levels of Poverty in the Past 12 Months;Disability Characteristics;Selected Economic Characteristics for the Civilian Noninstitutionalized Population by Disability Status;Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Mean Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars);Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) of Workers by Sex and Women's Earnings as a Percentage of Men's Earnings by Selected Characteristics;Veteran Status;Food Stamps/Supplemental Nutrition Assistance Program (SNAP);Employment Status;Employment Characteristics of Families;Work Status in the Past 12 Months;Occupation by Sex for the Civilian Employed Population 16 Years and Over;Occupation by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex for the Civilian Employed Population 16 Years and Over;Industry by Sex for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Occupation for the Civilian Employed Population 16 Years and Over;Occupation by Class of Worker for the Civilian Employed Population 16 Years and Over;Industry by Class of Worker for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Civilian Employed Population 16 Years and Over;Class of Worker by Sex  for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Occupation by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Civilian Employed Population 16 Years and Over;Industry by Sex and Median Earnings in the Past 12 Months (in 2023 Inflation-Adjusted Dollars) for the Full-Time, Year-Round Civilian Employed Population 16 Years and Over;Children Characteristics;Characteristics of Teenagers 15 to 19 Years Old;Grandchildren Characteristics;Grandparents;Households and Families;Selected Characteristics of the Total and Native Populations in the United States;Selected Characteristics of the Total and Native Populations in Puerto Rico;Geographic Mobility by Selected Characteristics in the United States;Geographic Mobility by Selected Characteristics in Puerto Rico;Movers Between Regions;Commuting Characteristics by Sex;Means of Transportation to Work by Selected Characteristics;Means of Transportation to Work by Selected Characteristics for Workplace Geography",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_011EA": {
+      "label": "Annotation of Estimate!!Nonfamily households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C04_011MA": {
+      "label": "Annotation of Margin of Error!!Nonfamily households!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_001EA": {
+      "label": "Annotation of Estimate!!Households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_001MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_009EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_009MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_008EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_008MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_007MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_007EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_006MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_006EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_005MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_005EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_004MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_004EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_001M": {
+      "label": "Margin of Error!!Families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_001E": {
+      "label": "Estimate!!Families!!Total",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_002M": {
+      "label": "Margin of Error!!Families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_002E": {
+      "label": "Estimate!!Families!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_003EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_003M": {
+      "label": "Margin of Error!!Families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_003E": {
+      "label": "Estimate!!Families!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_004M": {
+      "label": "Margin of Error!!Families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_004E": {
+      "label": "Estimate!!Families!!Total!!$15,000 to $24,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_009M": {
+      "label": "Margin of Error!!Families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_009E": {
+      "label": "Estimate!!Families!!Total!!$100,000 to $149,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_003MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!$10,000 to $14,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_005M": {
+      "label": "Margin of Error!!Families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_005E": {
+      "label": "Estimate!!Families!!Total!!$25,000 to $34,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_006M": {
+      "label": "Margin of Error!!Families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_006E": {
+      "label": "Estimate!!Families!!Total!!$35,000 to $49,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_007M": {
+      "label": "Margin of Error!!Families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_007E": {
+      "label": "Estimate!!Families!!Total!!$50,000 to $74,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_008M": {
+      "label": "Margin of Error!!Families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_008E": {
+      "label": "Estimate!!Families!!Total!!$75,000 to $99,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_013M": {
+      "label": "Margin of Error!!Families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_013E": {
+      "label": "Estimate!!Families!!Mean income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_014M": {
+      "label": "Margin of Error!!Families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_014E": {
+      "label": "Estimate!!Families!!PERCENT ALLOCATED!!Household income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_015M": {
+      "label": "Margin of Error!!Families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_015E": {
+      "label": "Estimate!!Families!!PERCENT ALLOCATED!!Family income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_016M": {
+      "label": "Margin of Error!!Families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_016E": {
+      "label": "Estimate!!Families!!PERCENT ALLOCATED!!Nonfamily income in the past 12 months",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_002EA": {
+      "label": "Annotation of Estimate!!Households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_010M": {
+      "label": "Margin of Error!!Families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_010E": {
+      "label": "Estimate!!Families!!Total!!$150,000 to $199,999",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_011M": {
+      "label": "Margin of Error!!Families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_011E": {
+      "label": "Estimate!!Families!!Total!!$200,000 or more",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "float",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_012M": {
+      "label": "Margin of Error!!Families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C02_012E": {
+      "label": "Estimate!!Families!!Median income (dollars)",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "int",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    },
+    "S1901_C01_002MA": {
+      "label": "Annotation of Margin of Error!!Households!!Total!!Less than $10,000",
+      "concept": "Income in the Past 12 Months (in 2023 Inflation-Adjusted Dollars)",
+      "predicateType": "string",
+      "group": "S1901",
+      "limit": 0,
+      "predicateOnly": true
+    }
+  }
+}
