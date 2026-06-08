@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/821921746.svg)](https://doi.org/10.5281/zenodo.20596436)
 # Modeling Urban Street Flooding from Dense Street Imagery
 
 A framework for detecting and analyzing urban street flooding using dashcam imagery, spatial modeling, and multiple data sources. Broadly applies to other urban phenomena visible in public-scene street imagery. 
